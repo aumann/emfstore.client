@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ECP Common UI Plug-in
 Bundle-SymbolicName: org.eclipse.emf.ecp.common;singleton:=true
-Bundle-Version: 0.8.0
+Bundle-Version: 0.8.1
 Bundle-Activator: org.eclipse.emf.ecp.common.Activator
 Bundle-Vendor: Eclipse Modeling Project
 Require-Bundle: org.eclipse.emf.ecp.common.model;visibility:=reexport
@@ -46,11 +46,5 @@ Export-Package: org.eclipse.emf.ecp.common;
    org.eclipse.emf.edit.ui.provider,
    org.eclipse.jface.viewers,
    org.eclipse.core.commands,
-   org.eclipse.swt.widgets",
- org.eclipse.swt.nebula.widgets.cdatetime;
-  uses:="org.eclipse.swt.events,
-   org.eclipse.swt.graphics,
-   org.eclipse.swt.widgets,
-   new org.eclipse.swt.nebula.widgets.cdatetime"
-Bundle-ClassPath: .,
- lib/nebula_cdatetime_0.9.0.jar
+   org.eclipse.swt.widgets"
+Bundle-ClassPath: .

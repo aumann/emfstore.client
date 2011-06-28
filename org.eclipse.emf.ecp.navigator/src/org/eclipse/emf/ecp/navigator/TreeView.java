@@ -13,8 +13,6 @@ import org.eclipse.emf.ecp.common.dnd.ComposedDropAdapter;
 import org.eclipse.emf.ecp.common.dnd.UCDragAdapter;
 import org.eclipse.emf.ecp.common.model.ECPWorkspaceManager;
 import org.eclipse.emf.ecp.common.model.NoWorkspaceException;
-import org.eclipse.emf.ecp.common.model.workSpaceModel.ECPProject;
-import org.eclipse.emf.ecp.common.model.workSpaceModel.ECPProjectListener;
 import org.eclipse.emf.ecp.common.model.workSpaceModel.ECPWorkspace;
 import org.eclipse.emf.ecp.common.model.workSpaceModel.WorkSpaceModelPackage;
 import org.eclipse.emf.ecp.navigator.commands.AltKeyDoubleClickAction;
@@ -39,7 +37,6 @@ import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IDecoratorManager;
 import org.eclipse.ui.IEditorPart;
@@ -68,7 +65,6 @@ public class TreeView extends ViewPart implements ISelectionListener { // implem
 	private PartListener partListener;
 	private ECPWorkspace currentWorkspace;
 	private AdapterImpl workspaceListenerAdapter;
-	private ECPProjectListener simpleOperationListener;
 	private boolean internalSelectionEvent;
 
 	/**
@@ -81,9 +77,7 @@ public class TreeView extends ViewPart implements ISelectionListener { // implem
 			Activator.getDefault().logException(e.getMessage(), e);
 			return;
 		}
-		for (ECPProject project : currentWorkspace.getProjects()) {
-			project.addECPProjectListener(simpleOperationListener);
-		}
+
 		workspaceListenerAdapter = new AdapterImpl() {
 
 			@Override
@@ -91,12 +85,8 @@ public class TreeView extends ViewPart implements ISelectionListener { // implem
 				if ((msg.getFeatureID(ECPWorkspace.class)) == WorkSpaceModelPackage.ECP_WORKSPACE__PROJECTS) {
 					if (msg.getEventType() == Notification.ADD
 						&& WorkSpaceModelPackage.eINSTANCE.getECPProject().isInstance(msg.getNewValue())) {
-						ECPProject projectSpace = (ECPProject) msg.getNewValue();
-						projectSpace.addECPProjectListener(simpleOperationListener);
 					} else if (msg.getEventType() == Notification.REMOVE
 						&& WorkSpaceModelPackage.eINSTANCE.getECPProject().isInstance(msg.getOldValue())) {
-						ECPProject projectSpace = (ECPProject) msg.getOldValue();
-						projectSpace.removeECPProjectListener(simpleOperationListener);
 					}
 				}
 			}
@@ -105,7 +95,7 @@ public class TreeView extends ViewPart implements ISelectionListener { // implem
 
 	}
 
-		/**
+	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#dispose()
@@ -130,7 +120,7 @@ public class TreeView extends ViewPart implements ISelectionListener { // implem
 			IDecoratorManager decoratorManager = PlatformUI.getWorkbench().getDecoratorManager();
 			viewer.setLabelProvider(new DecoratingLabelProvider(new TreeLabelProvider(), decoratorManager
 				.getLabelDecorator()));
-//			viewer.setLabelProvider(new TreeLabelProvider());
+			// viewer.setLabelProvider(new TreeLabelProvider());
 			viewer.setContentProvider(new TreeContentProvider());
 			viewer.setUseHashlookup(true);
 			viewer.setInput(workSpace);
