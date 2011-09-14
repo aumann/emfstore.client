@@ -46,10 +46,10 @@ public class ControlFactory {
 		ArrayList<IConfigurationElement> allControls = new ArrayList<IConfigurationElement>();
 		allControls.addAll(Arrays.asList(attributecontrols));
 		allControls.addAll(Arrays.asList(referencecontrols));
-		for (IConfigurationElement e : allControls) {
+		for (IConfigurationElement e : attributecontrols) {
 			String type = e.getAttribute("type");
 			try {
-				Class<?> resolvedType = Class.forName(type);
+				Class<?> resolvedType = ControlFactory.class.getClassLoader().loadClass(type);
 				AbstractMEControl control = (AbstractMEControl) e.createExecutableExtension("class");
 				boolean showLabel = Boolean.parseBoolean(e.getAttribute("showLabel"));
 				control.setShowLabel(showLabel);
@@ -62,6 +62,21 @@ public class ControlFactory {
 
 			} catch (ClassNotFoundException e1) {
 				Activator.logException(e1);
+			} catch (CoreException e2) {
+				Activator.logException(e2);
+			}
+		}
+		for (IConfigurationElement e : referencecontrols) {
+			try {
+				AbstractMEControl control = (AbstractMEControl) e.createExecutableExtension("class");
+				boolean showLabel = Boolean.parseBoolean(e.getAttribute("showLabel"));
+				control.setShowLabel(showLabel);
+				ArrayList<AbstractMEControl> list = controlRegistry.get(EObject.class);
+				if (list == null) {
+					list = new ArrayList<AbstractMEControl>();
+				}
+				list.add(control);
+				controlRegistry.put(EObject.class, list);
 			} catch (CoreException e2) {
 				Activator.logException(e2);
 			}

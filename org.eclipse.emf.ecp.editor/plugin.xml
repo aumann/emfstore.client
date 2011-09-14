@@ -67,26 +67,22 @@
       <widget
             class="org.eclipse.emf.ecp.editor.mecontrols.melinkcontrol.MESingleLinkControl"
             name="org.eclipse.emf.ecp.editor.mesinglelinkcontrol"
-            showLabel="true"
-            type="org.eclipse.emf.ecore.EObject">
+            showLabel="true">
       </widget>
       <widget
             class="org.eclipse.emf.ecp.editor.mecontrols.melinkcontrol.MEMultiLinkControl"
             name="org.eclipse.emf.ecp.editor.memultilinkcontrol"
-            showLabel="false"
-            type="org.eclipse.emf.ecore.EObject">
+            showLabel="false">
       </widget>
       <widget
             class="org.eclipse.emf.ecp.editor.mecontrols.melinkcontrol.associationclasscontrol.AssociationClassControl"
             name="org.eclipse.emf.ecp.editor.associationclasscontrol"
-            showLabel="false"
-            type="org.eclipse.emf.ecore.EObject">
+            showLabel="false">
       </widget>
       <widget
             class="org.eclipse.emf.ecp.editor.mecontrols.melinkcontrol.associationclasscontrol.AssociationClassControlNoNew"
             name="org.eclipse.emf.ecp.editor.associationclasscontrolnonew"
-            showLabel="true"
-            type="org.eclipse.emf.ecore.EObject">
+            showLabel="true">
       </widget>
    </extension>
    <extension
