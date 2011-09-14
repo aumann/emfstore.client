@@ -1,7 +1,8 @@
 /*******************************************************************************
- * Copyright (c) 2008-2011 Chair for Applied Software Engineering, Technische Universitaet Muenchen. All rights
- * reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public
- * License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2008-2011 Chair for Applied Software Engineering, Technische Universitaet Muenchen.
+ * All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
  * Contributors:
  ******************************************************************************/
 package org.eclipse.emf.ecp.common;
@@ -36,7 +37,8 @@ public class Activator extends AbstractECPPlugin {
 	}
 
 	/**
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext) {@inheritDoc}
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+	 *      {@inheritDoc}
 	 */
 	@Override
 	// BEGIN SUPRESS CATCH EXCEPTION
@@ -88,9 +90,11 @@ public class Activator extends AbstractECPPlugin {
 	}
 
 	/**
-	 * Returns an image descriptor for the image file at the given. plug-in relative path
+	 * Returns an image descriptor for the image file at the given. plug-in
+	 * relative path
 	 * 
-	 * @param path the path
+	 * @param path
+	 *            the path
 	 * @return the image descriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
@@ -100,7 +104,8 @@ public class Activator extends AbstractECPPlugin {
 	/**
 	 * Logs exception.
 	 * 
-	 * @param e the exception
+	 * @param e
+	 *            the exception
 	 */
 	public void logException(Exception e) {
 		getDefault().getLog().log(
