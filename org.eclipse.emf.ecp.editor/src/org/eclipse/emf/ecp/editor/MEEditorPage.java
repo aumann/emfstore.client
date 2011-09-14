@@ -76,7 +76,6 @@ public class MEEditorPage extends FormPage {
 	private EStructuralFeature problemFeature;
 	private final ECPModelelementContext modelElementContext;
 	private static Composite topComposite;
-private static Label validationLabel;
 	/**
 	 * Default constructor.
 	 * 
@@ -163,17 +162,11 @@ private static Label validationLabel;
 		form.pack();
 		updateSectionTitle();
 		
-		Label label1 = toolkit.createLabel(topComposite, "Results of Live Validation");
-		label1.setSize(200, 50);
-		validationLabel = toolkit.createLabel(topComposite, "");
-		validationLabel.setSize(200, 200);
+		
 	}
 	
 
-	public static  void updateLiveValidation (String message){	
-		validationLabel.setText(message);
-	}
-
+	
 
 	/**
 	 * Updates the name of the section.
