@@ -81,20 +81,7 @@ public class MESWTDateAndTimeControl extends AbstractMEControl {
 		timeWidget = new DateTime(dateComposite, SWT.TIME | SWT.SHORT);
 		timeWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
-		dateDeleteButton = new ImageHyperlink(dateComposite, SWT.TOP);
-		dateDeleteButton.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_DELETE));
-		dateDeleteButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseUp(MouseEvent e) {
-				new ECPCommand(getModelElement()) {
-
-					@Override
-					protected void doRun() {
-						getModelElement().eSet(attribute, null);
-					}
-				}.run(true);
-			}
-		});
+		
 	}
 }
 
