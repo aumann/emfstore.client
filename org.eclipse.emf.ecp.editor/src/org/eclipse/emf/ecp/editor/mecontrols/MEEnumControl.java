@@ -2,40 +2,41 @@
  * Copyright (c) 2008-2011 Chair for Applied Software Engineering, Technische Universitaet Muenchen. All rights
  * reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public
  * License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
- * Contributors:
+ * Contributors: Nikolay Kasyanov
  ******************************************************************************/
 package org.eclipse.emf.ecp.editor.mecontrols;
 
 import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.edit.EMFEditObservables;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Combo;
+import org.eclipse.jface.databinding.viewers.ViewersObservables;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 /**
- * This is the standard Control to edit boolean values.
+ * This is the standard Control to enum values.
  * 
  * @author shterev
+ * @author Nikolay Kasyanov
  */
 public class MEEnumControl extends AbstractMEControl {
 
 	private EAttribute attribute;
 
-	private Combo combo;
+	private ComboViewer combo;
 
 	private static final int PRIORITY = 1;
 
 	/**
-	 * returns a check button without Label. {@inheritDoc}
+	 * returns a Combo created by ComboViewer. {@inheritDoc}
 	 * 
 	 * @return Control
 	 */
@@ -43,15 +44,26 @@ public class MEEnumControl extends AbstractMEControl {
 	public Control createControl(Composite parent, int style) {
 		Object feature = getItemPropertyDescriptor().getFeature(getModelElement());
 		this.attribute = (EAttribute) feature;
-		combo = new Combo(parent, style | SWT.DROP_DOWN | SWT.READ_ONLY);
-		IObservableValue model = EMFEditObservables.observeValue(getEditingDomain(), getModelElement(), attribute);
-		EList<EEnumLiteral> list = ((EEnum) attribute.getEType()).getELiterals();
-		for (EEnumLiteral literal : list) {
-			combo.add(literal.getLiteral());
-		}
+		
+		final IItemLabelProvider labelProvider = getItemPropertyDescriptor().getLabelProvider(getModelElement());
+		
+		combo = new ComboViewer(parent);
+		combo.setContentProvider(new ArrayContentProvider());
+		combo.setLabelProvider(new LabelProvider() {
+
+			@Override
+			public String getText(Object element) {
+				return labelProvider.getText(element);
+			}
+			
+		});
+		combo.setInput(attribute.getEType().getInstanceClass().getEnumConstants());
+		
 		EMFDataBindingContext dbc = new EMFDataBindingContext();
-		dbc.bindValue(SWTObservables.observeSelection(combo), model, null, null);
-		return combo;
+		IObservableValue model = EMFEditObservables.observeValue(getEditingDomain(), getModelElement(), attribute);
+		IObservableValue comboObservable = ViewersObservables.observeSingleSelection(combo);
+		dbc.bindValue(comboObservable, model);
+		return combo.getControl();
 	}
 
 	/**
