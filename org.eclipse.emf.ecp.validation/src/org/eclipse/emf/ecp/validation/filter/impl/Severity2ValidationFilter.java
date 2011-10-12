@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2008-2011 Chair for Applied Software Engineering,
+ * Technische Universitaet Muenchen.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ ******************************************************************************/
 package org.eclipse.emf.ecp.validation.filter.impl;
 
 import org.eclipse.core.runtime.IStatus;
@@ -6,8 +16,6 @@ import org.eclipse.emf.ecp.validation.filter.ValidationFilter;
 
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.graphics.Image;
-
-
 
 public class Severity2ValidationFilter extends ValidationFilter {
 
@@ -30,8 +38,7 @@ public class Severity2ValidationFilter extends ValidationFilter {
 	 */
 	@Override
 	public Image getImage() {
-		return Activator.getImageDescriptor("icons/flag_yellow.png")
-				.createImage();
+		return Activator.getImageDescriptor("icons/flag_yellow.png").createImage();
 	}
 
 	/**

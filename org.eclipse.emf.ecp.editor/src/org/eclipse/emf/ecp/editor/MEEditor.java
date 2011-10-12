@@ -1,7 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2008-2011 Chair for Applied Software Engineering, Technische Universitaet Muenchen. All rights
- * reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public
- * License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2008-2011 Chair for Applied Software Engineering,
+ * Technische Universitaet Muenchen.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
  * Contributors:
  ******************************************************************************/
 package org.eclipse.emf.ecp.editor;
@@ -18,7 +22,7 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecp.common.model.ECPModelelementContext;
 import org.eclipse.emf.ecp.common.model.ModelElementContextListener;
-import org.eclipse.emf.ecp.common.util.ShortLabelProvider;
+import org.eclipse.emf.ecp.common.utilities.ShortLabelProvider;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
@@ -223,7 +227,7 @@ public class MEEditor extends SharedHeaderFormEditor {
 							if (mePage != null) {
 								mePage.updateSectionTitle();
 							}
-
+							updateStatusMessage();
 						}
 					});
 
@@ -231,7 +235,7 @@ public class MEEditor extends SharedHeaderFormEditor {
 			};
 
 			initStatusProvider();
-			updateCreatorHint();
+			updateStatusMessage();
 
 			labelProviderListener = new ILabelProviderListener() {
 				public void labelProviderChanged(LabelProviderChangedEvent event) {
@@ -266,7 +270,7 @@ public class MEEditor extends SharedHeaderFormEditor {
 		}
 	}
 
-	private void updateCreatorHint() {
+	private void updateStatusMessage() {
 		if (statusMessageProvider != null) {
 			getEditorSite().getActionBars().getStatusLineManager()
 				.setMessage(statusMessageProvider.getMessage(modelElement));
@@ -299,7 +303,7 @@ public class MEEditor extends SharedHeaderFormEditor {
 		if (mePage != null) {
 			mePage.setFocus();
 		}
-		updateCreatorHint();
+		updateStatusMessage();
 
 	}
 

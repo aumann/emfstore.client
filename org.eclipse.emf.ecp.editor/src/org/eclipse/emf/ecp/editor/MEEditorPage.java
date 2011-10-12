@@ -1,13 +1,15 @@
 /*******************************************************************************
- * Copyright (c) 2008-2011 Chair for Applied Software Engineering, Technische Universitaet Muenchen. All rights
- * reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public
- * License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2008-2011 Chair for Applied Software Engineering,
+ * Technische Universitaet Muenchen.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
  * Contributors:
  ******************************************************************************/
 package org.eclipse.emf.ecp.editor;
 
-import java.awt.Color;
-import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,13 +17,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JTextField;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecp.common.commands.DeleteModelElementCommand;
 import org.eclipse.emf.ecp.common.model.ECPModelelementContext;
-import org.eclipse.emf.ecp.common.util.ShortLabelProvider;
+import org.eclipse.emf.ecp.common.utilities.ShortLabelProvider;
 import org.eclipse.emf.ecp.editor.mecontrols.AbstractMEControl;
 import org.eclipse.emf.ecp.editor.mecontrols.FeatureHintTooltipSupport;
 import org.eclipse.emf.ecp.editor.mecontrols.METextControl;
@@ -62,7 +62,7 @@ import org.eclipse.ui.services.IEvaluationService;
 public class MEEditorPage extends FormPage {
 
 	private EObject modelElement;
-	private static FormToolkit toolkit;
+	private FormToolkit toolkit;
 	private List<AbstractMEControl> meControls = new ArrayList<AbstractMEControl>();
 
 	private static String activeModelelement = "activeModelelement";
@@ -72,18 +72,23 @@ public class MEEditorPage extends FormPage {
 	private List<IItemPropertyDescriptor> bottomAttributes = new ArrayList<IItemPropertyDescriptor>();
 	private Composite leftColumnComposite;
 	private Composite rightColumnComposite;
-	private static Composite bottomComposite;
+	private Composite bottomComposite;
 	private EStructuralFeature problemFeature;
 	private final ECPModelelementContext modelElementContext;
-	private static Composite topComposite;
+
 	/**
 	 * Default constructor.
 	 * 
-	 * @param editor the {@link MEEditor}
-	 * @param id the {@link FormPage#id}
-	 * @param title the title
-	 * @param modelElement the modelElement
-	 * @param modelElementContext the {@link ModelElementContext}
+	 * @param editor
+	 *            the {@link MEEditor}
+	 * @param id
+	 *            the {@link FormPage#id}
+	 * @param title
+	 *            the title
+	 * @param modelElement
+	 *            the modelElement
+	 * @param modelElementContext
+	 *            the {@link ModelElementContext}
 	 */
 	public MEEditorPage(MEEditor editor, String id, String title, ECPModelelementContext modelElementContext,
 		EObject modelElement) {
@@ -96,12 +101,18 @@ public class MEEditorPage extends FormPage {
 	/**
 	 * Default constructor.
 	 * 
-	 * @param editor the {@link MEEditor}
-	 * @param id the {@link FormPage#id}
-	 * @param title the title
-	 * @param modelElement the modelElement
-	 * @param problemFeature the problemFeature
-	 * @param modelElementContext the {@link ModelElementContext}
+	 * @param editor
+	 *            the {@link MEEditor}
+	 * @param id
+	 *            the {@link FormPage#id}
+	 * @param title
+	 *            the title
+	 * @param modelElement
+	 *            the modelElement
+	 * @param problemFeature
+	 *            the problemFeature
+	 * @param modelElementContext
+	 *            the {@link ModelElementContext}
 	 */
 	public MEEditorPage(MEEditor editor, String id, String title, ECPModelelementContext modelElementContext,
 		EObject modelElement, EStructuralFeature problemFeature) {
@@ -121,52 +132,49 @@ public class MEEditorPage extends FormPage {
 		toolkit.decorateFormHeading(form.getForm());
 		Composite body = form.getBody();
 		body.setLayout(new GridLayout());
-		topComposite = toolkit.createComposite(body);
+		Composite topComposite = toolkit.createComposite(body);
 		topComposite.setLayout(new GridLayout());
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(topComposite);
 
-		SashForm topSash = new SashForm(topComposite, SWT.HORIZONTAL);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(topSash);
-		toolkit.adapt(topSash, true, true);
-		topSash.setSashWidth(4);
+		sortAndOrderAttributes();
+		if (!rightColumnAttributes.isEmpty()) {
+			SashForm topSash = new SashForm(topComposite, SWT.HORIZONTAL);
+			GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(topSash);
+			toolkit.adapt(topSash, true, true);
+			topSash.setSashWidth(4);
+			leftColumnComposite = toolkit.createComposite(topSash, SWT.NONE);
+			rightColumnComposite = toolkit.createComposite(topSash, SWT.NONE);
+			GridLayoutFactory.fillDefaults().numColumns(1).equalWidth(false).extendedMargins(5, 2, 5, 5)
+				.applyTo(rightColumnComposite);
+			GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).applyTo(rightColumnComposite);
+			int[] topWeights = { 50, 50 };
+			topSash.setWeights(topWeights);
+		} else {
+			leftColumnComposite = toolkit.createComposite(topComposite, SWT.NONE);
+		}
 
-		leftColumnComposite = toolkit.createComposite(topSash, SWT.NONE);
 		GridLayoutFactory.fillDefaults().numColumns(1).equalWidth(false).extendedMargins(2, 5, 5, 5)
 			.applyTo(leftColumnComposite);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).applyTo(leftColumnComposite);
-
-		rightColumnComposite = toolkit.createComposite(topSash, SWT.NONE);
-		GridLayoutFactory.fillDefaults().numColumns(1).equalWidth(false).extendedMargins(5, 2, 5, 5)
-			.applyTo(rightColumnComposite);
-		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).applyTo(rightColumnComposite);
-
-		int[] topWeights = { 50, 50 };
-		topSash.setWeights(topWeights);
 
 		bottomComposite = toolkit.createComposite(topComposite);
 		GridLayoutFactory.fillDefaults().numColumns(1).equalWidth(false).extendedMargins(0, 0, 0, 0)
 			.applyTo(bottomComposite);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(bottomComposite);
-		
-		
 		// updateSectionTitle();
 		form.setImage(new AdapterFactoryLabelProvider(new ComposedAdapterFactory(
 			ComposedAdapterFactory.Descriptor.Registry.INSTANCE)).getImage(modelElement));
 		// Sort and order attributes
-		sortAndOrderAttributes();
 		// Create attributes
 		createAttributes(leftColumnComposite, leftColumnAttributes);
-		createAttributes(rightColumnComposite, rightColumnAttributes);
+		if (!rightColumnAttributes.isEmpty()) {
+			createAttributes(rightColumnComposite, rightColumnAttributes);
+		}
 		createAttributes(bottomComposite, bottomAttributes);
 		createToolbar();
 		form.pack();
 		updateSectionTitle();
-		
-		
 	}
-	
-
-	
 
 	/**
 	 * Updates the name of the section.
@@ -281,7 +289,6 @@ public class MEEditorPage extends FormPage {
 			if (meControl.getShowLabel()) {
 				Label label = toolkit.createLabel(attributeComposite,
 					itemPropertyDescriptor.getDisplayName(modelElement));
-				
 				label.setData(modelElement);
 				FeatureHintTooltipSupport.enableFor(label, itemPropertyDescriptor);
 				control = meControl.createControl(attributeComposite, SWT.WRAP, itemPropertyDescriptor, modelElement,
@@ -320,8 +327,9 @@ public class MEEditorPage extends FormPage {
 	}
 
 	/**
-	 * {@inheritDoc} This method is added to solve the focus bug of navigator. Every time that a ME is opened in editor,
-	 * navigator has to lose focus so that its action contributions are set correctly for next time.
+	 * {@inheritDoc} This method is added to solve the focus bug of navigator.
+	 * Every time that a ME is opened in editor, navigator has to lose focus so
+	 * that its action contributions are set correctly for next time.
 	 */
 	@Override
 	public void setFocus() {
@@ -335,6 +343,5 @@ public class MEEditorPage extends FormPage {
 		}
 		leftColumnComposite.setFocus();
 	}
-
 
 }

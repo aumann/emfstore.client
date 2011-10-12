@@ -1,7 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2008-2011 Chair for Applied Software Engineering, Technische Universitaet Muenchen. All rights
- * reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public
- * License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2008-2011 Chair for Applied Software Engineering,
+ * Technische Universitaet Muenchen.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
  * Contributors:
  ******************************************************************************/
 package org.eclipse.emf.ecp.editor.mecontrols;
@@ -42,21 +46,18 @@ public class MEDoubleControl extends AbstractMEControl {
 	 */
 	@Override
 	public Control createControl(Composite parent, int style) {
-		Object feature = getItemPropertyDescriptor().getFeature(
-				getModelElement());
+		Object feature = getItemPropertyDescriptor().getFeature(getModelElement());
 		this.attribute = (EAttribute) feature;
 		int digits = 2; // default value
-		EAnnotation annotation = attribute
-				.getEAnnotation("org.eclipse.emf.ecp.editor");
+		EAnnotation annotation = attribute.getEAnnotation("org.eclipse.emf.ecp.editor");
 		if (annotation != null) {
 			String digitsSetting = annotation.getDetails().get("digits");
 			if (digitsSetting != null) {
 				try {
 					digits = Integer.parseInt(digitsSetting);
 				} catch (NumberFormatException nfe) {
-					Activator
-							.logException(new IllegalArgumentException(
-									"Model element annotation 'digits' must be an integer"));
+					Activator.logException(new IllegalArgumentException(
+						"Model element annotation 'digits' must be an integer"));
 				}
 			}
 		}
@@ -64,14 +65,11 @@ public class MEDoubleControl extends AbstractMEControl {
 		spinner.setDigits(digits);
 		spinner.setMinimum(-1000000);
 		spinner.setMaximum(1000000);
-		IObservableValue model = EMFEditObservables.observeValue(
-				getEditingDomain(), getModelElement(), attribute);
+		IObservableValue model = EMFEditObservables.observeValue(getEditingDomain(), getModelElement(), attribute);
 		EMFDataBindingContext dbc = new EMFDataBindingContext();
-		DoubleSpinnerObservable spinnerObservable = new DoubleSpinnerObservable(
-				spinner);
+		DoubleSpinnerObservable spinnerObservable = new DoubleSpinnerObservable(spinner);
 		dbc.bindValue(spinnerObservable, model, null, null);
-		Double doubleValueOfSpinner = (Double) getModelElement()
-				.eGet(attribute) * Math.pow(10, spinner.getDigits());
+		Double doubleValueOfSpinner = (Double) getModelElement().eGet(attribute) * Math.pow(10, spinner.getDigits());
 		spinner.setSelection(doubleValueOfSpinner.intValue());
 		return spinner;
 	}
@@ -83,12 +81,9 @@ public class MEDoubleControl extends AbstractMEControl {
 	 *      org.eclipse.emf.ecore.EObject)
 	 */
 	@Override
-	public int canRender(IItemPropertyDescriptor itemPropertyDescriptor,
-			EObject modelElement) {
+	public int canRender(IItemPropertyDescriptor itemPropertyDescriptor, EObject modelElement) {
 		Object feature = itemPropertyDescriptor.getFeature(modelElement);
-		if (feature instanceof EAttribute
-				&& ((EAttribute) feature).getEType().getInstanceClass()
-						.equals(double.class)) {
+		if (feature instanceof EAttribute && ((EAttribute) feature).getEType().getInstanceClass().equals(double.class)) {
 
 			return PRIORITY;
 		}

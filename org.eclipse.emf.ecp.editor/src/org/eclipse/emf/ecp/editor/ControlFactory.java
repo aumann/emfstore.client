@@ -1,7 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2008-2011 Chair for Applied Software Engineering, Technische Universitaet Muenchen. All rights
- * reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public
- * License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2008-2011 Chair for Applied Software Engineering,
+ * Technische Universitaet Muenchen.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
  * Contributors:
  ******************************************************************************/
 package org.eclipse.emf.ecp.editor;
@@ -46,10 +50,10 @@ public class ControlFactory {
 		ArrayList<IConfigurationElement> allControls = new ArrayList<IConfigurationElement>();
 		allControls.addAll(Arrays.asList(attributecontrols));
 		allControls.addAll(Arrays.asList(referencecontrols));
-		for (IConfigurationElement e : attributecontrols) {
+		for (IConfigurationElement e : allControls) {
 			String type = e.getAttribute("type");
 			try {
-				Class<?> resolvedType = ControlFactory.class.getClassLoader().loadClass(type);
+				Class<?> resolvedType = Class.forName(type);
 				AbstractMEControl control = (AbstractMEControl) e.createExecutableExtension("class");
 				boolean showLabel = Boolean.parseBoolean(e.getAttribute("showLabel"));
 				control.setShowLabel(showLabel);
@@ -62,21 +66,6 @@ public class ControlFactory {
 
 			} catch (ClassNotFoundException e1) {
 				Activator.logException(e1);
-			} catch (CoreException e2) {
-				Activator.logException(e2);
-			}
-		}
-		for (IConfigurationElement e : referencecontrols) {
-			try {
-				AbstractMEControl control = (AbstractMEControl) e.createExecutableExtension("class");
-				boolean showLabel = Boolean.parseBoolean(e.getAttribute("showLabel"));
-				control.setShowLabel(showLabel);
-				ArrayList<AbstractMEControl> list = controlRegistry.get(EObject.class);
-				if (list == null) {
-					list = new ArrayList<AbstractMEControl>();
-				}
-				list.add(control);
-				controlRegistry.put(EObject.class, list);
 			} catch (CoreException e2) {
 				Activator.logException(e2);
 			}

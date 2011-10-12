@@ -1,7 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2008-2011 Chair for Applied Software Engineering, Technische Universitaet Muenchen. All rights
- * reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public
- * License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2008-2011 Chair for Applied Software Engineering,
+ * Technische Universitaet Muenchen.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
  * Contributors:
  ******************************************************************************/
 package org.eclipse.emf.ecp.navigator.handler;
@@ -14,7 +18,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecp.common.model.ECPWorkspaceManager;
 import org.eclipse.emf.ecp.common.model.NoWorkspaceException;
 import org.eclipse.emf.ecp.common.model.workSpaceModel.ECPProject;
-import org.eclipse.emf.ecp.common.util.ActionHelper;
+import org.eclipse.emf.ecp.common.utilities.ActionHelper;
 import org.eclipse.emf.ecp.navigator.Activator;
 import org.eclipse.emf.ecp.navigator.dialogs.SearchModelElementDialog;
 import org.eclipse.jface.dialogs.MessageDialog;

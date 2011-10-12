@@ -1,7 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2008-2011 Chair for Applied Software Engineering, Technische Universitaet Muenchen. All rights
- * reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public
- * License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2008-2011 Chair for Applied Software Engineering,
+ * Technische Universitaet Muenchen.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
  * Contributors:
  ******************************************************************************/
 package org.eclipse.emf.ecp.common.dnd;
@@ -73,8 +77,7 @@ public abstract class MEDropAdapter {
 	 *            source
 	 */
 	@SuppressWarnings("unchecked")
-	protected void dropAfter(EObject targetContainer, EObject target,
-			List<EObject> source) {
+	protected void dropAfter(EObject targetContainer, EObject target, List<EObject> source) {
 
 		int targetIndex;
 		EReference theRef = getTargetRef(targetContainer, source.get(0));
@@ -133,7 +136,7 @@ public abstract class MEDropAdapter {
 			// of drag source. We suppose that elements with different types are
 			// not allowed to be drag and dropped.
 			if (ref.getEReferenceType().equals(dropee.eClass())
-					|| ref.getEReferenceType().isSuperTypeOf(dropee.eClass())) {
+				|| ref.getEReferenceType().isSuperTypeOf(dropee.eClass())) {
 				return ref;
 			}
 		}
@@ -152,8 +155,7 @@ public abstract class MEDropAdapter {
 	 *            source
 	 */
 	@SuppressWarnings("unchecked")
-	protected void dropBefore(EObject targetContainer, EObject target,
-			List<EObject> source) {
+	protected void dropBefore(EObject targetContainer, EObject target, List<EObject> source) {
 
 		int targetIndex;
 
@@ -218,8 +220,7 @@ public abstract class MEDropAdapter {
 	 *            source
 	 */
 	@SuppressWarnings("unchecked")
-	protected void dropContainment(final EObject target,
-			final List<EObject> source) {
+	protected void dropContainment(final EObject target, final List<EObject> source) {
 
 		EReference theRef = getTargetRef(target, source.get(0));
 		if (theRef == null) {
@@ -272,11 +273,11 @@ public abstract class MEDropAdapter {
 	 * @param dropee
 	 *            first element of source
 	 * @param eventFeedback
-	 *            @see UCDropAdapter.eventFeedback
+	 * @see UCDropAdapter.eventFeedback
 	 * @return if this source can be dropped on target
 	 */
-	public boolean canDrop(int eventFeedback, DropTargetEvent event,
-			List<EObject> source, EObject target, EObject dropee) {
+	public boolean canDrop(int eventFeedback, DropTargetEvent event, List<EObject> source, EObject target,
+		EObject dropee) {
 
 		// moved from ComposedDropAdapter
 		if (source.size() > 1) {
@@ -313,10 +314,9 @@ public abstract class MEDropAdapter {
 			return false;
 		}
 
-		if (((eventFeedback & DND.FEEDBACK_INSERT_AFTER) == DND.FEEDBACK_INSERT_AFTER
-				|| (eventFeedback & DND.FEEDBACK_INSERT_BEFORE) == DND.FEEDBACK_INSERT_BEFORE) && target.eContainer() != null) {
-			if (!hasThisContainmentReference(target.eContainer(),
-					dropee.eClass())) {
+		if (((eventFeedback & DND.FEEDBACK_INSERT_AFTER) == DND.FEEDBACK_INSERT_AFTER || (eventFeedback & DND.FEEDBACK_INSERT_BEFORE) == DND.FEEDBACK_INSERT_BEFORE)
+			&& target.eContainer() != null) {
+			if (!hasThisContainmentReference(target.eContainer(), dropee.eClass())) {
 				return false;
 			}
 		}
@@ -359,8 +359,7 @@ public abstract class MEDropAdapter {
 		for (EReference ref : target.eClass().getEAllContainments()) {
 
 			if (!ref.isContainer()
-					&& (ref.getEReferenceType().equals(refType) || ref
-							.getEReferenceType().isSuperTypeOf(refType))) {
+				&& (ref.getEReferenceType().equals(refType) || ref.getEReferenceType().isSuperTypeOf(refType))) {
 
 				result = true;
 				break;
@@ -392,14 +391,13 @@ public abstract class MEDropAdapter {
 	 * @param after
 	 *            drop after or drop before
 	 */
-	public void dropMove(final EObject targetContainer, final EObject target,
-			final List<EObject> source, final boolean after) {
+	public void dropMove(final EObject targetContainer, final EObject target, final List<EObject> source,
+		final boolean after) {
 
-			// target is the model element after/before which we drop.
-			if (!getTargetRef(targetContainer, target).equals(
-					getTargetRef(targetContainer, source.get(0)))) {
-				return;
-			}
+		// target is the model element after/before which we drop.
+		if (!getTargetRef(targetContainer, target).equals(getTargetRef(targetContainer, source.get(0)))) {
+			return;
+		}
 
 		if (after) {
 			dropAfter(targetContainer, target, source);

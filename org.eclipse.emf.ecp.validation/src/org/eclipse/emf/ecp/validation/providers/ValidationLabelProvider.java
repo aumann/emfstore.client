@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2008-2011 Chair for Applied Software Engineering,
+ * Technische Universitaet Muenchen.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ ******************************************************************************/
 package org.eclipse.emf.ecp.validation.providers;
 
 import org.eclipse.core.runtime.IStatus;
@@ -22,9 +32,8 @@ public class ValidationLabelProvider extends ColumnLabelProvider {
 	 */
 	public ValidationLabelProvider() {
 		super();
-		this.adapterFactoryLabelProvider = new AdapterFactoryLabelProvider(
-				new ComposedAdapterFactory(
-						ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
+		this.adapterFactoryLabelProvider = new AdapterFactoryLabelProvider(new ComposedAdapterFactory(
+			ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
 	}
 
 	/**
@@ -33,8 +42,7 @@ public class ValidationLabelProvider extends ColumnLabelProvider {
 	@Override
 	public Image getImage(Object object) {
 		if (object instanceof IStatus) {
-			BasicDiagnostic inputElement = (BasicDiagnostic) BasicDiagnostic
-					.toDiagnostic((IStatus) object);
+			BasicDiagnostic inputElement = (BasicDiagnostic) BasicDiagnostic.toDiagnostic((IStatus) object);
 			EObject target = (EObject) inputElement.getData().get(0);
 			if (target instanceof EObject) {
 				return adapterFactoryLabelProvider.getImage(target);
@@ -49,8 +57,7 @@ public class ValidationLabelProvider extends ColumnLabelProvider {
 	@Override
 	public String getText(Object object) {
 		if (object instanceof IStatus) {
-			BasicDiagnostic inputElement = (BasicDiagnostic) BasicDiagnostic
-					.toDiagnostic((IStatus) object);
+			BasicDiagnostic inputElement = (BasicDiagnostic) BasicDiagnostic.toDiagnostic((IStatus) object);
 			EObject target = (EObject) inputElement.getData().get(0);
 			if (target instanceof EObject) {
 				return adapterFactoryLabelProvider.getText(target);

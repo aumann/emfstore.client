@@ -1,12 +1,17 @@
 /*******************************************************************************
- * Copyright (c) 2008-2011 Chair for Applied Software Engineering, Technische Universitaet Muenchen. All rights
- * reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public
- * License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2008-2011 Chair for Applied Software Engineering,
+ * Technische Universitaet Muenchen.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
  * Contributors:
  ******************************************************************************/
 package org.eclipse.emf.ecp.navigator.commands;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +26,9 @@ import org.eclipse.emf.ecp.common.util.UiUtil;
 import org.eclipse.emf.ecp.navigator.Activator;
 import org.eclipse.emf.ecp.navigator.handler.CreateContainmentHandler;
 import org.eclipse.emf.ecp.navigator.handler.NewModelElementWizardHandler;
+import org.eclipse.emf.edit.command.CommandParameter;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.emf.emfstore.common.CommonUtil;
@@ -33,7 +41,7 @@ import org.eclipse.ui.menus.CommandContributionItem;
 import org.eclipse.ui.menus.CommandContributionItemParameter;
 
 /**
- * . This class creates a group of commands to create different containments of a model element through context menu.
+ * This class creates a group of commands to create different containments of a model element through context menu.
  * The created commands have all the same ID and are handled with the same handler class {@link CreateMEHandler}.
  * 
  * @author Hodaie
@@ -68,6 +76,24 @@ public class DynamicContainmentCommands extends CompoundContributionItem {
 		Set<EClass> eClazz = CommonUtil.getAllEContainments(selectedME.eClass());
 		if (eClazz.size() > 5) {
 			return createNewWizard(selectedME.eClass());
+		}
+
+		AdapterFactoryItemDelegator delegator = new AdapterFactoryItemDelegator(new ComposedAdapterFactory(
+			ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
+
+		Collection<?> collection = delegator.getNewChildDescriptors(selectedME,
+			AdapterFactoryEditingDomain.getEditingDomainFor(selectedME), null);
+		if (collection instanceof List<?>) {
+			@SuppressWarnings("unchecked")
+			List<CommandParameter> childDescriptors = (List<CommandParameter>) delegator.getNewChildDescriptors(
+				selectedME, AdapterFactoryEditingDomain.getEditingDomainFor(selectedME), null);
+			List<EReference> containments = new ArrayList<EReference>();
+			for (CommandParameter cp : childDescriptors) {
+				containments.add(cp.getEReference());
+			}
+
+			IContributionItem[] commands = createCommands(containments);
+			return commands;
 		}
 
 		// 3. create commands for these containments

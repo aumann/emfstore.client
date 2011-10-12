@@ -1,7 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2008-2011 Chair for Applied Software Engineering, Technische Universitaet Muenchen. All rights
- * reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public
- * License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2008-2011 Chair for Applied Software Engineering,
+ * Technische Universitaet Muenchen.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
  * Contributors:
  ******************************************************************************/
 package org.eclipse.emf.ecp.common.dnd;
@@ -79,13 +83,11 @@ public class ComposedDropAdapter extends DropTargetAdapter {
 		this.viewer = viewer;
 
 		dropAdapters = new HashMap<EClass, MEDropAdapter>();
-		IConfigurationElement[] confs = Platform.getExtensionRegistry()
-				.getConfigurationElementsFor(
-						"org.eclipse.emf.ecp.common.dropadapter");
+		IConfigurationElement[] confs = Platform.getExtensionRegistry().getConfigurationElementsFor(
+			"org.eclipse.emf.ecp.common.dropadapter");
 		for (IConfigurationElement element : confs) {
 			try {
-				MEDropAdapter dropAdapter = (MEDropAdapter) element
-						.createExecutableExtension("class");
+				MEDropAdapter dropAdapter = (MEDropAdapter) element.createExecutableExtension("class");
 				dropAdapter.init(viewer);
 				dropAdapters.put(dropAdapter.isDropAdapterfor(), dropAdapter);
 
@@ -110,19 +112,16 @@ public class ComposedDropAdapter extends DropTargetAdapter {
 			protected void doRun() {
 				if (targetIsRoot) {
 					try {
-						ECPProject project = ECPWorkspaceManager.getInstance()
-								.getWorkSpace().getProject(target);
+						ECPProject project = ECPWorkspaceManager.getInstance().getWorkSpace().getProject(target);
 						for (EObject obj : source) {
 							project.addModelElementToRoot(obj);
 						}
 					} catch (NoWorkspaceException e) {
 					}
 				} else if (isInsertAfter(eventFeedback)) {
-					targetDropAdapter.dropMove(targetConatiner, target, source,
-							true);
+					targetDropAdapter.dropMove(targetConatiner, target, source, true);
 				} else if (isInsertBefore(eventFeedback)) {
-					targetDropAdapter.dropMove(targetConatiner, target, source,
-							false);
+					targetDropAdapter.dropMove(targetConatiner, target, source, false);
 				} else {
 					targetDropAdapter.drop(event, target, source);
 				}
@@ -158,8 +157,7 @@ public class ComposedDropAdapter extends DropTargetAdapter {
 		setInitialEventFeedback(event);
 		eventFeedback = event.feedback;
 
-		if ((isInsertBefore(eventFeedback) || isInsertAfter(eventFeedback))
-				&& target.eContainer() != null) {
+		if ((isInsertBefore(eventFeedback) || isInsertAfter(eventFeedback)) && target.eContainer() != null) {
 			targetConatiner = target.eContainer();
 			targetDropAdapter = getTargetDropAdapter(targetConatiner.eClass());
 
@@ -169,11 +167,9 @@ public class ComposedDropAdapter extends DropTargetAdapter {
 		}
 		if (targetDropAdapter == null) {
 			event.detail = DND.DROP_NONE;
-		} else if (!targetDropAdapter.canDrop(eventFeedback, event, source,
-				target, dropee)) {
+		} else if (!targetDropAdapter.canDrop(eventFeedback, event, source, target, dropee)) {
 			event.detail = DND.Drop;
-		} else if (targetDropAdapter.canDrop(eventFeedback, event, source,
-				target, dropee)) {
+		} else if (targetDropAdapter.canDrop(eventFeedback, event, source, target, dropee)) {
 			event.detail = DND.DROP_COPY;
 		}
 
@@ -191,8 +187,7 @@ public class ComposedDropAdapter extends DropTargetAdapter {
 	@SuppressWarnings("unchecked")
 	private boolean extractDnDSourceAndTarget(DropTargetEvent event) {
 		boolean result = true;
-		List<Object> tmpSource = (List<Object>) DragSourcePlaceHolder
-				.getDragSource();
+		List<Object> tmpSource = (List<Object>) DragSourcePlaceHolder.getDragSource();
 		if (tmpSource == null) {
 			result = false;
 		}
@@ -210,8 +205,7 @@ public class ComposedDropAdapter extends DropTargetAdapter {
 
 		// take care that you cannot drop anything on project (project is not a
 		// ModelElement)
-		if (event.item == null || event.item.getData() == null
-				|| !(event.item.getData() instanceof EObject)) {
+		if (event.item == null || event.item.getData() == null || !(event.item.getData() instanceof EObject)) {
 			result = false;
 		}
 
@@ -224,10 +218,8 @@ public class ComposedDropAdapter extends DropTargetAdapter {
 			ECPProject targetProject = null;
 			ECPProject dropeeProject = null;
 			try {
-				targetProject = ECPWorkspaceManager.getInstance()
-						.getWorkSpace().getProject(target);
-				dropeeProject = ECPWorkspaceManager.getInstance()
-						.getWorkSpace().getProject(dropee);
+				targetProject = ECPWorkspaceManager.getInstance().getWorkSpace().getProject(target);
+				dropeeProject = ECPWorkspaceManager.getInstance().getWorkSpace().getProject(dropee);
 				if (targetProject.getRootObject() == target) {
 					targetIsRoot = true;
 				}
@@ -257,10 +249,8 @@ public class ComposedDropAdapter extends DropTargetAdapter {
 
 		MEDropAdapter ret = dropAdapters.get(targetEClass);
 		if (ret == null) {
-			EClass superTypeHavingADropAdapter = getSuperTypeHavingADropAdapter(targetEClass
-					.getESuperTypes());
-			if (superTypeHavingADropAdapter != null
-					&& superTypeHavingADropAdapter != targetEClass) {
+			EClass superTypeHavingADropAdapter = getSuperTypeHavingADropAdapter(targetEClass.getESuperTypes());
+			if (superTypeHavingADropAdapter != null && superTypeHavingADropAdapter != targetEClass) {
 				ret = getTargetDropAdapter(superTypeHavingADropAdapter);
 			}
 		}
@@ -302,8 +292,7 @@ public class ComposedDropAdapter extends DropTargetAdapter {
 			for (EClass eClass1 : intersection) {
 				for (EClass eClass2 : intersection) {
 					if (!eClass2.equals(eClass1)
-							&& (eClass2.isSuperTypeOf(eClass1) || eClass2
-									.equals(EcorePackage.eINSTANCE.getEObject()))) {
+						&& (eClass2.isSuperTypeOf(eClass1) || eClass2.equals(EcorePackage.eINSTANCE.getEObject()))) {
 						toBeRemoved.add(eClass2);
 					}
 				}
@@ -312,8 +301,7 @@ public class ComposedDropAdapter extends DropTargetAdapter {
 		}
 
 		if (intersection.size() > 1) {
-			throw new IllegalStateException(
-					"More than one drop adapter for this type found!");
+			throw new IllegalStateException("More than one drop adapter for this type found!");
 
 		} else if (intersection.size() == 0) {
 			Set<EClass> eclazz = new HashSet<EClass>();
@@ -355,8 +343,7 @@ public class ComposedDropAdapter extends DropTargetAdapter {
 	}
 
 	/**
-	 * Checks whether eventfeedback is a {@link DND#FEEDBACK_INSERT_BEFORE}
-	 * event.
+	 * Checks whether eventfeedback is a {@link DND#FEEDBACK_INSERT_BEFORE} event.
 	 * 
 	 * @param eventFeedback
 	 * @return true if before
@@ -366,8 +353,7 @@ public class ComposedDropAdapter extends DropTargetAdapter {
 	}
 
 	/**
-	 * Checks whether eventfeedback is a {@link DND#FEEDBACK_INSERT_AFTER}
-	 * event.
+	 * Checks whether eventfeedback is a {@link DND#FEEDBACK_INSERT_AFTER} event.
 	 * 
 	 * @param eventFeedback
 	 * @return true if after

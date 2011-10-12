@@ -1,8 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2008-2011 Chair for Applied Software Engineering, Technische Universitaet Muenchen. All rights
- * reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public
- * License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
- * Contributors: Nikolay Kasyanov
+ * Copyright (c) 2008-2011 Chair for Applied Software Engineering,
+ * Technische Universitaet Muenchen.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
  ******************************************************************************/
 package org.eclipse.emf.ecp.editor.mecontrols;
 
@@ -44,9 +48,9 @@ public class MEEnumControl extends AbstractMEControl {
 	public Control createControl(Composite parent, int style) {
 		Object feature = getItemPropertyDescriptor().getFeature(getModelElement());
 		this.attribute = (EAttribute) feature;
-		
+
 		final IItemLabelProvider labelProvider = getItemPropertyDescriptor().getLabelProvider(getModelElement());
-		
+
 		combo = new ComboViewer(parent);
 		combo.setContentProvider(new ArrayContentProvider());
 		combo.setLabelProvider(new LabelProvider() {
@@ -55,10 +59,10 @@ public class MEEnumControl extends AbstractMEControl {
 			public String getText(Object element) {
 				return labelProvider.getText(element);
 			}
-			
+
 		});
 		combo.setInput(attribute.getEType().getInstanceClass().getEnumConstants());
-		
+
 		EMFDataBindingContext dbc = new EMFDataBindingContext();
 		IObservableValue model = EMFEditObservables.observeValue(getEditingDomain(), getModelElement(), attribute);
 		IObservableValue comboObservable = ViewersObservables.observeSingleSelection(combo);

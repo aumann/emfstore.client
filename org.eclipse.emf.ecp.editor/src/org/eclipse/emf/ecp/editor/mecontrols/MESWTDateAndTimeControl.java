@@ -8,7 +8,6 @@
  * 
  * Contributors:
  ******************************************************************************/
-
 package org.eclipse.emf.ecp.editor.mecontrols;
 
 import org.eclipse.core.databinding.observable.value.DateAndTimeObservableValue;
@@ -34,22 +33,22 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 
 /**
- * An SWT-based date widget with an additional time field, which 
+ * An SWT-based date widget with an additional time field, which
  * are both controlled by spinners.
  * 
  * @author Hunnilee
- *
+ * 
  */
 public class MESWTDateAndTimeControl extends AbstractMEControl {
 
 	private static final int PRIORITY = 3;
-	
+
 	private EAttribute attribute;
 	private ImageHyperlink dateDeleteButton;
 	private Composite dateComposite;
 	private DateTime dateWidget;
 	private DateTime timeWidget;
-	
+
 	@Override
 	public int canRender(IItemPropertyDescriptor itemPropertyDescriptor, EObject modelElement) {
 		return PRIORITY;
@@ -62,26 +61,38 @@ public class MESWTDateAndTimeControl extends AbstractMEControl {
 		GridLayoutFactory.fillDefaults().numColumns(3).spacing(2, 0).applyTo(dateComposite);
 		GridDataFactory.fillDefaults().grab(true, false).applyTo(dateComposite);
 		dateComposite.setBackgroundMode(SWT.INHERIT_FORCE);
-		
+
 		createDateAndTimeWidget();
-		
+
 		IObservableValue model = EMFEditObservables.observeValue(getEditingDomain(), getModelElement(), attribute);
 		EMFDataBindingContext dbc = new EMFDataBindingContext();
 		IObservableValue dateObserver = SWTObservables.observeSelection(dateWidget);
 		IObservableValue timeObserver = SWTObservables.observeSelection(timeWidget);
 		dbc.bindValue(new DateAndTimeObservableValue(dateObserver, timeObserver), model, null, null);
-		
+
 		return dateComposite;
 	}
 
 	private void createDateAndTimeWidget() {
 		dateWidget = new DateTime(dateComposite, SWT.DATE);
 		dateWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		
+
 		timeWidget = new DateTime(dateComposite, SWT.TIME | SWT.SHORT);
 		timeWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		
-		
+
+		dateDeleteButton = new ImageHyperlink(dateComposite, SWT.TOP);
+		dateDeleteButton.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_DELETE));
+		dateDeleteButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseUp(MouseEvent e) {
+				new ECPCommand(getModelElement()) {
+
+					@Override
+					protected void doRun() {
+						getModelElement().eSet(attribute, null);
+					}
+				}.run(true);
+			}
+		});
 	}
 }
-
