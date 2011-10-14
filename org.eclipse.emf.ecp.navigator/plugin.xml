@@ -168,7 +168,7 @@
             </visibleWhen>
         </command>
      </menuContribution>
-   </extension>
+   </extension> 
    <extension
          point="org.eclipse.ui.commands">
            <command
