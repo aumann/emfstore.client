@@ -23,7 +23,7 @@ import org.eclipse.emf.emfstore.client.model.Configuration;
 import org.eclipse.emf.emfstore.client.model.ProjectSpace;
 import org.eclipse.emf.emfstore.client.model.observers.SimpleOperationListener;
 import org.eclipse.emf.emfstore.common.model.IdEObjectCollection;
-import org.eclipse.emf.emfstore.common.model.util.ProjectChangeObserver;
+import org.eclipse.emf.emfstore.common.model.util.IdEObjectCollectionChangeObserver;
 import org.eclipse.emf.emfstore.server.model.versioning.operations.AbstractOperation;
 import org.eclipse.swt.widgets.Display;
 
@@ -32,7 +32,7 @@ import org.eclipse.swt.widgets.Display;
  * 
  * @author helming
  */
-public class EMFStoreECPProject extends ECPProjectImpl implements ECPProject, ProjectChangeObserver {
+public class EMFStoreECPProject extends ECPProjectImpl implements ECPProject, IdEObjectCollectionChangeObserver {
 
 	@Override
 	public EObject getRootContainer() {
@@ -65,7 +65,7 @@ public class EMFStoreECPProject extends ECPProjectImpl implements ECPProject, Pr
 
 		};
 		projectSpace.getOperationManager().addOperationListener(simpleOperationListener);
-		projectSpace.getProject().addProjectChangeObserver(this);
+		projectSpace.getProject().addIdEObjectCollectionChangeObserver(this);
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class EMFStoreECPProject extends ECPProjectImpl implements ECPProject, Pr
 	 */
 	public void dispose() {
 		projectSpace.getOperationManager().removeOperationListener(simpleOperationListener);
-		projectSpace.getProject().removeProjectChangeObserver(this);
+		projectSpace.getProject().removeIdEObjectCollectionChangeObserver(this);
 
 	}
 
@@ -159,7 +159,7 @@ public class EMFStoreECPProject extends ECPProjectImpl implements ECPProject, Pr
 		projectSpace.getProject().getModelElements().add(eObject);
 	}
 
-	public void projectDeleted(IdEObjectCollection project) {
+	public void collectionDeleted(IdEObjectCollection project) {
 		super.projectDeleted();
 	}
 }
