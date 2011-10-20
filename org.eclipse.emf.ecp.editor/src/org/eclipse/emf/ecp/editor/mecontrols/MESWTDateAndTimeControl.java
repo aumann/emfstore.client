@@ -12,6 +12,7 @@ package org.eclipse.emf.ecp.editor.mecontrols;
 
 import org.eclipse.core.databinding.observable.value.DateAndTimeObservableValue;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.edit.EMFEditObservables;
 import org.eclipse.emf.ecore.EAttribute;
@@ -24,10 +25,12 @@ import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DateTime;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
@@ -39,7 +42,7 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
  * @author Hunnilee
  * 
  */
-public class MESWTDateAndTimeControl extends AbstractMEControl {
+public class MESWTDateAndTimeControl extends AbstractMEControl implements IValidatableControl{
 
 	private static final int PRIORITY = 3;
 
@@ -48,6 +51,7 @@ public class MESWTDateAndTimeControl extends AbstractMEControl {
 	private Composite dateComposite;
 	private DateTime dateWidget;
 	private DateTime timeWidget;
+	private Label labelWidgetImage;  //Label for diagnostic image
 
 	@Override
 	public int canRender(IItemPropertyDescriptor itemPropertyDescriptor, EObject modelElement) {
@@ -58,9 +62,9 @@ public class MESWTDateAndTimeControl extends AbstractMEControl {
 	protected Control createControl(Composite parent, int style) {
 		this.attribute = (EAttribute) getItemPropertyDescriptor().getFeature(getModelElement());
 		dateComposite = getToolkit().createComposite(parent);
-		GridLayoutFactory.fillDefaults().numColumns(3).spacing(2, 0).applyTo(dateComposite);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(dateComposite);
 		dateComposite.setBackgroundMode(SWT.INHERIT_FORCE);
+		GridLayoutFactory.fillDefaults().numColumns(4).spacing(2, 0).applyTo(dateComposite);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(dateComposite);
 
 		createDateAndTimeWidget();
 
@@ -74,6 +78,9 @@ public class MESWTDateAndTimeControl extends AbstractMEControl {
 	}
 
 	private void createDateAndTimeWidget() {
+		labelWidgetImage = getToolkit().createLabel(dateComposite, "     ");
+		labelWidgetImage.setBackground(dateComposite.getBackground());
+
 		dateWidget = new DateTime(dateComposite, SWT.DATE);
 		dateWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
@@ -82,6 +89,9 @@ public class MESWTDateAndTimeControl extends AbstractMEControl {
 
 		dateDeleteButton = new ImageHyperlink(dateComposite, SWT.TOP);
 		dateDeleteButton.setImage(PlatformUI.getWorkbench().getSharedImages().getImage(ISharedImages.IMG_TOOL_DELETE));
+		
+
+		
 		dateDeleteButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseUp(MouseEvent e) {
@@ -95,4 +105,26 @@ public class MESWTDateAndTimeControl extends AbstractMEControl {
 			}
 		});
 	}
+	
+	/**.
+	 * {@inheritDoc}}
+	 * */
+	public void handleValidation(Diagnostic diagnostic) {
+		if (diagnostic.getSeverity() == Diagnostic.ERROR || diagnostic.getSeverity() == Diagnostic.WARNING) {
+			Image image = org.eclipse.emf.ecp.editor.Activator.getImageDescriptor("icons/validation_error.png").createImage();
+			this.labelWidgetImage.setImage(image);
+			this.labelWidgetImage.setToolTipText(diagnostic.getMessage());
+		}
 }
+	
+	/**.
+	 * {@inheritDoc}}
+	 * */
+	public void resetValidation() {
+		this.labelWidgetImage.setImage(null);
+		this.labelWidgetImage.setToolTipText("");
+		
+	}
+
+}
+

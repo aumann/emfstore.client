@@ -13,6 +13,7 @@ package org.eclipse.emf.ecp.editor.mecontrols;
 import org.eclipse.core.databinding.observable.Diffs;
 import org.eclipse.core.databinding.observable.value.AbstractObservableValue;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.databinding.EMFDataBindingContext;
 import org.eclipse.emf.databinding.edit.EMFEditObservables;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -20,10 +21,16 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecp.editor.Activator;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.layout.GridLayoutFactory;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 
 /**
@@ -31,13 +38,18 @@ import org.eclipse.swt.widgets.Spinner;
  * 
  * @author helming
  */
-public class MEDoubleControl extends AbstractMEControl {
+public class MEDoubleControl extends AbstractMEControl implements IValidatableControl{
 
 	private EAttribute attribute;
 
 	private Spinner spinner;
 
 	private static final int PRIORITY = 1;
+
+	private Composite composite;
+	
+	private Label labelWidgetImage;  //Label for diagnostic image
+
 
 	/**
 	 * {@inheritDoc}
@@ -61,7 +73,18 @@ public class MEDoubleControl extends AbstractMEControl {
 				}
 			}
 		}
-		spinner = new Spinner(parent, style);
+		
+		composite = getToolkit().createComposite(parent, style);
+		composite.setBackgroundMode(SWT.INHERIT_FORCE);
+		GridLayoutFactory.fillDefaults().numColumns(2).spacing(2, 0).applyTo(composite);
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(composite);
+
+		labelWidgetImage = getToolkit().createLabel(composite, "    ");
+		labelWidgetImage.setBackground(parent.getBackground());
+
+		spinner = new Spinner(composite, style | SWT.BORDER);
+		spinner.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
 		spinner.setDigits(digits);
 		spinner.setMinimum(-1000000);
 		spinner.setMaximum(1000000);
@@ -71,7 +94,7 @@ public class MEDoubleControl extends AbstractMEControl {
 		dbc.bindValue(spinnerObservable, model, null, null);
 		Double doubleValueOfSpinner = (Double) getModelElement().eGet(attribute) * Math.pow(10, spinner.getDigits());
 		spinner.setSelection(doubleValueOfSpinner.intValue());
-		return spinner;
+		return composite;
 	}
 
 	/**
@@ -88,6 +111,26 @@ public class MEDoubleControl extends AbstractMEControl {
 			return PRIORITY;
 		}
 		return AbstractMEControl.DO_NOT_RENDER;
+	}
+
+
+	/**.
+	 * {@inheritDoc}}
+	 * */
+	public void handleValidation(Diagnostic diagnostic) {
+		if (diagnostic.getSeverity() == Diagnostic.ERROR || diagnostic.getSeverity() == Diagnostic.WARNING) {
+			Image image = org.eclipse.emf.ecp.editor.Activator.getImageDescriptor("icons/validation_error.png").createImage();
+			this.labelWidgetImage.setImage(image);
+			this.labelWidgetImage.setToolTipText(diagnostic.getMessage());
+		}
+	}
+	
+	/**.
+	 * {@inheritDoc}}
+	 * */
+	public void resetValidation() {
+		this.labelWidgetImage.setImage(null);
+		this.labelWidgetImage.setToolTipText("");
 	}
 
 	/**

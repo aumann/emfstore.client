@@ -226,6 +226,7 @@ public class MEEditor extends SharedHeaderFormEditor {
 							setPartName((new ShortLabelProvider()).getText(modelElement));
 							if (mePage != null) {
 								mePage.updateSectionTitle();
+								mePage.updateLiveValidation();
 							}
 							updateStatusMessage();
 						}
