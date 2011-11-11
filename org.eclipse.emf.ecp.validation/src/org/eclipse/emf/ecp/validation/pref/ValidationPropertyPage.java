@@ -14,7 +14,7 @@
 // * accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this
 // * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html </copyright>
 // */
-//package org.eclipse.emf.ecp.validation.pref;
+package org.eclipse.emf.ecp.validation.pref;
 //
 //import org.eclipse.emf.emfstore.client.model.ProjectSpace;
 //import org.eclipse.emf.emfstore.client.model.WorkspaceManager;
