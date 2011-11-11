@@ -11,6 +11,7 @@
 package org.eclipse.emf.ecp.editor;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -233,14 +234,36 @@ public class MEEditorPage extends FormPage {
 			"toolbar:org.eclipse.emf.ecp.editor.MEEditorPage");
 		form.getToolBarManager().update(true);
 	}
+	
+	/**
+	 * Filters attributes marked with "hidden=true" annotation
+	 * 
+	 * @param propertyDescriptors property descriptors to filter
+	 */
+	private void filterHiddenAttributes(Collection<IItemPropertyDescriptor> propertyDescriptors) {
+		Iterator<IItemPropertyDescriptor> iterator = propertyDescriptors.iterator();
+		
+		AnnotationHiddenDescriptor visibilityDescriptor = new AnnotationHiddenDescriptor();
+		
+		while (iterator.hasNext()) {
+			IItemPropertyDescriptor descriptor = iterator.next();
+			
+			if (visibilityDescriptor.getValue(descriptor, modelElement)) {
+				iterator.remove();
+			}
+		}
+	}
 
 	private void sortAndOrderAttributes() {
 
 		AdapterFactoryItemDelegator adapterFactoryItemDelegator = new AdapterFactoryItemDelegator(
 			new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
 
-		List<IItemPropertyDescriptor> propertyDescriptors = adapterFactoryItemDelegator
+		Collection<IItemPropertyDescriptor> propertyDescriptors = adapterFactoryItemDelegator
 			.getPropertyDescriptors(modelElement);
+		
+		filterHiddenAttributes(propertyDescriptors);
+		
 		if (propertyDescriptors != null) {
 			AnnotationPositionDescriptor positionDescriptor = new AnnotationPositionDescriptor();
 			for (IItemPropertyDescriptor itemPropertyDescriptor : propertyDescriptors) {
