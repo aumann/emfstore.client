@@ -92,7 +92,6 @@ public class ComposedDropAdapter extends DropTargetAdapter {
 				dropAdapters.put(dropAdapter.isDropAdapterfor(), dropAdapter);
 
 			} catch (CoreException e) {
-				// TODO: ChainSaw logging done
 				Activator.getDefault().logException(e.getMessage(), e);
 			}
 		}

@@ -268,7 +268,6 @@ public class ValidationView extends ViewPart {
 					refactoringStrategies.add(strategy);
 				}
 			} catch (CoreException e) {
-				// TODO: ChainSaw logging done
 				Activator.getDefault().logWarning("Exception loading refactoring strategies from the extension point",
 					e);
 			}

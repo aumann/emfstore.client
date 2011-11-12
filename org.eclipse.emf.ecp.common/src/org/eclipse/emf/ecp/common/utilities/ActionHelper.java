@@ -88,8 +88,6 @@ public final class ActionHelper {
 					name = element.getAttribute("name");
 				}
 			} catch (CoreException e) {
-				// TODO: ChainSaw logging done
-				e.printStackTrace();
 				Activator.getDefault().logException(e.getMessage(), e);
 			}
 		}

@@ -55,9 +55,7 @@ public class Activator extends AbstractECPPlugin {
 					// TODO: ChainSaw logging
 					// UiUtil.showReportErrorDialog(status);
 				}
-
 			}
-
 		});
 
 		Platform.getLog(Platform.getBundle("org.eclipse.emf.emfstore.client")).addLogListener(new ILogListener() {
