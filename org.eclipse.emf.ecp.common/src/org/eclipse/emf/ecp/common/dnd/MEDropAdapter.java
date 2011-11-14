@@ -264,6 +264,8 @@ public abstract class MEDropAdapter {
 	 * container). These cases are handled here. Sub-Classes can override this
 	 * method, to implement their own conditions.
 	 * 
+ 	 * @param eventFeedback
+ 	 * 			  DropTarget drag under effect
 	 * @param event
 	 *            drop target event
 	 * @param source
@@ -272,9 +274,7 @@ public abstract class MEDropAdapter {
 	 *            target model element
 	 * @param dropee
 	 *            first element of source
-	 * @param eventFeedback
-	 * @see UCDropAdapter.eventFeedback
-	 * @return if this source can be dropped on target
+	 * @return whether this source can be dropped on the target
 	 */
 	public boolean canDrop(int eventFeedback, DropTargetEvent event, List<EObject> source, EObject target,
 		EObject dropee) {
