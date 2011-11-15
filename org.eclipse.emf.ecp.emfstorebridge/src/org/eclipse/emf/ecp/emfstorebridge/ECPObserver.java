@@ -95,6 +95,11 @@ public class ECPObserver implements PostECPWorkspaceInitiator, TraceObserver, Mo
 
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.ecp.common.observer.FocusEventObserver#onFocusEvent(java.lang.String)
+	 */
 	public void onFocusEvent(String viewId) {
 		final PluginFocusEvent pluginFocusEvent = EventsFactory.eINSTANCE.createPluginFocusEvent();
 		pluginFocusEvent.setPluginId(viewId);
@@ -113,6 +118,11 @@ public class ECPObserver implements PostECPWorkspaceInitiator, TraceObserver, Mo
 		}
 	}
 
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.ecp.common.observer.PresentationSwitchObserver#onPresentationSwitchEvent(java.lang.String, java.lang.String)
+	 */
 	public void onPresentationSwitchEvent(String viewID, String presentationID) {
 		final PresentationSwitchEvent presentationSwitchEvent = EventsFactory.eINSTANCE.createPresentationSwitchEvent();
 		presentationSwitchEvent.setNewPresentation(presentationID);

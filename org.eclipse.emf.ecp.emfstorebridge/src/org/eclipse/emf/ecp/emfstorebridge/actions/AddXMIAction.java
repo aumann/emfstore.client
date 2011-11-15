@@ -55,7 +55,6 @@ public class AddXMIAction implements IActionDelegate {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	private void runImport(Object firstElement) {
 		if (firstElement instanceof IFile) {
 			IFile file = (IFile) firstElement;

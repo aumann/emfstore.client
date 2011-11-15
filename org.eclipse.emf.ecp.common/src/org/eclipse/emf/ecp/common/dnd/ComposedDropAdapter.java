@@ -342,20 +342,20 @@ public class ComposedDropAdapter extends DropTargetAdapter {
 	}
 
 	/**
-	 * Checks whether eventfeedback is a {@link DND#FEEDBACK_INSERT_BEFORE} event.
+	 * Checks whether event feedback is a {@link DND#FEEDBACK_INSERT_BEFORE} event.
 	 * 
-	 * @param eventFeedback
-	 * @return true if before
+	 * @param eventFeedback DropTarget drag under effect
+	 * @return true if the event feedback is a {@value DND#FEEDBACK_INSERT_BEFORE} event, false otherwise
 	 */
 	public static boolean isInsertBefore(int eventFeedback) {
 		return (eventFeedback & DND.FEEDBACK_INSERT_BEFORE) == DND.FEEDBACK_INSERT_BEFORE;
 	}
 
 	/**
-	 * Checks whether eventfeedback is a {@link DND#FEEDBACK_INSERT_AFTER} event.
+	 * Checks whether event feedback is a {@link DND#FEEDBACK_INSERT_AFTER} event.
 	 * 
-	 * @param eventFeedback
-	 * @return true if after
+	 * @param eventFeedback DropTarget drag under effect
+	 * @return true if the event feedback is a {@value DND#FEEDBACK_INSERT_AFTER} event, false otherwise
 	 */
 	public static boolean isInsertAfter(int eventFeedback) {
 		return (eventFeedback & DND.FEEDBACK_INSERT_AFTER) == DND.FEEDBACK_INSERT_AFTER;

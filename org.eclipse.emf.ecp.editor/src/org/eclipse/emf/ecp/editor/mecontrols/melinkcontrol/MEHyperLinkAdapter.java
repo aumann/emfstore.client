@@ -11,7 +11,6 @@
 package org.eclipse.emf.ecp.editor.mecontrols.melinkcontrol;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecp.common.model.ECPModelelementContext;
 import org.eclipse.emf.ecp.common.model.ECPWorkspaceManager;
 import org.eclipse.emf.ecp.common.observer.TraceObserver;
 import org.eclipse.emf.ecp.common.utilities.ActionHelper;
@@ -36,7 +35,6 @@ public class MEHyperLinkAdapter extends HyperlinkAdapter implements IHyperlinkLi
 	 * @param source the source of the model link
 	 * @param target the target of the model link
 	 * @param featureName the feature of the model link
-	 * @param context the {@link ECPModelelementContext}
 	 */
 	public MEHyperLinkAdapter(EObject target, EObject source, String featureName) {
 		super();

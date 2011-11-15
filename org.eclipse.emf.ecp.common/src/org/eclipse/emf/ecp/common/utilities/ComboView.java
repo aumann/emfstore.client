@@ -23,23 +23,24 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * A combo view is a wrapper around a graphical SWT Combo element. It provides type-safe retrieval of the selected
+ * A combo view is a wrapper around a graphical SWT combo element. It provides type-safe retrieval of the selected
  * element and allows to easily track selection changes. While a combo only allows String values, this view allows
- * arbitrary values in the model. The combo view is a wrapper for Combo, comparable to JFace wrappers (like TreeView
+ * arbitrary values in the model. The combo view is a wrapper for combo, comparable to JFace wrappers (like TreeView
  * wrapping Tree). It supports LabelProviders but no ContentProviders. Only the text, not the image, is taken from the
- * label provider, since the Combo object does not support images.
+ * label provider, since the combo object does not support images.
  * 
  * @author jfinis
- * @param <T> the type of elements in the Combo.
+ * @param <T> the type of elements in the combo.
  */
 public class ComboView<T> {
+	
 	/**
 	 * Listener to track selection changed events.
 	 * 
-	 * @author Jonas
+	 * @author helming
 	 * @param <T>
 	 */
-	public static interface IComboChangeListener<T> {
+	public interface IComboChangeListener<T> {
 		/**
 		 * called if the selection of the combobox is changed.
 		 * 

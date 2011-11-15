@@ -55,7 +55,6 @@ public class AddReferenceAction extends ReferenceAction {
 			super(eObject);
 		}
 
-		@SuppressWarnings("unchecked")
 		@Override
 		protected void doRun() {
 
@@ -66,21 +65,9 @@ public class AddReferenceAction extends ReferenceAction {
 			EClass clazz = eReference.getEReferenceType();
 			Collection<EObject> allElements = context.getAllModelElementsbyClass(clazz, true);
 			allElements.remove(modelElement);
-			Object object = modelElement.eGet(eReference);
+			Object referencedObject = modelElement.eGet(eReference);
 
-			EList<EObject> eList = null;
-			EObject eObject = null;
-
-			// don't the instances that are already linked
-			if (eReference.isMany() && object instanceof EList) {
-				eList = (EList<EObject>) object;
-				for (EObject ref : eList) {
-					allElements.remove(ref);
-				}
-			} else if (!eReference.isMany() && object instanceof EObject) {
-				eObject = (EObject) object;
-				allElements.remove(eObject);
-			}
+			Collection<EObject> eCollection = removeReferencedObjectFromList(allElements, referencedObject);
 
 			// don't show contained elements for inverse containment references
 			if (eReference.isContainer()) {
@@ -110,12 +97,14 @@ public class AddReferenceAction extends ReferenceAction {
 					progressDialog.getProgressMonitor().beginTask("Adding references...", results.length * 10);
 					List<EObject> list = new ArrayList<EObject>();
 					for (Object result : results) {
-						if (result instanceof EObject) {
-							list.add((EObject) result);
-							progressDialog.getProgressMonitor().worked(10);
+						if (!(result instanceof EObject)) {
+							continue;
 						}
+						
+						list.add((EObject) result);
+						progressDialog.getProgressMonitor().worked(10);
 					}
-					eList.addAll(list);
+					eCollection.addAll(list);
 
 					progressDialog.getProgressMonitor().done();
 					progressDialog.close();
@@ -125,10 +114,21 @@ public class AddReferenceAction extends ReferenceAction {
 						modelElement.eSet(eReference, result);
 					}
 				}
-
 			}
 		}
 
+		@SuppressWarnings("unchecked")
+		private Collection<EObject> removeReferencedObjectFromList(Collection<EObject> allElements, Object referencedObject) {
+			// don't the instances that are already linked
+			if (eReference.isMany() && referencedObject instanceof EList) {
+				EList<EObject> eList = (EList<EObject>) referencedObject;
+				allElements.removeAll(eList);
+			} else if (!eReference.isMany() && referencedObject instanceof EObject) {
+				EObject eObject = (EObject) referencedObject;
+				allElements.remove(eObject);
+			}
+			return allElements;
+		}
 	}
 
 	/**
