@@ -41,16 +41,18 @@ import org.eclipse.ui.handlers.HandlerUtil;
  * Handles the export of ModelElements from a project.
  */
 public class ExportModelHandler extends AbstractHandler {
+	
+	private static final String FILE_EXTENSION = "ecm";
 
 	/**
 	 * These filter names are used to filter which files are displayed.
 	 */
-	public static final String[] FILTER_NAMES = { "EMFStore Project Files (*.ecm)", "All Files (*.*)" };
+	public static final String[] FILTER_NAMES = { "EMFStore Project Files (*." + FILE_EXTENSION + ")", "All Files (*.*)" };
 
 	/**
 	 * These filter extensions are used to filter which files are displayed.
 	 */
-	public static final String[] FILTER_EXTS = { "*.ecm", "*.*" };
+	public static final String[] FILTER_EXTS = { "*." + FILE_EXTENSION + ", *.*" };
 
 	private static final String EXPORT_MODEL_PATH = "org.eclipse.emf.emfstore.client.ui.exportModelPath";
 
@@ -142,7 +144,7 @@ public class ExportModelHandler extends AbstractHandler {
 		try {
 			// String initialFileName = projectSpace.getProjectName() + "@"
 			// + projectSpace.getBaseVersion().getIdentifier() + ".ucp";
-			String initialFileName = "ModelElement_" + modelElementName + ".ucm";
+			String initialFileName = "ModelElement_" + modelElementName + "." + FILE_EXTENSION;
 			dialog.setFileName(initialFileName);
 
 		} catch (NullPointerException e) {

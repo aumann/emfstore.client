@@ -34,7 +34,6 @@ import org.eclipse.emf.emfstore.server.model.versioning.events.PresentationSwitc
  * @author emueller
  * @author wesendon
  */
-// TODO: ChainSaw
 public class ECPObserver implements PostECPWorkspaceInitiator, TraceObserver, ModelElementOpenObserver,
 	FocusEventObserver, PresentationSwitchObserver {
 

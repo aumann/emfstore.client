@@ -122,8 +122,7 @@ public class TreeView extends ViewPart implements ISelectionListener { // implem
 		try {
 			ECPWorkspace workSpace = ECPWorkspaceManager.getInstance().getWorkSpace();
 			IDecoratorManager decoratorManager = PlatformUI.getWorkbench().getDecoratorManager();
-			viewer.setLabelProvider(new DecoratingLabelProvider(new TreeLabelProvider(), decoratorManager
-				.getLabelDecorator()));
+			viewer.setLabelProvider(new TreeLabelProvider().getLabelProvider());
 			// viewer.setLabelProvider(new TreeLabelProvider());
 			viewer.setContentProvider(new TreeContentProvider());
 			viewer.setUseHashlookup(true);

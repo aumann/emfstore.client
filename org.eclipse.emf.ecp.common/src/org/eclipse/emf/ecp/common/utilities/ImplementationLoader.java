@@ -33,17 +33,14 @@ public final class ImplementationLoader {
 		try {
 			result = type.getClassLoader().loadClass(name + "Impl").newInstance();
 		} catch (ClassNotFoundException e) {
-			// TODO: ChainSaw logging done
 			String msgException = "Class " + name + "Impl not found.";
 			Activator.getDefault().logException(msgException, e);
 			throw new RuntimeException(msgException, e);
 		} catch (InstantiationException e) {
-			// TODO: ChainSaw logging done
 			String msgException = "Could not instantiate class " + name + "Impl.";
 			Activator.getDefault().logException(msgException, e);
 			throw new RuntimeException(msgException, e);
 		} catch (IllegalAccessException e) {
-			// TODO: ChainSaw logging done
 			String msgException = "Could not access class " + name + "Impl.";
 			Activator.getDefault().logException(msgException, e);
 			throw new RuntimeException(msgException, e);

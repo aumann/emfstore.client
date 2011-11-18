@@ -113,7 +113,6 @@ public class ImportModelHandler extends AbstractHandler {
 			}
 			// BEGIN SUPRESS CATCH EXCEPTION
 		} catch (RuntimeException e) {
-			// TODO: ChainSaw logging done
 			Activator.getDefault().logException(e.getMessage(), e);
 			// END SUPRESS CATCH EXCEPTION
 		} finally {

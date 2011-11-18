@@ -63,7 +63,6 @@ public final class DialogHandler {
 		}
 		String string = stringBuilder.toString();
 		MessageDialog.openError(shell, title, string);
-		// TODO: ChainSaw logging done
 		Activator.getDefault().logWarning("An unexpected error in a ECP plugin occured.", cause);
 	}
 

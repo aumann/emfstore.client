@@ -36,7 +36,7 @@ public class ModelClassFilter extends ViewerFilter {
 		if (searchTerm == null || searchTerm.length() == 0) {
 			return true;
 		}
-		if (element instanceof EClass) {
+		if (element instanceof EClass && parentElement instanceof EPackage) {
 			return ((EClass) element).getName().toLowerCase().contains(searchTerm.toLowerCase())
 				|| ((EPackage) parentElement).getName().toLowerCase().contains(searchTerm.toLowerCase());
 		} else if (element instanceof EPackage) {
