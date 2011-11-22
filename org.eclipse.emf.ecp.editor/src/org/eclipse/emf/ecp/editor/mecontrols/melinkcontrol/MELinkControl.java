@@ -57,7 +57,7 @@ public class MELinkControl {
 	protected FormToolkit toolkit;
 	private org.eclipse.emf.ecp.editor.ModelElementChangeListener modelElementChangeListener;
 	private ECPModelelementContext context;
-
+	private IItemPropertyDescriptor pDescriptor;
 	public ECPModelelementContext getContext() {
 		return context;
 	}
@@ -66,12 +66,14 @@ public class MELinkControl {
 		this.context = context;
 	}
 
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	public Control createControl(final Composite parent, int style, IItemPropertyDescriptor itemPropertyDescriptor,
 		final EObject link, EObject contextModelElement, FormToolkit toolkit, ECPModelelementContext context) {
 		this.context = context;
+		pDescriptor=itemPropertyDescriptor;
 		Object feature = itemPropertyDescriptor.getFeature(link);
 		this.eReference = (EReference) feature;
 		this.link = link;
@@ -84,7 +86,9 @@ public class MELinkControl {
 	protected Control createControl(final Composite parent, int style) {
 		linkComposite = toolkit.createComposite(parent, style);
 		linkComposite.setLayout(new GridLayout(3, false));
-
+		if (!pDescriptor.canSetProperty(contextModelElement)) {
+			linkComposite.setEnabled(false);
+		}
 		createHyperlink(parent, style);
 		createDeleteAction(style);
 		return linkComposite;

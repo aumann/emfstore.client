@@ -121,6 +121,10 @@ public class MERichTextControl extends AbstractMEControl implements IValidatable
 		spec.grabExcessVerticalSpace = true;
 		spec.heightHint = 200;
 		text.setLayoutData(spec);
+
+		if (!getItemPropertyDescriptor().canSetProperty(getModelElement())) {
+			text.setEnabled(false);
+		}
 	}
 
 	private void createToolBar() {
