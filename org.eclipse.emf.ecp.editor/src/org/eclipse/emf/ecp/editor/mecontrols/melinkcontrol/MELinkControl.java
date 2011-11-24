@@ -46,8 +46,6 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
  */
 public class MELinkControl {
 
-	protected Composite linkComposite;
-	private Composite linkComposite;
 	private EReference eReference;
 	private Hyperlink hyperlink;
 	private ILabelProvider labelProvider;
@@ -55,10 +53,13 @@ public class MELinkControl {
 	private ImageHyperlink imageHyperlink;
 	private EObject link;
 	private EObject contextModelElement;
-	private FormToolkit toolkit;
 	private org.eclipse.emf.ecp.editor.ModelElementChangeListener modelElementChangeListener;
 	private ECPModelelementContext context;
 	private IItemPropertyDescriptor pDescriptor;
+
+	protected Composite linkComposite;
+	protected  FormToolkit toolkit;
+	
 	/**
 	 * Returns the {@link ECPModelelementContext}.
 	 * @return the {@link ECPModelelementContext}
@@ -112,7 +113,7 @@ public class MELinkControl {
 
 	}
 
-	private Control createControl(final Composite parent, int style) {
+	protected Control createControl(final Composite parent, int style) {
 		linkComposite = toolkit.createComposite(parent, style);
 		linkComposite.setLayout(new GridLayout(3, false));
 		if (!pDescriptor.canSetProperty(contextModelElement)) {
