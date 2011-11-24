@@ -190,6 +190,9 @@ public class MEMultiLinkControl extends AbstractMEControl {
 		createSectionToolbar(section, getToolkit());
 		composite = getToolkit().createComposite(section, style);
 		composite.setLayout(tableLayout);
+		if (!getItemPropertyDescriptor().canSetProperty(getModelElement())) {
+			composite.setEnabled(false);
+		}
 
 		rebuildLinkSection();
 

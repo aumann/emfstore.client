@@ -72,6 +72,9 @@ public class MESingleLinkControl extends AbstractMEControl {
 		this.eReference = (EReference) feature;
 		composite = getToolkit().createComposite(parent, style);
 		composite.setLayout(new GridLayout(3, false));
+		if (!getItemPropertyDescriptor().canSetProperty(getModelElement())) {
+			composite.setEnabled(false);
+		}
 		GridLayoutFactory.fillDefaults().spacing(0, 0).numColumns(3).equalWidth(false).applyTo(composite);
 		this.parent = parent;
 		this.style = style;

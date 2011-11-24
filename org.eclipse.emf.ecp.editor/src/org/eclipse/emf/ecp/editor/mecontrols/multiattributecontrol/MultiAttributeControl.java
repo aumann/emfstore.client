@@ -95,7 +95,9 @@ public abstract class MultiAttributeControl extends AbstractMEControl {
 		setComposite(getToolkit().createComposite(parent, style | SWT.BORDER));
 		configureGridLayout();
 		getComposite().setLayout(gridLayout);
-
+		if (!getItemPropertyDescriptor().canSetProperty(getModelElement())) {
+			getComposite().setEnabled(false);
+		}
 		// re-set upper bound... needed because canRender() was called in an other instance
 		upperBound = feature.getUpperBound();
 

@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.emf.ecp.navigator.commands;
 
+import java.awt.Container;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -136,9 +138,11 @@ public class DynamicContainmentCommands extends CompoundContributionItem {
 		// every command takes its corresponding EClass type as parameter
 		for (EReference containment : containments) {
 
-			// do not create any commands for containments with multiplicity one
+
 			if (!containment.isMany()) {
-				continue;
+				if (selectedME.eGet(containment) != null ) {
+					continue;
+				}
 			}
 
 			try {
