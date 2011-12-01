@@ -47,171 +47,169 @@ import org.eclipse.ui.menus.CommandContributionItemParameter;
  */
 public class DynamicContainmentCommands extends CompoundContributionItem {
 
- private static AdapterFactoryLabelProvider labelProvider = new AdapterFactoryLabelProvider(
-  new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
+	private static AdapterFactoryLabelProvider labelProvider = new AdapterFactoryLabelProvider(
+		new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
 
- private static final String COMMAND_ID = "org.eclipse.emf.ecp.navigator.createContaiment";
- private EObject selectedME;
+	private static final String COMMAND_ID = "org.eclipse.emf.ecp.navigator.createContaiment";
+	private EObject selectedME;
 
- /**
-  * . {@inheritDoc}
-  */
- @Override
- protected IContributionItem[] getContributionItems() {
-  // 1. get selected EObject
-  selectedME = UiUtil.getSelectedEObject();
-  if (selectedME == null) {
-   return new IContributionItem[0];
-  }
-  try {
-   if (ECPWorkspaceManager.getInstance().getWorkSpace().isRootObject(selectedME)) {
-    return createNewWizard(selectedME.eClass());
-   }
-  } catch (NoWorkspaceException e) {
-   Activator.getDefault().logException(e.getMessage(), e);
-  }
+	/**
+	 * . {@inheritDoc}
+	 */
+	@Override
+	protected IContributionItem[] getContributionItems() {
+		// 1. get selected EObject
+		selectedME = UiUtil.getSelectedEObject();
+		if (selectedME == null) {
+			return new IContributionItem[0];
+		}
+		try {
+			if (ECPWorkspaceManager.getInstance().getWorkSpace().isRootObject(selectedME)) {
+				return createNewWizard(selectedME.eClass());
+			}
+		} catch (NoWorkspaceException e) {
+			Activator.getDefault().logException(e.getMessage(), e);
+		}
 
-  AdapterFactoryItemDelegator delegator = new AdapterFactoryItemDelegator(new ComposedAdapterFactory(
-   ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
+		AdapterFactoryItemDelegator delegator = new AdapterFactoryItemDelegator(new ComposedAdapterFactory(
+			ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
 
-  @SuppressWarnings("unchecked")
-  List<CommandParameter> commandParameters = (List<CommandParameter>) delegator.getNewChildDescriptors(
-   selectedME, AdapterFactoryEditingDomain.getEditingDomainFor(selectedME), null);
-  if (commandParameters.size() > 5) {
-   return createNewWizard(selectedME.eClass());
-  }
+		@SuppressWarnings("unchecked")
+		List<CommandParameter> commandParameters = (List<CommandParameter>) delegator.getNewChildDescriptors(
+			selectedME, AdapterFactoryEditingDomain.getEditingDomainFor(selectedME), null);
+		
 
-  IContributionItem[] commands = createCommands(commandParameters);
-  return commands;
+		IContributionItem[] commands = createCommands(commandParameters);
+		return commands;
 
- }
+	}
 
- private IContributionItem[] createNewWizard(EClass eClass) {
-  CommandContributionItemParameter commandParam = new CommandContributionItemParameter(PlatformUI.getWorkbench(),
-   null, "org.eclipse.emf.ecp.navigator.newModelElementWizard", CommandContributionItem.STYLE_PUSH);
-  List<IContributionItem> commands = new ArrayList<IContributionItem>();
-  Map<Object, Object> commandParams = new HashMap<Object, Object>();
+	private IContributionItem[] createNewWizard(EClass eClass) {
+		CommandContributionItemParameter commandParam = new CommandContributionItemParameter(PlatformUI.getWorkbench(),
+			null, "org.eclipse.emf.ecp.navigator.newModelElementWizard", CommandContributionItem.STYLE_PUSH);
+		List<IContributionItem> commands = new ArrayList<IContributionItem>();
+		Map<Object, Object> commandParams = new HashMap<Object, Object>();
 
-  commandParams.put(NewModelElementWizardHandler.COMMAND_ECLASS_PARAM, eClass);
-  commandParam.label = "New Model Element";
-  // TODO: Replace
-  Image image = labelProvider.getImage(eClass);
-  ImageDescriptor imageDescriptor = ImageDescriptor.createFromImage(image);
-  commandParam.icon = imageDescriptor;
+		commandParams.put(NewModelElementWizardHandler.COMMAND_ECLASS_PARAM, eClass);
+		commandParam.label = "New Model Element";
+		// TODO: Replace
+		Image image = labelProvider.getImage(eClass);
+		ImageDescriptor imageDescriptor = ImageDescriptor.createFromImage(image);
+		commandParam.icon = imageDescriptor;
 
-  // create command
-  commandParam.parameters = commandParams;
-  CommandContributionItem command = new CommandContributionItem(commandParam);
-  commands.add(command);
+		// create command
+		commandParam.parameters = commandParams;
+		CommandContributionItem command = new CommandContributionItem(commandParam);
+		commands.add(command);
 
-  return commands.toArray(new IContributionItem[commands.size()]);
- }
+		return commands.toArray(new IContributionItem[commands.size()]);
+	}
 
- /**
-  * .
-  * 
-  * @param commandParameters a list of EReference of containments of selected ME
-  * @return an array of IContributionsItem (commands) to create different types of containments.
-  */
- private IContributionItem[] createCommands(List<CommandParameter> commandParameters) {
+	/**
+	 * .
+	 * 
+	 * @param commandParameters a list of EReference of containments of selected ME
+	 * @return an array of IContributionsItem (commands) to create different types of containments.
+	 */
+	private IContributionItem[] createCommands(List<CommandParameter> commandParameters) {
 
-  List<IContributionItem> commands = new ArrayList<IContributionItem>();
+		List<IContributionItem> commands = new ArrayList<IContributionItem>();
 
-  for (CommandParameter commandParameter : commandParameters) {
-   EReference containment = commandParameter.getEReference();
+		for (CommandParameter commandParameter : commandParameters) {
+			EReference containment = commandParameter.getEReference();
 
-   if (!containment.isMany()) {
-    if (selectedME.eGet(containment) != null) {
-     continue;
-    }
-   }
+			if (!containment.isMany()) {
+				if (selectedME.eGet(containment) != null) {
+					continue;
+				}
+			}
 
-   try {
-    if (ECPWorkspaceManager.getInstance().getWorkSpace().getProject(selectedME)
-     .getMetaModelElementContext().isNonDomainElement(containment.getEReferenceType())) {
-     continue;
-    }
-   } catch (NoWorkspaceException e) {
-    Activator.getDefault().logException(e.getMessage(), e);
-   }
+			try {
+				if (ECPWorkspaceManager.getInstance().getWorkSpace().getProject(selectedME)
+					.getMetaModelElementContext().isNonDomainElement(containment.getEReferenceType())) {
+					continue;
+				}
+			} catch (NoWorkspaceException e) {
+				Activator.getDefault().logException(e.getMessage(), e);
+			}
 
-   // if containment type is abstract, create a list of
-   // commands for its subclasses
-//   if (containment.getEReferenceType().isAbstract() || containment.getEReferenceType().isInterface()) {
-//
-//    // note that a reference of commands array is passed,
-//    // corresponding commands are created and added to it,
-//    // then continue
-//    // TODO: fix
-//    addCommandsForSubTypes(containment.getEReferenceType(), commands);
-//    continue;
-//   }
+			// if containment type is abstract, create a list of
+			// commands for its subclasses
+			// if (containment.getEReferenceType().isAbstract() || containment.getEReferenceType().isInterface()) {
+			//
+			// // note that a reference of commands array is passed,
+			// // corresponding commands are created and added to it,
+			// // then continue
+			// // TODO: fix
+			// addCommandsForSubTypes(containment.getEReferenceType(), commands);
+			// continue;
+			// }
 
-   CommandContributionItemParameter commandParam = new CommandContributionItemParameter(
-    PlatformUI.getWorkbench(), null, COMMAND_ID, CommandContributionItem.STYLE_PUSH);
+			CommandContributionItemParameter commandParam = new CommandContributionItemParameter(
+				PlatformUI.getWorkbench(), null, COMMAND_ID, CommandContributionItem.STYLE_PUSH);
 
-   Map<Object, Object> commandParams = new HashMap<Object, Object>();
+			Map<Object, Object> commandParams = new HashMap<Object, Object>();
 
-   Object type = commandParameter.getValue();
-   if (type instanceof EObject) {
-    commandParams.put(CreateContainmentHandler.COMMAND_ECLASS_PARAM, ((EObject) type).eClass());
-    commandParam.label = "New " + ((EObject) type).eClass().getName();
-    commandParam.icon = getImage(((EObject) type).eClass());
-   } else {
-    commandParams.put(CreateContainmentHandler.COMMAND_ECLASS_PARAM, containment.getEReferenceType());
-    commandParam.label = "New " + containment.getEReferenceType().getName();
-    commandParam.icon = getImage(containment.getEReferenceType());
+			Object type = commandParameter.getValue();
+			if (type instanceof EObject) {
+				commandParams.put(CreateContainmentHandler.COMMAND_ECLASS_PARAM, ((EObject) type).eClass());
+				commandParam.label = "New " + ((EObject) type).eClass().getName();
+				commandParam.icon = getImage(((EObject) type).eClass());
+			} else {
+				commandParams.put(CreateContainmentHandler.COMMAND_ECLASS_PARAM, containment.getEReferenceType());
+				commandParam.label = "New " + containment.getEReferenceType().getName();
+				commandParam.icon = getImage(containment.getEReferenceType());
 
-   }
-   // commandParam.label = "New " + containment.getEReferenceType().getName();
+			}
+			// commandParam.label = "New " + containment.getEReferenceType().getName();
 
-   // create command
-   commandParam.parameters = commandParams;
-   CommandContributionItem command = new CommandContributionItem(commandParam);
-   commands.add(command);
-  }
+			// create command
+			commandParam.parameters = commandParams;
+			CommandContributionItem command = new CommandContributionItem(commandParam);
+			commands.add(command);
+		}
 
-  return commands.toArray(new IContributionItem[commands.size()]);
+		return commands.toArray(new IContributionItem[commands.size()]);
 
- }
+	}
 
- private ImageDescriptor getImage(EClass eClass) {
-  EObject instance = eClass.getEPackage().getEFactoryInstance().create(eClass);
-  Image image = labelProvider.getImage(instance);
-  ImageDescriptor imageDescriptor = ImageDescriptor.createFromImage(image);
-  return imageDescriptor;
- }
+	private ImageDescriptor getImage(EClass eClass) {
+		EObject instance = eClass.getEPackage().getEFactoryInstance().create(eClass);
+		Image image = labelProvider.getImage(instance);
+		ImageDescriptor imageDescriptor = ImageDescriptor.createFromImage(image);
+		return imageDescriptor;
+	}
 
- /**
-  * If reference type is abstract create commands for its subclasses.
-  * 
-  * @param refClass
-  * @param commands
-  */
- private void addCommandsForSubTypes(EClass refClass, List<IContributionItem> commands) {
+	/**
+	 * If reference type is abstract create commands for its subclasses.
+	 * 
+	 * @param refClass
+	 * @param commands
+	 */
+	private void addCommandsForSubTypes(EClass refClass, List<IContributionItem> commands) {
 
-  // TODO EMFPlainObjectTransition: do not create commands for subclasses of ModelElement
-  // if (refClass.equals(MetamodelPackage.eINSTANCE.getModelElement())) {
-  // return;
-  // }
+		// TODO EMFPlainObjectTransition: do not create commands for subclasses of ModelElement
+		// if (refClass.equals(MetamodelPackage.eINSTANCE.getModelElement())) {
+		// return;
+		// }
 
-  Set<EClass> eClazz = CommonUtil.getAllSubEClasses(refClass);
-  eClazz.remove(refClass);
-  for (EClass eClass : eClazz) {
-   CommandContributionItemParameter commandParam = new CommandContributionItemParameter(
-    PlatformUI.getWorkbench(), null, COMMAND_ID, CommandContributionItem.STYLE_PUSH);
+		Set<EClass> eClazz = CommonUtil.getAllSubEClasses(refClass);
+		eClazz.remove(refClass);
+		for (EClass eClass : eClazz) {
+			CommandContributionItemParameter commandParam = new CommandContributionItemParameter(
+				PlatformUI.getWorkbench(), null, COMMAND_ID, CommandContributionItem.STYLE_PUSH);
 
-   Map<Object, Object> commandParams = new HashMap<Object, Object>();
-   commandParams.put(CreateContainmentHandler.COMMAND_ECLASS_PARAM, eClass);
-   commandParam.label = "New " + eClass.getName();
-   commandParam.icon = getImage(eClass);
+			Map<Object, Object> commandParams = new HashMap<Object, Object>();
+			commandParams.put(CreateContainmentHandler.COMMAND_ECLASS_PARAM, eClass);
+			commandParam.label = "New " + eClass.getName();
+			commandParam.icon = getImage(eClass);
 
-   // create command
-   commandParam.parameters = commandParams;
-   CommandContributionItem command = new CommandContributionItem(commandParam);
-   commands.add(command);
-  }
+			// create command
+			commandParam.parameters = commandParams;
+			CommandContributionItem command = new CommandContributionItem(commandParam);
+			commands.add(command);
+		}
 
- }
+	}
 
 }
