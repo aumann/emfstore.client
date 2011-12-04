@@ -77,7 +77,6 @@ public class DynamicContainmentCommands extends CompoundContributionItem {
 		@SuppressWarnings("unchecked")
 		List<CommandParameter> commandParameters = (List<CommandParameter>) delegator.getNewChildDescriptors(
 			selectedME, AdapterFactoryEditingDomain.getEditingDomainFor(selectedME), null);
-		
 
 		IContributionItem[] commands = createCommands(commandParameters);
 		return commands;
@@ -114,63 +113,81 @@ public class DynamicContainmentCommands extends CompoundContributionItem {
 	private IContributionItem[] createCommands(List<CommandParameter> commandParameters) {
 
 		List<IContributionItem> commands = new ArrayList<IContributionItem>();
-
+		Map<String, List<CommandParameter>> mapping = new HashMap<String, List<CommandParameter>>();
 		for (CommandParameter commandParameter : commandParameters) {
-			EReference containment = commandParameter.getEReference();
-
-			if (!containment.isMany()) {
-				if (selectedME.eGet(containment) != null) {
-					continue;
+			if (commandParameter.getValue() instanceof EObject) {
+				EClass eClass = ((EObject) commandParameter.getValue()).eClass();
+				List<CommandParameter> list = mapping.get(eClass.getName());
+				if (list == null) {
+					list = new ArrayList<CommandParameter>();
+					mapping.put(eClass.getName(), list);
 				}
+				list.add(commandParameter);
 			}
-
-			try {
-				if (ECPWorkspaceManager.getInstance().getWorkSpace().getProject(selectedME)
-					.getMetaModelElementContext().isNonDomainElement(containment.getEReferenceType())) {
-					continue;
-				}
-			} catch (NoWorkspaceException e) {
-				Activator.getDefault().logException(e.getMessage(), e);
-			}
-
-			// if containment type is abstract, create a list of
-			// commands for its subclasses
-			// if (containment.getEReferenceType().isAbstract() || containment.getEReferenceType().isInterface()) {
-			//
-			// // note that a reference of commands array is passed,
-			// // corresponding commands are created and added to it,
-			// // then continue
-			// // TODO: fix
-			// addCommandsForSubTypes(containment.getEReferenceType(), commands);
-			// continue;
-			// }
-
-			CommandContributionItemParameter commandParam = new CommandContributionItemParameter(
-				PlatformUI.getWorkbench(), null, COMMAND_ID, CommandContributionItem.STYLE_PUSH);
-
-			Map<Object, Object> commandParams = new HashMap<Object, Object>();
-
-			Object type = commandParameter.getValue();
-			if (type instanceof EObject) {
-				commandParams.put(CreateContainmentHandler.COMMAND_ECLASS_PARAM, ((EObject) type).eClass());
-				commandParam.label = "New " + ((EObject) type).eClass().getName();
-				commandParam.icon = getImage(((EObject) type).eClass());
-			} else {
-				commandParams.put(CreateContainmentHandler.COMMAND_ECLASS_PARAM, containment.getEReferenceType());
-				commandParam.label = "New " + containment.getEReferenceType().getName();
-				commandParam.icon = getImage(containment.getEReferenceType());
-
-			}
-			// commandParam.label = "New " + containment.getEReferenceType().getName();
-
-			// create command
-			commandParam.parameters = commandParams;
-			CommandContributionItem command = new CommandContributionItem(commandParam);
-			commands.add(command);
 		}
+		for (String eclass : mapping.keySet()) {
+			List<CommandParameter> list = mapping.get(eclass);
+			boolean showReferenceLable= (list.size()>1);
+			for (CommandParameter commandParameter : list) {
+				EReference containment = commandParameter.getEReference();
 
-		return commands.toArray(new IContributionItem[commands.size()]);
+				if (!containment.isMany()) {
+					if (selectedME.eGet(containment) != null) {
+						continue;
+					}
+				}
 
+				try {
+					if (ECPWorkspaceManager.getInstance().getWorkSpace().getProject(selectedME)
+						.getMetaModelElementContext().isNonDomainElement(containment.getEReferenceType())) {
+						continue;
+					}
+				} catch (NoWorkspaceException e) {
+					Activator.getDefault().logException(e.getMessage(), e);
+				}
+
+				// if containment type is abstract, create a list of
+				// commands for its subclasses
+				// if (containment.getEReferenceType().isAbstract() || containment.getEReferenceType().isInterface()) {
+				//
+				// // note that a reference of commands array is passed,
+				// // corresponding commands are created and added to it,
+				// // then continue
+				// // TODO: fix
+				// addCommandsForSubTypes(containment.getEReferenceType(), commands);
+				// continue;
+				// }
+
+				CommandContributionItemParameter commandParam = new CommandContributionItemParameter(
+					PlatformUI.getWorkbench(), null, COMMAND_ID, CommandContributionItem.STYLE_PUSH);
+
+				Map<Object, Object> commandParams = new HashMap<Object, Object>();
+
+				Object type = commandParameter.getValue();
+				if (type instanceof EObject) {
+					commandParams.put(CreateContainmentHandler.COMMAND_ECLASS_PARAM, ((EObject) type).eClass());
+					commandParams.put(CreateContainmentHandler.COMMAND_ECREFERENCE_PARAM, containment.getName());
+					commandParam.label = "New " + ((EObject) type).eClass().getName();
+					if(showReferenceLable){
+						commandParam.label = commandParam.label +" (" +containment.getName()+")";
+					}
+					commandParam.icon = getImage(((EObject) type).eClass());
+				} else {
+					commandParams.put(CreateContainmentHandler.COMMAND_ECLASS_PARAM, containment.getEReferenceType());
+					commandParam.label = "New " + containment.getEReferenceType().getName();
+					commandParam.icon = getImage(containment.getEReferenceType());
+
+				}
+				
+
+				// create command
+				commandParam.parameters = commandParams;
+				CommandContributionItem command = new CommandContributionItem(commandParam);
+				commands.add(command);
+			}
+
+		}
+			return commands.toArray(new IContributionItem[commands.size()]);
 	}
 
 	private ImageDescriptor getImage(EClass eClass) {

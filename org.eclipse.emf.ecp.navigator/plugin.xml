@@ -201,6 +201,12 @@
                optional="true"
                typeId="org.eclipse.emf.ecp.navigator.eClassType">
          </commandParameter>
+         <commandParameter
+               id="org.eclipse.emf.ecp.navigator.eReferenceParameter"
+               name="eReferenceParameter"
+               optional="true"
+               typeId="org.eclipse.emf.ecp.navigator.eReferenceType">
+         </commandParameter>
   
       </command>
              <command
@@ -222,6 +228,11 @@
                   id="org.eclipse.emf.ecp.navigator.exportModel"
                   name="Export model">
             </command>
+            <commandParameterType
+                  converter="org.eclipse.emf.ecp.navigator.commands.EReferenceTypeConverter"
+                  id="org.eclipse.emf.ecp.navigator.eReferenceType"
+                  type="java.lang.String">
+            </commandParameterType>
 
    </extension>
 </plugin>
