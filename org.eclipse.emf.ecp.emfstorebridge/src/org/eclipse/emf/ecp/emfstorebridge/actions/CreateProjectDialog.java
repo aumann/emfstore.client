@@ -15,8 +15,6 @@ import org.eclipse.emf.emfstore.client.model.ProjectSpace;
 import org.eclipse.emf.emfstore.client.model.Usersession;
 import org.eclipse.emf.emfstore.client.model.WorkspaceManager;
 import org.eclipse.emf.emfstore.client.model.util.EMFStoreCommand;
-import org.eclipse.emf.emfstore.client.ui.commands.handler.controller.UIShareProjectController;
-import org.eclipse.emf.emfstore.client.ui.commands.handler.handler.ShareProjectHandler;
 import org.eclipse.emf.emfstore.server.exceptions.AccessControlException;
 import org.eclipse.emf.emfstore.server.exceptions.EmfStoreException;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -99,15 +97,19 @@ public class CreateProjectDialog extends TitleAreaDialog {
 
 			@Override
 			protected void doRun() {
-				projectSpace = WorkspaceManager.getInstance().getCurrentWorkspace()
-					.createLocalProject(txtProjectName.getText(), txtProjectDesc.getText());
-				
-				if (session != null) {
-					try {
-						new UIShareProjectController(getShell()).share(projectSpace);
-					} catch (EmfStoreException e) {
-						DialogHandler.showExceptionDialog(e);			
+				try {
+
+					if (session != null) {
+						session.createProject(txtProjectName.getText(), txtProjectDesc.getText());
+					} else {
+						projectSpace = WorkspaceManager.getInstance().getCurrentWorkspace()
+							.createLocalProject(txtProjectName.getText(), txtProjectDesc.getText());
 					}
+
+				} catch (AccessControlException e) {
+					DialogHandler.showExceptionDialog(e);
+				} catch (EmfStoreException e) {
+					DialogHandler.showExceptionDialog(e);
 				}
 			}
 
