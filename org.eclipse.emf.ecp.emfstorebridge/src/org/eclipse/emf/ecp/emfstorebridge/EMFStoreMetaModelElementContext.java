@@ -16,7 +16,6 @@ import org.eclipse.emf.ecp.common.model.AbstractECPMetaModelElementContext;
 import org.eclipse.emf.ecp.common.model.ECPAssociationClassElement;
 import org.eclipse.emf.ecp.common.model.ECPMetaModelElementContext;
 import org.eclipse.emf.emfstore.common.model.AssociationClassElement;
-import org.eclipse.emf.emfstore.common.model.NonDomainElement;
 import org.eclipse.emf.emfstore.common.model.util.ModelUtil;
 
 /**
