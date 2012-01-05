@@ -3,7 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Navigator Editor-Bridge
 Bundle-SymbolicName: org.eclipse.emf.ecp.navigatoreditorbridge;singleton:=true
 Bundle-Version: 0.8.9.M911
-Bundle-Activator: org.eclipse.emf.ecp.navigatoreditorbridge.ActivatorRequire-Bundle: org.eclipse.ui,
+Bundle-Activator: org.eclipse.emf.ecp.navigatoreditorbridge.Activator
+Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.emf.ecp.editor,
  org.eclipse.emf.ecp.navigator
