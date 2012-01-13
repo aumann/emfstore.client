@@ -34,7 +34,6 @@ import org.eclipse.emf.ecp.common.model.NoWorkspaceException;
 import org.eclipse.emf.ecp.common.model.workSpaceModel.ECPProject;
 import org.eclipse.emf.ecp.common.model.workSpaceModel.ECPWorkspace;
 import org.eclipse.emf.ecp.common.model.workSpaceModel.WorkSpaceModelPackage;
-import org.eclipse.emf.ecp.common.observer.FocusEventObserver;
 import org.eclipse.emf.ecp.common.utilities.ActionHelper;
 import org.eclipse.emf.ecp.validation.filter.FilterTableViewer;
 import org.eclipse.emf.ecp.validation.filter.ValidationFilter;
@@ -300,7 +299,7 @@ public class ValidationView extends ViewPart {
 	 */
 	@Override
 	public void setFocus() {
-		ECPWorkspaceManager.getObserverBus().notify(FocusEventObserver.class).onFocusEvent(viewId);
+		
 	}
 
 	/**

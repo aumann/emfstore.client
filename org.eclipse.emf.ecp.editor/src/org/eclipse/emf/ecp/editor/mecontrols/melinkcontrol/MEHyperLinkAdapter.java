@@ -12,8 +12,6 @@ package org.eclipse.emf.ecp.editor.mecontrols.melinkcontrol;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecp.common.model.ECPModelelementContext;
-import org.eclipse.emf.ecp.common.model.ECPWorkspaceManager;
-import org.eclipse.emf.ecp.common.observer.TraceObserver;
 import org.eclipse.emf.ecp.common.utilities.ActionHelper;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
@@ -27,8 +25,6 @@ import org.eclipse.ui.forms.events.IHyperlinkListener;
 public class MEHyperLinkAdapter extends HyperlinkAdapter implements IHyperlinkListener {
 
 	private EObject target;
-	private final EObject source;
-	private final String featureName;
 
 	/**
 	 * Default constructor.
@@ -41,8 +37,6 @@ public class MEHyperLinkAdapter extends HyperlinkAdapter implements IHyperlinkLi
 	public MEHyperLinkAdapter(EObject target, EObject source, String featureName) {
 		super();
 		this.target = target;
-		this.source = source;
-		this.featureName = featureName;
 	}
 
 	/**
@@ -51,9 +45,6 @@ public class MEHyperLinkAdapter extends HyperlinkAdapter implements IHyperlinkLi
 	@Override
 	public void linkActivated(HyperlinkEvent event) {
 		ActionHelper.openModelElement(target, "org.eclipse.emf.ecp.editor");
-		ECPWorkspaceManager.getObserverBus().notify(TraceObserver.class)
-			.onTrace(source, target, featureName, "org.eclipse.emf.ecp.editor");
-
 		super.linkActivated(event);
 	}
 }
