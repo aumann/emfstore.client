@@ -174,7 +174,7 @@ public abstract class AbstractECPMetaModelElementContext implements ECPMetaModel
 				if (!isKnownPackage(entry.getKey())) {
 					// This is used to discover known packages which can be added to
 					// know packages then.
-					 System.out.println("AAAAAAAAAAAAAAAAAAAAAA:::  \"" + entry.getKey() + "\"" + ",");
+					// System.out.println("\"" + entry.getKey() + "\"" + ",");
 					try {
 						EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(entry.getKey());
 						guessedPackages.addAll(getAllModelElementEClasses(ePackage));
