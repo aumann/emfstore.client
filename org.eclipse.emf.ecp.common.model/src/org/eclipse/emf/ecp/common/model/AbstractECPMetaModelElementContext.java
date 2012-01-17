@@ -174,7 +174,7 @@ public abstract class AbstractECPMetaModelElementContext implements ECPMetaModel
 				if (!isKnownPackage(entry.getKey())) {
 					// This is used to discover known packages which can be added to
 					// know packages then.
-					// System.out.println("\"" + entry.getKey() + "\"" + ",");
+					 System.out.println("AAAAAAAAAAAAAAAAAAAAAA:::  \"" + entry.getKey() + "\"" + ",");
 					try {
 						EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(entry.getKey());
 						guessedPackages.addAll(getAllModelElementEClasses(ePackage));
@@ -242,7 +242,14 @@ public abstract class AbstractECPMetaModelElementContext implements ECPMetaModel
 			"http://www.eclipse.org/OCL2/1.0.0/oclstdlib", "http://unicase.org/esmodel/versioning/events/server/",
 			"http://unicase.org/emfstore/esmodel/url", "http://www.eclipse.org/gmf/2006/mappings",
 			"http://www.eclipse.org/OCL2/1.0.0/ocl", "http://unicase.org/esmodel/versioning/operations/semantic",
-			"http://www.eclipse.org/OCL2/1.0.0/ocl/utilities", "http://www.eclipse.org/uml2/2.2.0/GenModel" };
+			"http://www.eclipse.org/OCL2/1.0.0/ocl/utilities", "http://www.eclipse.org/uml2/2.2.0/GenModel",
+			"http://eclipse.org/emf/emfstore/server/model/versioning", "http://eclipse.org/emf/emfstore/server/model/url",
+			"http://eclipse.org/emf/emfstore/client/model", "urn:model.ecore", "http://eclipse.org/emf/emfstore/server/model/notification",
+			"http://eclipse.org/emf/ecp/common/model/workspaceModel", "http://eclipse.org/emf/emfstore/server/model/versioning/events",
+			"http://eclipse.org/emf/emfstore/server/model/roles", "http://eclipse.org/emf/emfstore/server/model/versioning/operations", 
+			"http://eclipse.org/emf/emfstore/server/model/versioning/events/server/", "http://eclipse.org/emf/emfstore/server/model",
+			"http://eclipse.org/emf/emfstore/server/model/accesscontrol", "http://eclipse.org/emf/emfstore/common/model",
+			"http://eclipse.org/emf/emfstore/server/model/versioning/operations/semantic"};
 		Set<String> knownPackages = new HashSet<String>(Arrays.asList(elements));
 		return knownPackages.contains(key);
 	}
