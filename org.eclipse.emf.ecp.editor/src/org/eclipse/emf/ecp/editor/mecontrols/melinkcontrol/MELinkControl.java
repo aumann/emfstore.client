@@ -56,6 +56,7 @@ public class MELinkControl {
 	private org.eclipse.emf.ecp.editor.ModelElementChangeListener modelElementChangeListener;
 	private ECPModelelementContext context;
 	private IItemPropertyDescriptor pDescriptor;
+	private ComposedAdapterFactory adapterFactory;
 
 	protected Composite linkComposite;
 	protected  FormToolkit toolkit;
@@ -142,8 +143,9 @@ public class MELinkControl {
 	}
 
 	private void createHyperlink(final Composite parent, int style) {
+		adapterFactory =new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE); 
 		AdapterFactoryLabelProvider adapterFactoryLabelProvider = new AdapterFactoryLabelProvider(
-			new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
+			adapterFactory);
 		IDecoratorManager decoratorManager = PlatformUI.getWorkbench().getDecoratorManager();
 		labelProvider = new DecoratingLabelProvider(adapterFactoryLabelProvider, decoratorManager.getLabelDecorator());
 		labelProviderListener = new ILabelProviderListener() {
@@ -208,6 +210,9 @@ public class MELinkControl {
 		}
 		if (linkComposite != null) {
 			linkComposite.dispose();
+		}
+		if (adapterFactory != null) {
+			adapterFactory.dispose();
 		}
 	}
 

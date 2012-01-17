@@ -67,6 +67,7 @@ public class TreeView extends ViewPart implements ISelectionListener { // implem
 	private ECPWorkspace currentWorkspace;
 	private AdapterImpl workspaceListenerAdapter;
 	private boolean internalSelectionEvent;
+	private TreeLabelProvider labelProvider;
 
 	/**
 	 * Constructor.
@@ -106,6 +107,9 @@ public class TreeView extends ViewPart implements ISelectionListener { // implem
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().removeSelectionListener(this);
 		getSite().getPage().removePartListener(partListener);
 		currentWorkspace.eAdapters().remove(workspaceListenerAdapter);
+		if (labelProvider != null) {
+			labelProvider.dispose();
+		}
 		super.dispose();
 	}
 
@@ -119,7 +123,8 @@ public class TreeView extends ViewPart implements ISelectionListener { // implem
 		try {
 			ECPWorkspace workSpace = ECPWorkspaceManager.getInstance().getWorkSpace();
 			IDecoratorManager decoratorManager = PlatformUI.getWorkbench().getDecoratorManager();
-			viewer.setLabelProvider(new TreeLabelProvider().getLabelProvider());
+			labelProvider = new TreeLabelProvider();
+			viewer.setLabelProvider(labelProvider.getLabelProvider());
 			// viewer.setLabelProvider(new TreeLabelProvider());
 			viewer.setContentProvider(new TreeContentProvider());
 			viewer.setUseHashlookup(true);

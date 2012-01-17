@@ -16,6 +16,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.ColumnViewer;
+import org.eclipse.jface.viewers.ViewerColumn;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -26,14 +28,16 @@ import org.eclipse.swt.graphics.Image;
  */
 public class ValidationLabelProvider extends ColumnLabelProvider {
 	private AdapterFactoryLabelProvider adapterFactoryLabelProvider;
+	private ComposedAdapterFactory adapterFactory;
 
 	/**
 	 * Default constructor.
 	 */
 	public ValidationLabelProvider() {
 		super();
-		this.adapterFactoryLabelProvider = new AdapterFactoryLabelProvider(new ComposedAdapterFactory(
-			ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
+		adapterFactory = new ComposedAdapterFactory(
+				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		adapterFactoryLabelProvider = new AdapterFactoryLabelProvider(adapterFactory);
 	}
 
 	/**
@@ -65,5 +69,14 @@ public class ValidationLabelProvider extends ColumnLabelProvider {
 		}
 		return super.getText(object);
 	}
+
+	@Override
+	public void dispose(ColumnViewer viewer, ViewerColumn column) {
+		if (adapterFactory!=null) {
+			adapterFactory.dispose();
+		}
+		super.dispose(viewer, column);
+	}
+	
 
 }

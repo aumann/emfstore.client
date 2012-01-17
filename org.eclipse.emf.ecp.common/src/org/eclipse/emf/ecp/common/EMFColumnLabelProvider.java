@@ -27,6 +27,7 @@ import org.eclipse.ui.PlatformUI;
 public class EMFColumnLabelProvider extends ColumnLabelProvider implements IColorProvider {
 
 	private DecoratingLabelProvider decoratingLabelProvider;
+	private ComposedAdapterFactory adapterFactory;
 
 	/**
 	 * . Constructor
@@ -34,8 +35,9 @@ public class EMFColumnLabelProvider extends ColumnLabelProvider implements IColo
 	public EMFColumnLabelProvider() {
 		super();
 		IDecoratorManager decoratorManager = PlatformUI.getWorkbench().getDecoratorManager();
+		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		decoratingLabelProvider = new DecoratingLabelProvider(new AdapterFactoryLabelProvider(
-			new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE)),
+			adapterFactory),
 			decoratorManager.getLabelDecorator());
 	}
 
@@ -58,6 +60,9 @@ public class EMFColumnLabelProvider extends ColumnLabelProvider implements IColo
 	@Override
 	public void dispose() {
 		super.dispose();
+		if (adapterFactory!=null) {
+			adapterFactory.dispose();
+		}
 	}
 
 	/**

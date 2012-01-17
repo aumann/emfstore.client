@@ -71,6 +71,7 @@ public class AssociationClassLink extends MELinkControl {
 	private ShortLabelProvider shortLabelProvider = new ShortLabelProvider();
 	private EReference eReference;
 	private Composite parent;
+	private ComposedAdapterFactory adapterFactory;
 
 	/**
 	 * {@inheritDoc}
@@ -171,8 +172,9 @@ public class AssociationClassLink extends MELinkControl {
 		delAssociationListener = new MEHyperLinkDeleteAdapter(modelElement, eReference, association, getContext());
 		// listen for changes of the goal reference instance
 		associationChangeListener = new AssociationChangeListener(association);
+		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		AdapterFactoryLabelProvider adapterFactoryLabelProvider = new AdapterFactoryLabelProvider(
-			new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
+			adapterFactory);
 		IDecoratorManager decoratorManager = PlatformUI.getWorkbench().getDecoratorManager();
 		labelProvider = new DecoratingLabelProvider(adapterFactoryLabelProvider, decoratorManager.getLabelDecorator());
 		imgHyperlink = toolkit.createImageHyperlink(composite, style);
@@ -218,6 +220,9 @@ public class AssociationClassLink extends MELinkControl {
 		}
 		if (composite != null) {
 			composite.dispose();
+		}
+		if (adapterFactory != null) {
+			adapterFactory.dispose();
 		}
 		super.dispose();
 	}

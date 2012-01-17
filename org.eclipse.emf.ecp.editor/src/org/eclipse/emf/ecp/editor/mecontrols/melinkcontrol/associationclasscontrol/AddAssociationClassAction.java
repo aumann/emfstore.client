@@ -88,8 +88,10 @@ public class AddAssociationClassAction extends Action {
 			obj = eReference.getEReferenceType().getEPackage().getEFactoryInstance()
 				.create(eReference.getEReferenceType());
 		}
-		Image image = new AdapterFactoryLabelProvider(new ComposedAdapterFactory(
-			ComposedAdapterFactory.Descriptor.Registry.INSTANCE)).getImage(obj);
+		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(
+				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		Image image = new AdapterFactoryLabelProvider(adapterFactory).getImage(obj);
+		adapterFactory.dispose();
 		ImageDescriptor addOverlay = org.eclipse.emf.ecp.common.Activator.getImageDescriptor("icons/link_overlay.png");
 		OverlayImageDescriptor imageDescriptor = new OverlayImageDescriptor(image, addOverlay,
 			OverlayImageDescriptor.LOWER_RIGHT);

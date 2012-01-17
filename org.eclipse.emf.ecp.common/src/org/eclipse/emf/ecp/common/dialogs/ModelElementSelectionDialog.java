@@ -43,6 +43,7 @@ public abstract class ModelElementSelectionDialog extends FilteredItemsSelection
 
 	private ILabelProvider labelProvider;
 	private Collection<EObject> modelElements;
+	private ComposedAdapterFactory adapterFactory;
 
 	/**
 	 * Constructor which calls another constructor with parameter false for multiple selection of elements.
@@ -124,8 +125,16 @@ public abstract class ModelElementSelectionDialog extends FilteredItemsSelection
 	 * @return a label provider for the dialog
 	 */
 	protected ILabelProvider createLabelProvider() {
-		return new AdapterFactoryLabelProvider(new ComposedAdapterFactory(
-			ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
+		adapterFactory = new ComposedAdapterFactory(
+				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		return new AdapterFactoryLabelProvider(adapterFactory);
+	}
+
+	
+	@Override
+	public boolean close() {
+		adapterFactory.dispose();
+		return super.close();
 	}
 
 	/**
@@ -293,7 +302,6 @@ public abstract class ModelElementSelectionDialog extends FilteredItemsSelection
 
 			return matches(label);
 		}
-
 	}
 
 }

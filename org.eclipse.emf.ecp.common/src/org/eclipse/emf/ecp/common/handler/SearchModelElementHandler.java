@@ -58,7 +58,6 @@ public class SearchModelElementHandler extends AbstractHandler implements IHandl
 				"Information", "You must first select the Project.");
 		} else {
 			SearchModelElementDialog dialog = new SearchModelElementDialog(project);
-
 			if (dialog.open() == Window.OK) {
 				Object[] selections = dialog.getResult();
 

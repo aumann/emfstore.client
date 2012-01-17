@@ -150,8 +150,10 @@ public class AddReferenceAction extends ReferenceAction {
 			obj = eReference.getEReferenceType().getEPackage().getEFactoryInstance()
 				.create(eReference.getEReferenceType());
 		}
-		Image image = new AdapterFactoryLabelProvider(new ComposedAdapterFactory(
-			ComposedAdapterFactory.Descriptor.Registry.INSTANCE)).getImage(obj);
+		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(
+				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		Image image = new AdapterFactoryLabelProvider(adapterFactory).getImage(obj);
+		adapterFactory.dispose();
 		String overlayString = "icons/link_overlay.png";
 		if (eReference.isContainment()) {
 			overlayString = "icons/containment_overlay.png";

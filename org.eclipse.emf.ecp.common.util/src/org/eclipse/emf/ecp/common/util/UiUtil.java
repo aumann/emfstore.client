@@ -91,9 +91,10 @@ public final class UiUtil {
 	public static Object[] showMESelectionDialog(Shell shell, Collection<?> initialContent, String title,
 		boolean multiSelection) {
 
+		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(
+				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		ElementListSelectionDialog dlg = new ElementListSelectionDialog(shell.getShell(),
-			new AdapterFactoryLabelProvider(new ComposedAdapterFactory(
-				ComposedAdapterFactory.Descriptor.Registry.INSTANCE)));
+			new AdapterFactoryLabelProvider(adapterFactory));
 
 		dlg.setElements(initialContent.toArray(new Object[initialContent.size()]));
 		dlg.setTitle(title);
@@ -103,6 +104,7 @@ public final class UiUtil {
 		if (dlg.open() == Window.OK) {
 			result = dlg.getResult();
 		}
+		adapterFactory.dispose();
 		return result;
 	}
 
@@ -115,11 +117,19 @@ public final class UiUtil {
 	 * @return the name for the model element
 	 */
 	public static String getNameForModelElement(EObject modelElement) {
+		ComposedAdapterFactory adapterFactory=null;
 		if (labelProvider == null) {
-			labelProvider = new AdapterFactoryLabelProvider(new ComposedAdapterFactory(
-				ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
+			adapterFactory = new ComposedAdapterFactory(
+					ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+			labelProvider = new AdapterFactoryLabelProvider(adapterFactory);
 		}
-		return labelProvider.getText(modelElement);
+		
+		String text = labelProvider.getText(modelElement);
+		if (adapterFactory!=null) {
+			adapterFactory.dispose();
+		}
+		
+		return text;
 	}
 
 	/**

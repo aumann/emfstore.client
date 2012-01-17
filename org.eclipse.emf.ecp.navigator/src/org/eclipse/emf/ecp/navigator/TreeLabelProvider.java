@@ -30,12 +30,14 @@ public class TreeLabelProvider {
 	
 	private ILabelProvider defaultLabelProvider;
 	private IBaseLabelProvider replacedLabelProvider;
+	private ComposedAdapterFactory adapterFactory;
 
 	/**
 	 * Default constructor.
 	 */
 	public TreeLabelProvider() {
-		defaultLabelProvider = new DecoratingLabelProvider(new AdapterFactoryLabelProvider(new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE)),
+		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		defaultLabelProvider = new DecoratingLabelProvider(new AdapterFactoryLabelProvider(adapterFactory),
 			PlatformUI.getWorkbench().getDecoratorManager().getLabelDecorator());
 		replaceLabelProvider();
 	}
@@ -71,5 +73,14 @@ public class TreeLabelProvider {
 		}
 		
 		return defaultLabelProvider;
+	}
+
+	/**
+	 * */
+	public void dispose() {
+		if (adapterFactory!=null) {
+			adapterFactory.dispose();
+		}
+		
 	}
 }
