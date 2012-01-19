@@ -102,12 +102,6 @@
    </extension>
 
    <extension
-         point="org.eclipse.emf.ecp.model.postinit">
-      <initiator
-            class="org.eclipse.emf.ecp.emfstorebridge.ECPObserver">
-      </initiator>
-   </extension>
-   <extension
          point="org.eclipse.emf.ecp.common.modelelementopener">
       <ModelElementOpener
             class="org.eclipse.emf.ecp.emfstorebridge.ProjectSpaceOpener"
