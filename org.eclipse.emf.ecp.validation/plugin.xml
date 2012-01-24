@@ -61,10 +61,13 @@
                  <count
                        value="1">
                  </count>
+                 <iterate
+                       operator="or">
+                    <instanceof
+                          value="org.eclipse.emf.ecore.EObject">
+                    </instanceof>
+                 </iterate>
                 
-                 <instanceof
-                       value="org.eclipse.emf.ecore.EObject">
-                 </instanceof>
               </and>
            </visibleWhen>
         </command>
