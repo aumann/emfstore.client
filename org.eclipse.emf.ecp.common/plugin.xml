@@ -60,47 +60,6 @@
            </visibleWhen>
         </command>
      </menuContribution>
-     <menuContribution
-           locationURI="popup:org.eclipse.emf.ecp.navigator.viewer?after=org.eclipse.emf.ecp.common.deleteModelelement">
-        <command
-              commandId="org.eclipse.emf.emfstore.client.ui.validate"
-              icon="icons/validation.png"
-              label="Validate"
-              style="push">
-           <visibleWhen
-                 checkEnabled="false">
-              <and>
-                 <iterate
-                       ifEmpty="false"
-                       operator="and">
-                    <and>
-	                  <instanceof
-	                        value="org.eclipse.emf.ecore.EObject">
-	                  </instanceof>
-	                  <not>
-	                  	<instanceof
-	                         value="org.eclipse.emf.emfstore.common.model.Project">
-	                  	</instanceof>
-	                  </not>
-	                  <not>
-	                  	<instanceof
-	                         value="org.eclipse.emf.emfstore.client.model.ProjectSpace">
-	                  	</instanceof>
-	                  </not>
-	            	</and>
-                 </iterate>
-                 <count
-                       value="1">
-                 </count>
-                 <test
-                       args="org.eclipse.emf.emfstore.client.ui.validate"
-                       property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
-                       value="true">
-                 </test>
-              </and>
-           </visibleWhen>
-        </command>
-     </menuContribution>
       <menuContribution
            locationURI="toolbar:org.eclipse.ui.main.toolbar">
         <toolbar
@@ -144,42 +103,6 @@
              </visibleWhen>
            </command>
         </toolbar>
-     </menuContribution>
-     <menuContribution
-           locationURI="popup:org.eclipse.emf.ecp.navigator.viewer?after=org.eclipse.emf.ecp.common.deleteModelelement">
-        <command
-              commandId="org.eclipse.emf.emfstore.client.ui.validate"
-              icon="icons/validation.png"
-              label="Validate"
-              style="push">
-           <visibleWhen
-                 checkEnabled="false">
-              <and>
-                 <iterate
-                       ifEmpty="false"
-                       operator="and">
-                    <and>
-	                  <instanceof
-	                        value="org.eclipse.emf.ecore.EObject">
-	                  </instanceof>
-	                  <not>
-	                  	<instanceof
-	                         value="org.eclipse.emf.emfstore.common.model.Project">
-	                  	</instanceof>
-	                  </not>
-	                  <not>
-	                  	<instanceof
-	                         value="org.eclipse.emf.emfstore.client.model.ProjectSpace">
-	                  	</instanceof>
-	                  </not>
-	            	</and>
-                 </iterate>
-                 <count
-                       value="1">
-                 </count>
-              </and>
-           </visibleWhen>
-        </command>
      </menuContribution>
      
      
