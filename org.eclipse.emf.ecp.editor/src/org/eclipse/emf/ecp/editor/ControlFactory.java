@@ -53,8 +53,8 @@ public class ControlFactory {
 		for (IConfigurationElement e : allControls) {
 			String type = e.getAttribute("type");
 			try {
-				Class<?> resolvedType = Class.forName(type);
-				AbstractMEControl control = (AbstractMEControl) e.createExecutableExtension("class");
+				AbstractMEControl control = (AbstractMEControl) e.createExecutableExtension("class");			
+				Class<?> resolvedType = control.getClass().getClassLoader().loadClass(type);
 				boolean showLabel = Boolean.parseBoolean(e.getAttribute("showLabel"));
 				control.setShowLabel(showLabel);
 				ArrayList<AbstractMEControl> list = controlRegistry.get(resolvedType);

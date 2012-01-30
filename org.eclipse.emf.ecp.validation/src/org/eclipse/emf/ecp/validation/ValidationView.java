@@ -236,15 +236,8 @@ public class ValidationView extends ViewPart {
 				IStatus constraintStatus = (IStatus) selection.getFirstElement();
 				BasicDiagnostic inputElement = (BasicDiagnostic) BasicDiagnostic.toDiagnostic(constraintStatus);
 				EObject me = (EObject) inputElement.getData().get(0);
-				Iterator<Diagnostic> iterator = inputElement.getChildren().iterator();
 				if (me instanceof EObject) {
-					EStructuralFeature errorLocation = null;
-					errorLocation = getErrorLocation(iterator, errorLocation);
-					if (errorLocation != null) {
-						ActionHelper.openModelElement(me, errorLocation, viewId, workspace.getProject(me));
-					} else {
-						ActionHelper.openModelElement(me, viewId);
-					}
+					ActionHelper.openModelElement(me, viewId);
 				}
 			}
 
@@ -276,25 +269,6 @@ public class ValidationView extends ViewPart {
 
 		}
 		return refactoringStrategies;
-	}
-
-	/**
-	 * Gets the location of the EObject, to whom the specific error belongs.
-	 * 
-	 * @param iterator
-	 * @param errorLocation
-	 * @return
-	 */
-	private EStructuralFeature getErrorLocation(Iterator<Diagnostic> iterator, EStructuralFeature errorLocation) {
-		while (iterator.hasNext()) {
-			Diagnostic nextDiagnostic = iterator.next();
-			EObject next = (EObject) nextDiagnostic.getData().get(0);
-			if (next instanceof EStructuralFeature) {
-				errorLocation = (EStructuralFeature) next;
-				break;
-			}
-		}
-		return errorLocation;
 	}
 
 	/**

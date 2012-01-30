@@ -54,7 +54,7 @@ public final class ActionHelper {
 	 * Constant for the modelelement to be opened.
 	 */
 	public static final String ME_TO_OPEN_EVALUATIONCONTEXT_VARIABLE = "meToOpen";
-	private static final String FEATURE_TO_MARK_EVALUATIONCONTEXT_VARIABLE = "featureToMark";
+	//private static final String FEATURE_TO_MARK_EVALUATIONCONTEXT_VARIABLE = "featureToMark";
 
 	private ActionHelper() {
 
@@ -100,53 +100,6 @@ public final class ActionHelper {
 		}
 		// END SUPRESS CATCH EXCEPTION
 
-	}
-
-	/**
-	 * This opens the model element and marks the feature as having a problem (error, warning, etc.).
-	 * 
-	 * @param me ModelElement to open
-	 * @param problemFeature the feature to be marked as having a problem
-	 * @param sourceView the view that requested the open model element
-	 * @param context the context of the model element
-	 */
-	public static void openModelElement(final EObject me, EStructuralFeature problemFeature, final String sourceView,
-		ECPModelelementContext context) {
-		if (me == null) {
-			return;
-		}
-		if (problemFeature == null) {
-			openModelElement(me, sourceView);
-		}
-
-		ECPWorkspaceManager.getObserverBus().notify(ModelElementOpenObserver.class)
-			.onOpen(me, sourceView, "org.eclipse.emf.ecp.editor.MEEditor");
-		openAndMarkMEWithMEEditor(me, problemFeature, context);
-	}
-
-	private static void openAndMarkMEWithMEEditor(EObject me, EStructuralFeature problemFeature,
-		ECPModelelementContext context2) {
-		// this method works as the one above but in addition marks a feature as having a problem
-
-		IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class);
-
-		IEvaluationContext context = handlerService.getCurrentState();
-		context.addVariable(ME_TO_OPEN_EVALUATIONCONTEXT_VARIABLE, me);
-		context.addVariable(FEATURE_TO_MARK_EVALUATIONCONTEXT_VARIABLE, problemFeature);
-		context.addVariable(MECONTEXT_EVALUATIONCONTEXT_VARIABLE, context2);
-
-		try {
-			handlerService.executeCommand(MEEDITOR_OPENMODELELEMENT_COMMAND_ID, null);
-
-		} catch (ExecutionException e) {
-			DialogHandler.showExceptionDialog(e);
-		} catch (NotDefinedException e) {
-			DialogHandler.showExceptionDialog(e);
-		} catch (NotEnabledException e) {
-			DialogHandler.showExceptionDialog(e);
-		} catch (NotHandledException e) {
-			DialogHandler.showExceptionDialog(e);
-		}
 	}
 
 }
