@@ -105,6 +105,8 @@ public class ValidationView extends ViewPart {
 	private TableItem tableItem;
 
 	private ECPWorkspace workspace;
+	
+	private ValidationLabelProvider labelProvider;
 
 	/**
 	 * Default constructor.
@@ -190,7 +192,8 @@ public class ValidationView extends ViewPart {
 		column = new TableViewerColumn(tableViewer, SWT.LEFT, 2);
 		column.getColumn().setText("Affected ModelElement");
 		column.getColumn().setWidth(200);
-		setLabelProviderAndComparator(column, new ValidationLabelProvider());
+		labelProvider =  new ValidationLabelProvider();
+		setLabelProviderAndComparator(column,labelProvider);
 
 		// content provider
 		tableViewer.setContentProvider(new ValidationContentProvider());
@@ -349,6 +352,9 @@ public class ValidationView extends ViewPart {
 	@Override
 	public void dispose() {
 		workspace.eAdapters().remove(workspaceListenerAdapter);
+		if (labelProvider!=null) {
+			labelProvider.dispose();
+		}
 		super.dispose();
 	}
 

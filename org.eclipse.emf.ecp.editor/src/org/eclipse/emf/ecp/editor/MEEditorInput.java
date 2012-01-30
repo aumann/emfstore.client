@@ -40,6 +40,7 @@ public class MEEditorInput implements IEditorInput {
 	private EStructuralFeature problemFeature;
 	private DecoratingLabelProvider labelProvider;
 	private ECPModelelementContext modelElementContext;
+	private ComposedAdapterFactory adapterFactory;
 
 	/**
 	 * Constructor to add a probleFeature.
@@ -61,8 +62,8 @@ public class MEEditorInput implements IEditorInput {
 	 */
 	public MEEditorInput(EObject me, ECPModelelementContext context) {
 		super();
-		AdapterFactoryLabelProvider adapterFactoryLabelProvider = new AdapterFactoryLabelProvider(
-			new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
+		adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		AdapterFactoryLabelProvider adapterFactoryLabelProvider = new AdapterFactoryLabelProvider(adapterFactory);
 		IDecoratorManager decoratorManager = PlatformUI.getWorkbench().getDecoratorManager();
 		labelProvider = new DecoratingLabelProvider(adapterFactoryLabelProvider, decoratorManager.getLabelDecorator());
 		this.modelElement = me;
@@ -210,4 +211,9 @@ public class MEEditorInput implements IEditorInput {
 		return modelElementContext;
 	}
 
+	public void dispose() {
+		if (adapterFactory!=null) {
+			adapterFactory.dispose();
+		}
+	}
 }

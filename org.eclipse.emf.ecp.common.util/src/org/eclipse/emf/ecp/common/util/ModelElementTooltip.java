@@ -24,7 +24,10 @@ import org.eclipse.swt.widgets.Event;
  */
 public class ModelElementTooltip extends DefaultToolTip {
 
+	private static final AdapterFactoryLabelProvider ADAPTER_FACTORY_LABEL_PROVIDER = new AdapterFactoryLabelProvider(new ComposedAdapterFactory(
+		ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
 	private AdapterFactoryLabelProvider labelProvider;
+	
 
 	/**
 	 * Default constructor.
@@ -33,8 +36,7 @@ public class ModelElementTooltip extends DefaultToolTip {
 	 */
 	public ModelElementTooltip(Control control) {
 		super(control, ToolTip.NO_RECREATE, false);
-		labelProvider = new AdapterFactoryLabelProvider(new ComposedAdapterFactory(
-			ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
+		labelProvider = ADAPTER_FACTORY_LABEL_PROVIDER;
 	}
 
 	/**

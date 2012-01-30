@@ -100,8 +100,7 @@ public class CreateProjectDialog extends TitleAreaDialog {
 				try {
 
 					if (session != null) {
-						WorkspaceManager.getInstance().getCurrentWorkspace().createRemoteProject(txtProjectName.getText(),
-							txtProjectDesc.getText(), session);
+						WorkspaceManager.getInstance().getCurrentWorkspace().createRemoteProject(session, txtProjectName.getText(), txtProjectDesc.getText());
 					} else {
 						projectSpace = WorkspaceManager.getInstance().getCurrentWorkspace()
 							.createLocalProject(txtProjectName.getText(), txtProjectDesc.getText());

@@ -81,7 +81,8 @@ public class MEEditorPage extends FormPage {
 	private Composite bottomComposite;
 	private EStructuralFeature problemFeature;
 	private final ECPModelelementContext modelElementContext;
-
+	private final ComposedAdapterFactory adapterFactory;
+	
 	/**
 	 * Default constructor.
 	 * 
@@ -101,6 +102,8 @@ public class MEEditorPage extends FormPage {
 		super(editor, id, title);
 		this.modelElementContext = modelElementContext;
 		this.modelElement = modelElement;
+		this.adapterFactory = new ComposedAdapterFactory(
+				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
 	}
 
@@ -168,8 +171,7 @@ public class MEEditorPage extends FormPage {
 			.applyTo(bottomComposite);
 		GridDataFactory.fillDefaults().align(SWT.FILL, SWT.FILL).grab(true, true).applyTo(bottomComposite);
 		// updateSectionTitle();
-		form.setImage(new AdapterFactoryLabelProvider(new ComposedAdapterFactory(
-			ComposedAdapterFactory.Descriptor.Registry.INSTANCE)).getImage(modelElement));
+		form.setImage(new AdapterFactoryLabelProvider(adapterFactory).getImage(modelElement));
 		// Sort and order attributes
 		// Create attributes
 		createAttributes(leftColumnComposite, leftColumnAttributes);
@@ -257,7 +259,7 @@ public class MEEditorPage extends FormPage {
 	private void sortAndOrderAttributes() {
 
 		AdapterFactoryItemDelegator adapterFactoryItemDelegator = new AdapterFactoryItemDelegator(
-			new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
+			adapterFactory);
 
 		Collection<IItemPropertyDescriptor> propertyDescriptors = adapterFactoryItemDelegator
 			.getPropertyDescriptors(modelElement);
@@ -351,6 +353,9 @@ public class MEEditorPage extends FormPage {
 	public void dispose() {
 		for (AbstractMEControl control : meControls.values()) {
 			control.dispose();
+		}
+		if (adapterFactory!=null) {
+			adapterFactory.dispose();
 		}
 		super.dispose();
 	}

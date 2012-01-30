@@ -37,6 +37,7 @@ public class EMFECPWorkspace extends ECPWorkspaceImpl implements ECPWorkspace {
 
 	private HashMap<ProjectSpace, EMFStoreECPProject> mapping = new HashMap<ProjectSpace, EMFStoreECPProject>();
 	private AdapterImpl workspaceListenerAdapter;
+	private Object activeProjectSpace;
 
 	/**
 	 * default constructor.
@@ -109,7 +110,7 @@ public class EMFECPWorkspace extends ECPWorkspaceImpl implements ECPWorkspace {
 	 */
 	@Override
 	public ECPProject getActiveProject() {
-		return mapping.get(WorkspaceManager.getInstance().getCurrentWorkspace().getActiveProjectSpace());
+		return mapping.get(activeProjectSpace);
 	}
 
 	/**
@@ -151,22 +152,13 @@ public class EMFECPWorkspace extends ECPWorkspaceImpl implements ECPWorkspace {
 			return;
 		}
 
-		if (org.eclipse.emf.emfstore.client.model.WorkspaceManager.getInstance().getCurrentWorkspace()
-			.getActiveProjectSpace() != null) {
-			if (org.eclipse.emf.emfstore.client.model.WorkspaceManager.getInstance().getCurrentWorkspace()
-				.getActiveProjectSpace().equals(projectSpace)) {
+		if (activeProjectSpace != null) {
+			if (activeProjectSpace.equals(projectSpace)) {
 				return;
 			}
 		}
-		new EMFStoreCommand() {
-
-			@Override
-			protected void doRun() {
-				org.eclipse.emf.emfstore.client.model.WorkspaceManager.getInstance().getCurrentWorkspace()
-					.setActiveProjectSpace(projectSpace);
-			}
-		}.run();
-
+		
+		activeProjectSpace = projectSpace;
 	}
 
 }

@@ -16,17 +16,12 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecp.common.commands.ECPCommand;
-import org.eclipse.emf.ecp.editor.Activator;
-import org.eclipse.emf.ecp.editor.MEEditor;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -35,9 +30,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * The standard widget for multi line text fields.
@@ -54,6 +46,11 @@ public class MERichTextControl extends AbstractMEControl implements IValidatable
 	private Label labelWidgetImage;  //Label for diagnostic image
 
 	private Composite composite;
+	
+	private ToolBar toolBar;
+
+	private Text text;
+
 
 	/**
 	 * {@inheritDoc}
@@ -74,7 +71,6 @@ public class MERichTextControl extends AbstractMEControl implements IValidatable
 		labelWidgetImage = getToolkit().createLabel(composite, "     ");
 		labelWidgetImage.setBackground(composite.getBackground());
 
-//		createToolBar();
 		createText();
 		eAdapter = new AdapterImpl() {
 			@Override
@@ -86,18 +82,9 @@ public class MERichTextControl extends AbstractMEControl implements IValidatable
 			}
 		};
 		getModelElement().eAdapters().add(eAdapter);
-
-		shoudShowExpand = true;
 		load();
-
 		return composite;
 	}
-
-	private ToolBar toolBar;
-
-	private boolean shoudShowExpand;
-
-	private Text text;
 
 	private void createText() {
 		
@@ -121,40 +108,16 @@ public class MERichTextControl extends AbstractMEControl implements IValidatable
 		spec.grabExcessVerticalSpace = true;
 		spec.heightHint = 200;
 		text.setLayoutData(spec);
-	}
 
-	private void createToolBar() {
-		toolBar = new ToolBar(composite, SWT.NULL);
-
-		if (shoudShowExpand) {
-			ToolItem textItem = new ToolItem(toolBar, SWT.PUSH);
-			ImageDescriptor textImageDescriptor = Activator.getImageDescriptor("icons/text.png");
-			textItem.setImage(textImageDescriptor.createImage());
-			textItem.setToolTipText("Go to the description tab");
-			textItem.addSelectionListener(new SelectionAdapter() {
-				@Override
-				public void widgetSelected(SelectionEvent event) {
-					final IEditorPart activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-						.getActivePage().getActiveEditor();
-					if (activeEditor instanceof MEEditor) {
-						((MEEditor) activeEditor).setActivePage("Description");
-					}
-				}
-			});
+		if (!getItemPropertyDescriptor().canSetProperty(getModelElement())) {
+			text.setEnabled(false);
 		}
 	}
 
 	/**
-	 * Sets if the expand toolbar button should be shown.
+	 * Returns the {@link ToolBar}.
 	 * 
-	 * @param show if shown.
-	 */
-	public void setShowExpand(boolean show) {
-		shoudShowExpand = show;
-	}
-
-	/**
-	 * @return the toolbar.
+	 * @return the toolbar
 	 */
 	public ToolBar getToolbar() {
 		return toolBar;

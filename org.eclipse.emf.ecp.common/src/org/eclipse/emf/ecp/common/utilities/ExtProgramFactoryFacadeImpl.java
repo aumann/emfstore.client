@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.eclipse.emf.ecp.common.utilities;
 
-import org.eclipse.emf.ecp.common.utilities.ExtProgramFactoryFacade;
 import org.eclipse.swt.program.Program;
 
 /**

@@ -26,15 +26,12 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.IDialogSettings;
-import org.eclipse.jface.viewers.DecoratingLabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeNode;
-import org.eclipse.jface.viewers.TreePath;
-import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
@@ -70,6 +67,7 @@ public class TreeView extends ViewPart implements ISelectionListener { // implem
 	private ECPWorkspace currentWorkspace;
 	private AdapterImpl workspaceListenerAdapter;
 	private boolean internalSelectionEvent;
+	private TreeLabelProvider labelProvider;
 
 	/**
 	 * Constructor.
@@ -109,6 +107,9 @@ public class TreeView extends ViewPart implements ISelectionListener { // implem
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getSelectionService().removeSelectionListener(this);
 		getSite().getPage().removePartListener(partListener);
 		currentWorkspace.eAdapters().remove(workspaceListenerAdapter);
+		if (labelProvider != null) {
+			labelProvider.dispose();
+		}
 		super.dispose();
 	}
 
@@ -122,13 +123,12 @@ public class TreeView extends ViewPart implements ISelectionListener { // implem
 		try {
 			ECPWorkspace workSpace = ECPWorkspaceManager.getInstance().getWorkSpace();
 			IDecoratorManager decoratorManager = PlatformUI.getWorkbench().getDecoratorManager();
-			viewer.setLabelProvider(new DecoratingLabelProvider(new TreeLabelProvider(), decoratorManager
-				.getLabelDecorator()));
+			labelProvider = new TreeLabelProvider();
+			viewer.setLabelProvider(labelProvider.getLabelProvider());
 			// viewer.setLabelProvider(new TreeLabelProvider());
 			viewer.setContentProvider(new TreeContentProvider());
 			viewer.setUseHashlookup(true);
 			viewer.setInput(workSpace);
-			// viewer.setInput(currentWorkspace);
 		} catch (NoWorkspaceException e) {
 			// Do not show any content
 		}
@@ -221,32 +221,13 @@ public class TreeView extends ViewPart implements ISelectionListener { // implem
 		if (me == null) {
 			return;
 		}
-
-		if (!viewer.getExpandedState(me)) {
-			viewer.expandToLevel(2);
+		
+		if (TreeView.getTreeViewer().testFindItem(me) == null) {
+			TreeView.getTreeViewer().refresh();
 		}
+		
+		TreeView.getTreeViewer().setSelection(new StructuredSelection(me), true);
 
-		// we could easily use the following method.
-		// but it has the problem that it shows the first occurrence of and element.
-		// for example if we have the same element somewhere else linked, and shown as a child (e.g. in
-		// ActionItemMeetingSection),
-		// it just show the first one that it finds. We want only the real containment to be shown.
-		// // TreeView.getTreeViewer().setSelection(new StructuredSelection(me), true);
-
-		EObject container = me.eContainer();
-		if (container != null) {
-			internalSelectionEvent = true;
-			viewer.setSelection(new StructuredSelection(container), true);
-
-			TreeSelection treeSelection = (TreeSelection) viewer.getSelection();
-			if (treeSelection.getPaths().length > 0) {
-				TreePath treePath = treeSelection.getPaths()[0].createChildPath(me);
-
-				TreeSelection newTreeSeleciton = new TreeSelection(treePath);
-				viewer.setSelection(newTreeSeleciton, true);
-			}
-			internalSelectionEvent = false;
-		}
 	}
 
 	private void addSelectionListener() {

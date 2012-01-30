@@ -1,7 +1,11 @@
 /*******************************************************************************
- * Copyright (c) 2008-2011 Chair for Applied Software Engineering, Technische Universitaet Muenchen. All rights
- * reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public
- * License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+ * Copyright (c) 2008-2011 Chair for Applied Software Engineering,
+ * Technische Universitaet Muenchen.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
  * Contributors:
  ******************************************************************************/
 package org.eclipse.emf.ecp.common.handler;
@@ -32,6 +36,7 @@ public class CreateContainmentHandler extends AbstractHandler {
 	 * The Id for EClass parameter to command. A model element of this EClass type is created in this handler.
 	 */
 	public static final String COMMAND_ECLASS_PARAM = "org.eclipse.emf.ecp.navigator.eClassParameter";
+	public static final String COMMAND_ECREFERENCE_PARAM = "org.eclipse.emf.ecp.navigator.eReferenceParameter";
 
 	/**
 	 * . {@inheritDoc}
@@ -47,7 +52,11 @@ public class CreateContainmentHandler extends AbstractHandler {
 			final EObject selectedME = UiUtil.getSelectedModelelement();
 			EPackage ePackage = newMEType.getEPackage();
 			newMEInstance = ePackage.getEFactoryInstance().create(newMEType);
-			final EReference eReference = getStructuralFeature(newMEInstance, selectedME);
+			EReference ref = (EReference) selectedME.eClass().getEStructuralFeature((String)event.getObjectParameterForExecution(COMMAND_ECREFERENCE_PARAM));
+			if(ref==null){
+				ref= getStructuralFeature(newMEInstance, selectedME);
+			}
+			final EReference eReference = ref;
 			if ((selectedME != null) && (!eReference.isContainer())) {
 				new ECPCommand(selectedME) {
 					@SuppressWarnings("unchecked")

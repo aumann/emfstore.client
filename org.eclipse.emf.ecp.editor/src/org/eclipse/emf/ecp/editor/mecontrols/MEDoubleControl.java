@@ -88,6 +88,9 @@ public class MEDoubleControl extends AbstractMEControl implements IValidatableCo
 		spinner.setDigits(digits);
 		spinner.setMinimum(-1000000);
 		spinner.setMaximum(1000000);
+		if (!getItemPropertyDescriptor().canSetProperty(getModelElement())) {
+			spinner.setEnabled(false);
+		}
 		IObservableValue model = EMFEditObservables.observeValue(getEditingDomain(), getModelElement(), attribute);
 		EMFDataBindingContext dbc = new EMFDataBindingContext();
 		DoubleSpinnerObservable spinnerObservable = new DoubleSpinnerObservable(spinner);

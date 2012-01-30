@@ -3,6 +3,7 @@
 <plugin>
    <extension-point id="org.eclipse.emf.ecp.common.modelelementopener" name="Open Handler for Modelelements" schema="schema/org.eclipse.emf.ecp.common.modelelementopener.exsd"/>
    <extension-point id="org.eclipse.emf.ecp.common.dropadapter" name="Model element drop adapter" schema="schema/org.eclipse.emf.ecp.common.dropadapter.exsd"/>
+   <extension-point id="org.eclipse.emf.ecp.common.menuContributionEnablement" name="menuContributionEnablement" schema="schema/org.eclipse.emf.ecp.common.menuContributionEnablement.exsd"/>
    <extension
         point="org.eclipse.ui.commands">
         <category

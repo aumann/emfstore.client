@@ -4,6 +4,7 @@
    
    <extension-point id="org.eclipse.emf.ecp.navigator.menuconfiguration" name="Menu Configuration" schema="schema/org.eclipse.emf.ecp.navigator.menuconfiguration.exsd"/>
    <extension-point id="org.eclipse.emf.ecp.navigator.replaceContentProvider" name="Replace Content Provider" schema="schema/org.eclipse.emf.ecp.navigator.replaceContentProvider.exsd"/>
+   <extension-point id="org.eclipse.emf.ecp.navigator.replaceLabelProvider" name="Replace Label Provider" schema="schema/org.eclipse.emf.ecp.navigator.replaceLabelProvider.exsd"/>
    
    <extension
          point="org.eclipse.ui.views">
@@ -200,6 +201,12 @@
                optional="true"
                typeId="org.eclipse.emf.ecp.navigator.eClassType">
          </commandParameter>
+         <commandParameter
+               id="org.eclipse.emf.ecp.navigator.eReferenceParameter"
+               name="eReferenceParameter"
+               optional="true"
+               typeId="org.eclipse.emf.ecp.navigator.eReferenceType">
+         </commandParameter>
   
       </command>
              <command
@@ -221,6 +228,11 @@
                   id="org.eclipse.emf.ecp.navigator.exportModel"
                   name="Export model">
             </command>
+            <commandParameterType
+                  converter="org.eclipse.emf.ecp.navigator.commands.EReferenceTypeConverter"
+                  id="org.eclipse.emf.ecp.navigator.eReferenceType"
+                  type="java.lang.String">
+            </commandParameterType>
 
    </extension>
 </plugin>

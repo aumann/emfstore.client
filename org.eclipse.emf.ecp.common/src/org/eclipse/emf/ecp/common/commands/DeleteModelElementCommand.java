@@ -133,9 +133,11 @@ public final class DeleteModelElementCommand {
 
 	private boolean askConfirmation() {
 		String question = null;
+		ComposedAdapterFactory adapterFactory = null; 
 		if (toBeDeleted.size() == 1) {
+			adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 			AdapterFactoryLabelProvider adapterFactoryLabelProvider = new AdapterFactoryLabelProvider(
-				new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
+					adapterFactory);
 			String modelElementName = adapterFactoryLabelProvider.getText(toBeDeleted.iterator().next());
 			question = "Do you really want to delete the model element " + modelElementName + "?";
 		} else {
@@ -143,6 +145,16 @@ public final class DeleteModelElementCommand {
 		}
 		MessageDialog dialog = new MessageDialog(null, "Confirmation", null, question, MessageDialog.QUESTION,
 			new String[] { "Yes", "No" }, 0);
-		return dialog.open() == MessageDialog.OK;
+		
+		boolean confirm=false;
+		if (dialog.open() == MessageDialog.OK) {
+			confirm=true;
+		}
+		
+		if (adapterFactory!=null) {
+			adapterFactory.dispose();
+		}
+		
+		return confirm;
 	}
 }

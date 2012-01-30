@@ -316,6 +316,7 @@ public class MEEditor extends SharedHeaderFormEditor {
 		modelElementChangeListener.remove();
 		modelElementContext.removeModelElementContextListener(modelElementContextListener);
 		((MEEditorInput) getEditorInput()).getLabelProvider().removeListener(labelProviderListener);
+		((MEEditorInput)getEditorInput()).dispose();
 		super.dispose();
 	}
 

@@ -46,32 +46,65 @@ import org.eclipse.ui.forms.widgets.ImageHyperlink;
  */
 public class MELinkControl {
 
-	protected Composite linkComposite;
 	private EReference eReference;
 	private Hyperlink hyperlink;
 	private ILabelProvider labelProvider;
 	private ILabelProviderListener labelProviderListener;
 	private ImageHyperlink imageHyperlink;
-	protected EObject link;
-	protected EObject contextModelElement;
-	protected FormToolkit toolkit;
+	private EObject link;
+	private EObject contextModelElement;
 	private org.eclipse.emf.ecp.editor.ModelElementChangeListener modelElementChangeListener;
 	private ECPModelelementContext context;
+	private IItemPropertyDescriptor pDescriptor;
+	private ComposedAdapterFactory adapterFactory;
 
+	protected Composite linkComposite;
+	protected  FormToolkit toolkit;
+	
+	/**
+	 * Returns the {@link ECPModelelementContext}.
+	 * @return the {@link ECPModelelementContext}
+	 */
 	public ECPModelelementContext getContext() {
 		return context;
 	}
+	
+	/**
+	 * Sets the {@link FormToolkit} to be used.
+	 * 
+	 * @param toolkit the toolkit to be used
+	 */
+	protected void setToolkit(FormToolkit toolkit) {
+		this.toolkit = toolkit;
+	}
+	
+	/**
+	 * Returns the {@link FormToolkit} in use.
+	 * 
+	 * @return the toolkit in use
+	 */
+	protected FormToolkit getToolkit() {
+		return toolkit;
+	}
 
+	/**
+	 * Sets the {@link ECPModelelementContext}.
+	 * 
+	 * @param context the {@link ECPModelelementContext} to be set
+	 */
 	public void setContext(ECPModelelementContext context) {
 		this.context = context;
 	}
+	
 
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	public Control createControl(final Composite parent, int style, IItemPropertyDescriptor itemPropertyDescriptor,
 		final EObject link, EObject contextModelElement, FormToolkit toolkit, ECPModelelementContext context) {
 		this.context = context;
+		pDescriptor=itemPropertyDescriptor;
 		Object feature = itemPropertyDescriptor.getFeature(link);
 		this.eReference = (EReference) feature;
 		this.link = link;
@@ -84,12 +117,18 @@ public class MELinkControl {
 	protected Control createControl(final Composite parent, int style) {
 		linkComposite = toolkit.createComposite(parent, style);
 		linkComposite.setLayout(new GridLayout(3, false));
-
+		if (!pDescriptor.canSetProperty(contextModelElement)) {
+			linkComposite.setEnabled(false);
+		}
 		createHyperlink(parent, style);
 		createDeleteAction(style);
 		return linkComposite;
 	}
 
+	/**
+	 * Create the delete action.
+	 * @param style the style bits to be applied
+	 */
 	protected void createDeleteAction(int style) {
 		ImageHyperlink deleteLink = toolkit.createImageHyperlink(linkComposite, style);
 		Image deleteImage = null;
@@ -103,9 +142,10 @@ public class MELinkControl {
 		deleteLink.addMouseListener(new MEHyperLinkDeleteAdapter(contextModelElement, eReference, link, context));
 	}
 
-	protected void createHyperlink(final Composite parent, int style) {
+	private void createHyperlink(final Composite parent, int style) {
+		adapterFactory =new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE); 
 		AdapterFactoryLabelProvider adapterFactoryLabelProvider = new AdapterFactoryLabelProvider(
-			new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE));
+			adapterFactory);
 		IDecoratorManager decoratorManager = PlatformUI.getWorkbench().getDecoratorManager();
 		labelProvider = new DecoratingLabelProvider(adapterFactoryLabelProvider, decoratorManager.getLabelDecorator());
 		labelProviderListener = new ILabelProviderListener() {
@@ -171,9 +211,20 @@ public class MELinkControl {
 		if (linkComposite != null) {
 			linkComposite.dispose();
 		}
+		if (adapterFactory != null) {
+			adapterFactory.dispose();
+		}
 	}
 
-	public int canRender(IItemPropertyDescriptor itemPropertyDescriptor, EObject link2, EObject contextModelElement2) {
+	/**
+	 * Whether this control wants to render the link for the given context model element.
+	 * @param itemPropertyDescriptor an item property descriptor
+	 * @param link the link for the model element
+	 * @param contextModelElement the model element 
+	 * @return whether this control is able to render the link 
+	 */
+	public int canRender(IItemPropertyDescriptor itemPropertyDescriptor, EObject link, EObject contextModelElement) {
+		// TODO: introduce/use constant if available
 		return 0;
 	}
 
