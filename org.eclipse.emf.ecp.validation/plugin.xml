@@ -61,10 +61,18 @@
                  <count
                        value="1">
                  </count>
+                 <iterate
+                       operator="or">
+                    <instanceof
+                          value="org.eclipse.emf.ecore.EObject">
+                    </instanceof>
+                 </iterate>
+                 <test
+                       args="org.eclipse.emf.emfstore.client.ui.validate"
+                       property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+                       value="true">
+                 </test>
                 
-                 <instanceof
-                       value="org.eclipse.emf.ecore.EObject">
-                 </instanceof>
               </and>
            </visibleWhen>
         </command>
