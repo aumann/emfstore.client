@@ -387,6 +387,13 @@ public class MEEditorPage extends FormPage {
 		
 		for (Iterator<Diagnostic> i= diagnostic.getChildren().iterator(); i.hasNext();) {
 			Diagnostic childDiagnostic = i.next();
+			Object object = childDiagnostic.getData().get(0);
+			if(object instanceof EObject) {
+				EObject eObject = (EObject) object;
+				if(eObject!=modelElement){
+					continue;
+				}
+			}
 			AbstractMEControl meControl = this.meControls.get(childDiagnostic.getData().get(1));
 			affectedControls.add(meControl);
 			if (meControl instanceof IValidatableControl) { 
