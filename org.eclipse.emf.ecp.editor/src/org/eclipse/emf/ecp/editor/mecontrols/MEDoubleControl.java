@@ -109,7 +109,7 @@ public class MEDoubleControl extends AbstractMEControl implements IValidatableCo
 	@Override
 	public int canRender(IItemPropertyDescriptor itemPropertyDescriptor, EObject modelElement) {
 		Object feature = itemPropertyDescriptor.getFeature(modelElement);
-		if (feature instanceof EAttribute && ((EAttribute) feature).getEType().getInstanceClass().equals(double.class)) {
+		if (feature instanceof EAttribute && ((EAttribute) feature).getEType().getInstanceClass().equals(double.class) && !((EAttribute) feature).isMany()) {
 
 			return PRIORITY;
 		}
