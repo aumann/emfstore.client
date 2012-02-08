@@ -6,7 +6,9 @@
          <meta.schema plugin="org.eclipse.emf.ecp.common" id="org.eclipse.emf.ecp.common.menuContributionEnablement" name="ECP Menu Contribution Enablement"/>
       </appInfo>
       <documentation>
-         Allows to disable all ECP menu contributions
+         Allows to disable all ECP menu contributions.
+
+This extension point can be used either in whitelist or blacklist mode. This is configured by setting the enabled setting. Then a list of commands can be added.
       </documentation>
    </annotation>
 

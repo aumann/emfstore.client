@@ -19,16 +19,6 @@
    </extension>
    
    <extension
-         point="org.eclipse.core.expressions.propertyTesters">
-      <propertyTester
-            class="org.eclipse.emf.ecp.navigator.MenuConfigurationEnablementTester"
-            id="org.eclipse.emf.ecp.navigator.menucontributionenablementtester"
-            namespace="org.eclipse.emf.ecp.navigator"
-            properties="isActionEnabled"
-            type="java.lang.Object">
-      </propertyTester>
-   </extension>
-   <extension
          point="org.eclipse.ui.commands">
       <category
             id="org.eclipse.emf.ecp.navigator.project"

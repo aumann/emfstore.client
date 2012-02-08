@@ -121,6 +121,12 @@
             <visibleWhen
                   checkEnabled="false">
                <and>
+               <test
+                        args="org.eclipse.emf.emfstore.client.ui.commitProject"
+                        forcePluginActivation="true"
+                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+                        value="true">
+                  </test>
                   <iterate
                         ifEmpty="false"
                         operator="and">
@@ -147,6 +153,12 @@
             <visibleWhen
                   checkEnabled="false">
                <and>
+               	  <test
+                        args="org.eclipse.emf.emfstore.client.ui.updateProject"
+                        forcePluginActivation="true"
+                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+                        value="true">
+                  </test>
                   <iterate
                         ifEmpty="false"
                         operator="and">
@@ -173,6 +185,12 @@
             <visibleWhen
                   checkEnabled="false">
                <and>
+               	<test
+                        args="org.eclipse.emf.emfstore.client.ui.updateProjectVersion"
+                        forcePluginActivation="true"
+                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+                        value="true">
+                  </test>
                   <iterate
                         ifEmpty="false"
                         operator="and">
@@ -204,6 +222,12 @@
             <visibleWhen
                   checkEnabled="false">
                <and>
+                  <test
+                        args="org.eclipse.emf.emfstore.client.ui.shareProject"
+                        forcePluginActivation="true"
+                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+                        value="true">
+                  </test>
                   <iterate
                         ifEmpty="false"
                         operator="and">
@@ -235,6 +259,12 @@
             <visibleWhen
                   checkEnabled="false">
                <and>
+               		    <test
+                        args="org.eclipse.emf.emfstore.client.ui.undoLastOperation"
+                        forcePluginActivation="true"
+                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+                        value="true">
+                  </test>
                   <iterate
                         ifEmpty="false"
                         operator="and">
@@ -257,6 +287,12 @@
             <visibleWhen
                   checkEnabled="false">
                <and>
+               	<test
+                        args="org.eclipse.emf.emfstore.client.ui.revert"
+                        forcePluginActivation="true"
+                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+                        value="true">
+                  </test>
                   <iterate
                         ifEmpty="false"
                         operator="and">
@@ -285,7 +321,7 @@
                   <test
                         args="org.eclipse.emf.emfstore.client.ui.commands.showHistory"
                         forcePluginActivation="true"
-                        property="org.eclipse.emf.ecp.common.menuContributionsEnablementTester"
+                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
                         value="true">
                   </test>
                   <iterate
@@ -318,6 +354,12 @@
             <visibleWhen
                   checkEnabled="false">
                <and>
+               	<test
+                        args="org.eclipse.emf.emfstore.client.ui.deleteProject"
+                        forcePluginActivation="true"
+                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+                        value="true">
+                  </test>
                   <iterate
                         ifEmpty="false"
                         operator="and">
@@ -346,6 +388,12 @@
                   <visibleWhen
                         checkEnabled="false">
                      <and>
+                     	<test
+	                        args="org.eclipse.emf.emfstore.client.ui.exportProject"
+	                        forcePluginActivation="true"
+	                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+	                        value="true">
+                  		</test>
                         <iterate
                               ifEmpty="false"
                               operator="and">
@@ -367,6 +415,12 @@
                   <visibleWhen
                         checkEnabled="false">
                      <and>
+	                    <test
+	                        args="org.eclipse.emf.emfstore.client.ui.exportChanges"
+	                        forcePluginActivation="true"
+	                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+	                        value="true">
+	                  	</test>
                         <iterate
                               ifEmpty="false"
                               operator="and">
@@ -393,6 +447,12 @@
                   <visibleWhen
                         checkEnabled="false">
                      <and>
+			           <test
+	                        args="org.eclipse.emf.emfstore.client.ui.exportProjectSpace"
+	                        forcePluginActivation="true"
+	                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+	                        value="true">
+	                  </test>
                         <iterate
                               ifEmpty="false"
                               operator="and">
@@ -414,6 +474,12 @@
                   <visibleWhen
                         checkEnabled="false">
                      <and>
+                     		    <test
+                        args="org.eclipse.emf.emfstore.client.ui.exportWorkSpace"
+                        forcePluginActivation="true"
+                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+                        value="true">
+                  </test>
                         <or>
                            <count
                                  value="0">
@@ -447,6 +513,12 @@
                         <iterate
                               ifEmpty="false"
                               operator="and">
+                              		    <test
+                        args="org.eclipse.emf.emfstore.client.ui.importChanges"
+                        forcePluginActivation="true"
+                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+                        value="true">
+                  </test>
                            <instanceof
                                  value="org.eclipse.emf.emfstore.client.model.ProjectSpace">
                            </instanceof>
@@ -470,6 +542,12 @@
                   <visibleWhen
                         checkEnabled="false">
                      <and>
+                     		    <test
+                        args="org.eclipse.emf.emfstore.client.ui.importProject"
+                        forcePluginActivation="true"
+                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+                        value="true">
+                  </test>
                         <or>
                            <count
                                  value="0">
@@ -489,6 +567,12 @@
                   <visibleWhen
                         checkEnabled="false">
                      <and>
+                     		    <test
+                        args="org.eclipse.emf.emfstore.client.ui.importProjectSpace"
+                        forcePluginActivation="true"
+                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+                        value="true">
+                  </test>
                         <or>
                            <count
                                  value="0">
@@ -515,6 +599,12 @@
                   <visibleWhen
                         checkEnabled="false">
                      <and>
+                     		    <test
+                        args="org.eclipse.emf.ecp.navigator.importModel"
+                        forcePluginActivation="true"
+                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+                        value="true">
+                  </test>
                         <iterate
                               ifEmpty="false"
                               operator="and">
@@ -537,6 +627,12 @@
                <visibleWhen
                      checkEnabled="false">
                   <and>
+                  		    <test
+                        args="org.eclipse.emf.emfstore.client.ui.compareProjects"
+                        forcePluginActivation="true"
+                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+                        value="true">
+                  </test>
                      <iterate
                            ifEmpty="false"
                            operator="and">
@@ -558,6 +654,12 @@
                <visibleWhen
                      checkEnabled="false">
                   <and>
+                  		    <test
+                        args="org.eclipse.emf.emfstore.client.ui.NewLocalProject"
+                        forcePluginActivation="true"
+                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+                        value="true">
+                  </test>
                      <or>
                         <count
                               value="0">
@@ -594,6 +696,12 @@
             <visibleWhen
                   checkEnabled="false">
                <and>
+               		    <test
+                        args="org.eclipse.emf.emfstore.client.ui.projectProperties"
+                        forcePluginActivation="true"
+                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+                        value="true">
+                  </test>
                   <iterate
                         ifEmpty="false"
                         operator="and">
@@ -623,6 +731,12 @@
             <visibleWhen
                   checkEnabled="false">
                <and>
+               		    <test
+                        args="org.eclipse.emf.emfstore.client.ui.commands.showHistory"
+                        forcePluginActivation="true"
+                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+                        value="true">
+                  </test>
                   <count
                         value="1">
                   </count>
@@ -657,12 +771,6 @@
             id="org.eclipse.emf.ecp"
             name="ECP">
       </category>
-   </extension>
-   <extension
-         point="org.eclipse.emf.ecp.common.menuContributionEnablement">
-      <MenuContributionEnablement
-            enabled="false">
-      </MenuContributionEnablement>
    </extension>
 
 </plugin>

@@ -29,17 +29,24 @@ public class ECPMenuContributionsEnablementTester extends PropertyTester {
 	public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
 		
 		if (expectedValue instanceof Boolean) {
+			//default behavior, display menu contribution
 			Boolean menuContributionEnabled = true;
+			//fetch contribution configuration
 			IConfigurationElement[] elements = Platform.getExtensionRegistry().getConfigurationElementsFor(
 				"org.eclipse.emf.ecp.common.menuContributionEnablement");
 			if (elements != null && elements.length > 0) {
 				IConfigurationElement configurationElement = elements[0];
+				// fetch configured default option. true = blacklist; false = whitelist
 				menuContributionEnabled = Boolean.parseBoolean(configurationElement.getAttribute("enabled"));
+				// iterate over configured exceptions
 				for (IConfigurationElement child: configurationElement.getChildren()) {
 					String commandID = child.getAttribute("commandID");
-					menuContributionEnabled = !args[0].equals(commandID);
-					if (!menuContributionEnabled) {
-						break;
+					//if blacklist & command on list -> block
+					if(menuContributionEnabled && args[0].equals(commandID)) {
+						return expectedValue.equals(false);
+					// if whitelist & command on list -> don't block
+					} else if(!menuContributionEnabled && args[0].equals(commandID)) {
+						return expectedValue.equals(true);
 					}
 				}
 			}
