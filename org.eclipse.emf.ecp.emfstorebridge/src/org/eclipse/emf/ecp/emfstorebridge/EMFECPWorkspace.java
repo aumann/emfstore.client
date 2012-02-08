@@ -93,8 +93,12 @@ public class EMFECPWorkspace extends ECPWorkspaceImpl implements ECPWorkspace {
 	@Override
 	public ECPProject getProject(EObject me) {
 		if (me instanceof EObject) {
-			ProjectSpace projectSpace = WorkspaceManager.getProjectSpace(me);
-			return mapping.get(projectSpace);
+			try {
+				ProjectSpace projectSpace = WorkspaceManager.getProjectSpace(me);
+				return mapping.get(projectSpace);
+			} catch (IllegalArgumentException e) {
+				return null;
+			}
 		}
 		if (me instanceof ProjectSpace) {
 			return mapping.get(me);

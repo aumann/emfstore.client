@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecp.common.handler.CreateContainmentHandler;
 import org.eclipse.emf.ecp.common.model.ECPWorkspaceManager;
 import org.eclipse.emf.ecp.common.model.NoWorkspaceException;
+import org.eclipse.emf.ecp.common.model.workSpaceModel.ECPProject;
 import org.eclipse.emf.ecp.common.util.UiUtil;
 import org.eclipse.emf.ecp.navigator.Activator;
 import org.eclipse.emf.ecp.navigator.handler.NewModelElementWizardHandler;
@@ -146,12 +147,8 @@ public class DynamicContainmentCommands extends CompoundContributionItem {
 				}
 
 				try {
-					if (ECPWorkspaceManager
-							.getInstance()
-							.getWorkSpace()
-							.getProject(selectedME)
-							.getMetaModelElementContext()
-							.isNonDomainElement(containment.getEReferenceType())) {
+					ECPProject project = ECPWorkspaceManager.getInstance().getWorkSpace().getProject(selectedME);
+					if (project != null && project.getMetaModelElementContext().isNonDomainElement(containment.getEReferenceType())) {
 						continue;
 					}
 				} catch (NoWorkspaceException e) {
