@@ -118,7 +118,7 @@ public class ImportXMIAction implements IActionDelegate {
 				int i = 0;
 				for (EObject eObject : importElements) {
 					// run the import command
-					runImport(projectSpace, fileURI, EcoreUtil.copy(eObject), i);
+					runImport(projectSpace, fileURI, ModelUtil.clone(eObject), i);
 					progressDialog.getProgressMonitor().worked(10);
 					i++;
 				}
