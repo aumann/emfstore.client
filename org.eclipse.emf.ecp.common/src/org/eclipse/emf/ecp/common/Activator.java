@@ -48,26 +48,6 @@ public class Activator extends AbstractECPPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		Platform.getLog(Platform.getBundle("org.eclipse.emf.ecp.model")).addLogListener(new ILogListener() {
-
-			public void logging(IStatus status, String plugin) {
-				if (status.getSeverity() == Status.ERROR) {
-					// TODO: ChainSaw logging
-					// UiUtil.showReportErrorDialog(status);
-				}
-			}
-		});
-
-		Platform.getLog(Platform.getBundle("org.eclipse.emf.emfstore.client")).addLogListener(new ILogListener() {
-
-			public void logging(IStatus status, String plugin) {
-				if (status.getSeverity() == Status.ERROR) {
-					// TODO: ChainSaw logging
-					// UiUtil.showReportErrorDialog(status);
-				}
-			}
-
-		});
 	}
 
 	/**

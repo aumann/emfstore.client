@@ -21,7 +21,7 @@ import org.eclipse.emf.ecp.common.model.workSpaceModel.impl.ECPProjectImpl;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.emfstore.client.model.Configuration;
 import org.eclipse.emf.emfstore.client.model.ProjectSpace;
-import org.eclipse.emf.emfstore.client.model.observers.SimpleOperationListener;
+import org.eclipse.emf.emfstore.client.model.observers.SimpleOperationObserver;
 import org.eclipse.emf.emfstore.common.model.IdEObjectCollection;
 import org.eclipse.emf.emfstore.common.model.util.IdEObjectCollectionChangeObserver;
 import org.eclipse.emf.emfstore.server.model.versioning.operations.AbstractOperation;
@@ -40,7 +40,7 @@ public class EMFStoreECPProject extends ECPProjectImpl implements ECPProject, Id
 	}
 
 	private final ProjectSpace projectSpace;
-	private SimpleOperationListener simpleOperationListener;
+	private SimpleOperationObserver simpleOperationListener;
 
 	/**
 	 * Default constructor.
@@ -50,7 +50,7 @@ public class EMFStoreECPProject extends ECPProjectImpl implements ECPProject, Id
 	public EMFStoreECPProject(ProjectSpace projectSpace) {
 		this.projectSpace = projectSpace;
 		setRootObject(projectSpace);
-		simpleOperationListener = new SimpleOperationListener() {
+		simpleOperationListener = new SimpleOperationObserver() {
 
 			@Override
 			public void operationPerformed(AbstractOperation operation) {
