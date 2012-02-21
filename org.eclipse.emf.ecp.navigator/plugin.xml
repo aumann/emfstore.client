@@ -43,13 +43,13 @@
                         <instanceof
                               value="org.eclipse.emf.ecore.EObject">
                         </instanceof>
+                        <test
+                              args="ContainmentCreationActions"
+                              forcePluginActivation="true"
+                              property="org.eclipse.emf.ecp.navigator.isActionEnabled"
+                              value="true">
+                        </test>
                      </or>
-                     <test
-                           args="ContainmentCreationActions"
-                           forcePluginActivation="true"
-                           property="org.eclipse.emf.ecp.navigator.isActionEnabled"
-                           value="true">
-                     </test>
                   </iterate>
                   <count
                         value="1">
