@@ -86,8 +86,8 @@ public class MEDoubleControl extends AbstractMEControl implements IValidatableCo
 		spinner.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		spinner.setDigits(digits);
-		spinner.setMinimum(-1000000);
-		spinner.setMaximum(1000000);
+		spinner.setMinimum(Integer.MIN_VALUE);
+		spinner.setMaximum(Integer.MAX_VALUE);
 		if (!getItemPropertyDescriptor().canSetProperty(getModelElement())) {
 			spinner.setEnabled(false);
 		}
