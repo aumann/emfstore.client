@@ -174,7 +174,7 @@ public abstract class AbstractECPMetaModelElementContext implements ECPMetaModel
 				if (!isKnownPackage(entry.getKey())) {
 					// This is used to discover known packages which can be added to
 					// know packages then.
-					// System.out.println("\"" + entry.getKey() + "\"" + ",");
+//					 System.out.println("\"" + entry.getKey() + "\"" + ",");
 					try {
 						EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(entry.getKey());
 						guessedPackages.addAll(getAllModelElementEClasses(ePackage));
@@ -249,7 +249,10 @@ public abstract class AbstractECPMetaModelElementContext implements ECPMetaModel
 			"http://eclipse.org/emf/emfstore/server/model/roles", "http://eclipse.org/emf/emfstore/server/model/versioning/operations", 
 			"http://eclipse.org/emf/emfstore/server/model/versioning/events/server/", "http://eclipse.org/emf/emfstore/server/model",
 			"http://eclipse.org/emf/emfstore/server/model/accesscontrol", "http://eclipse.org/emf/emfstore/common/model",
-			"http://eclipse.org/emf/emfstore/server/model/versioning/operations/semantic"};
+			"http://eclipse.org/emf/emfstore/server/model/versioning/operations/semantic",
+			"http://www.eclipse.org/emf/edapt/declaration/0.3",
+			"http://www.eclipse.org/emf/edapt/history/0.3",
+			"http://www.eclipse.org/emf/edapt/migration/0.3" };	
 		Set<String> knownPackages = new HashSet<String>(Arrays.asList(elements));
 		return knownPackages.contains(key);
 	}
