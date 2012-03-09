@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Validation
 Bundle-SymbolicName: org.eclipse.emf.ecp.validation;singleton:=true
-Bundle-Version: 0.8.9
+Bundle-Version: 0.8.9.M932
 Bundle-Activator: org.eclipse.emf.ecp.validation.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.common;bundle-version="2.5.0",
