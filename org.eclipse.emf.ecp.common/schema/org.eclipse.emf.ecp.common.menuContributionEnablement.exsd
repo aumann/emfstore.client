@@ -81,7 +81,7 @@ This extension point can be used either in whitelist or blacklist mode. This is 
          <meta.section type="since"/>
       </appInfo>
       <documentation>
-         0.8.9.M932
+         0.8.9.M933
       </documentation>
    </annotation>
 
