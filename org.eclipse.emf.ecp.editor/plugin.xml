@@ -44,6 +44,24 @@
             showLabel="true"
             type="java.lang.String">
       </widget>
+      <widget
+            class="org.eclipse.emf.ecp.editor.mecontrols.multiattributecontrol.StringMultiAttributeControl"
+            name="org.eclipse.emf.ecp.editor.multistringcontrol"
+            showLabel="true"
+            type="java.lang.String">
+      </widget>
+      <widget
+            class="org.eclipse.emf.ecp.editor.mecontrols.multiattributecontrol.IntegerMultiAttributeControl"
+            name="org.eclipse.emf.ecp.editor.multiintegercontrol"
+            showLabel="true"
+            type="java.lang.Integer">
+      </widget>
+      <widget
+            class="org.eclipse.emf.ecp.editor.mecontrols.MEDoubleControl"
+            name="org.eclipse.emf.ecp.editor.medoublecontrol"
+            showLabel="true"
+            type="java.lang.Double">
+      </widget>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -105,33 +123,6 @@
             class="org.eclipse.emf.ecp.editor.mecontrols.melinkcontrol.associationclasscontrol.AssociationClassLinkNotShow"
             name="org.eclipse.emf.ecp.editor.associationclasslinknotshow"
             type="org.eclipse.emf.ecore.EObject">
-      </widget>
-   </extension>
-   <extension
-         point="org.eclipse.emf.ecp.editor.attributecontrols">
-      <widget
-            class="org.eclipse.emf.ecp.editor.mecontrols.MEDoubleControl"
-            name="org.eclipse.emf.ecp.editor.medoublecontrol"
-            showLabel="true"
-            type="java.lang.Double">
-      </widget>
-   </extension>
-   <extension
-         point="org.eclipse.emf.ecp.editor.attributecontrols">
-      <widget
-            class="org.eclipse.emf.ecp.editor.mecontrols.multiattributecontrol.StringMultiAttributeControl"
-            name="org.eclipse.emf.ecp.editor.multistringcontrol"
-            showLabel="true"
-            type="java.lang.String">
-      </widget>
-   </extension>
-   <extension
-         point="org.eclipse.emf.ecp.editor.attributecontrols">
-      <widget
-            class="org.eclipse.emf.ecp.editor.mecontrols.multiattributecontrol.IntegerMultiAttributeControl"
-            name="org.eclipse.emf.ecp.editor.multiintegercontrol"
-            showLabel="true"
-            type="java.lang.Integer">
       </widget>
    </extension>
 </plugin>

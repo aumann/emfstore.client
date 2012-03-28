@@ -10,105 +10,51 @@
  ******************************************************************************/
 package org.eclipse.emf.ecp.editor.mecontrols;
 
-import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.databinding.EMFDataBindingContext;
-import org.eclipse.emf.databinding.edit.EMFEditObservables;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
-import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.jface.layout.GridDataFactory;
-import org.eclipse.jface.layout.GridLayoutFactory;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Spinner;
-
 /**
  * Standard widgets to edit a integer attribute.
  * 
  * @author helming
+ * @author emueller
  */
-public class MEIntControl extends AbstractMEControl implements IValidatableControl {
+public class MEIntControl extends MEPrimitiveAttributeControl<Integer> implements IValidatableControl {
 
-	private EAttribute attribute;
+	@Override
+	protected int getPriority() {
+		return 1;
+	}
 
-	private Spinner spinner;
+	@Override
+	protected Integer convertStringToModel(String s) {
+		return Integer.parseInt(s);
+	}
 
-	private static final int PRIORITY = 1;
+	@Override
+	protected boolean validateString(String s) {
+		try {
+			Integer.parseInt(s);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
 
-	private Composite composite;
+	@Override
+	protected String convertModelToString(Integer t) {
+		return Integer.toString(t);
+	}
 	
-	private Label labelWidgetImage;  //Label for diagnostic image
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @return A spinner for the int value.
-	 */
 	@Override
-	public Control createControl(Composite parent, int style) {
-		Object feature = getItemPropertyDescriptor().getFeature(getModelElement());
-		this.attribute = (EAttribute) feature;
-		
-		composite = getToolkit().createComposite(parent, style);
-		composite.setBackgroundMode(SWT.INHERIT_FORCE);
-		GridLayoutFactory.fillDefaults().numColumns(2).spacing(2, 0).applyTo(composite);
-		GridDataFactory.fillDefaults().grab(true, false).applyTo(composite);
-
-		labelWidgetImage = getToolkit().createLabel(composite, "    ");
-		labelWidgetImage.setBackground(parent.getBackground());
-
-		spinner = new Spinner(composite, style | SWT.BORDER);
-		spinner.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-
-		spinner.setMinimum(-1000);
-		spinner.setMaximum(1000);
-		IObservableValue model = EMFEditObservables.observeValue(getEditingDomain(), getModelElement(), attribute);
-		EMFDataBindingContext dbc = new EMFDataBindingContext();
-		dbc.bindValue(SWTObservables.observeSelection(spinner), model, null, null);
-
-		return composite;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.ecp.editor.mecontrols.AbstractMEControl#canRender(org.eclipse.emf.edit.provider.IItemPropertyDescriptor,
-	 *      org.eclipse.emf.ecore.EObject)
-	 */
-	@Override
-	public int canRender(IItemPropertyDescriptor itemPropertyDescriptor, EObject modelElement) {
-		Object feature = itemPropertyDescriptor.getFeature(modelElement);
-		if (feature instanceof EAttribute && ((EAttribute) feature).getEType().getInstanceClass().equals(int.class)
-			&& !((EAttribute) feature).isMany()) {
-
-			return PRIORITY;
-		}
-		return AbstractMEControl.DO_NOT_RENDER;
-	}
-
-	/**.
-	 * {@inheritDoc}}
-	 * */
-	public void handleValidation(Diagnostic diagnostic) {
-		if (diagnostic.getSeverity() == Diagnostic.ERROR || diagnostic.getSeverity() == Diagnostic.WARNING) {
-			Image image = org.eclipse.emf.ecp.editor.Activator.getImageDescriptor("icons/validation_error.png").createImage();
-			this.labelWidgetImage.setImage(image);
-			this.labelWidgetImage.setToolTipText(diagnostic.getMessage());
+	protected void postValidate(String text) {
+		try {
+			setUnvalidatedString(Integer.toString(Integer.parseInt(text)));
+		} catch (NumberFormatException e) {
+			setUnvalidatedString(Integer.toString(getDefaultValue()));
 		}
 	}
 
-	/**.
-	 * {@inheritDoc}}
-	 * */
-	public void resetValidation() {
-		this.labelWidgetImage.setImage(null);
-		this.labelWidgetImage.setToolTipText("");
+	@Override
+	protected Integer getDefaultValue() {
+		return 0;
 	}
-
+	
 }
