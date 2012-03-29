@@ -188,8 +188,6 @@ public abstract class MEPrimitiveAttributeControl<T> extends AbstractMEControl {
 
 		text = getToolkit().createText(composite, new String(), style | SWT.SINGLE | SWT.BORDER);
 		text.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-//		tip = new DefaultToolTip(getText());
-//		tip.setText("YOUR INPUT IS INVALID, HAHAHAAHHA. I LIKE CATZ");
 
 		if (!getItemPropertyDescriptor().canSetProperty(getModelElement())) {
 			text.setEditable(false);
