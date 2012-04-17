@@ -24,8 +24,13 @@ import org.eclipse.emf.emfstore.common.model.util.ModelUtil;
  * @author helming
  */
 public class EMFStoreMetaModelElementContext extends AbstractECPMetaModelElementContext {
-
-	private static ECPMetaModelElementContext instance;
+	
+	/**
+	 * Initializes the singleton instance statically.
+	 */
+	private static class SingletonHolder { 
+		public static final EMFStoreMetaModelElementContext INSTANCE = new EMFStoreMetaModelElementContext();
+	}
 
 	/**
 	 * Singleton.
@@ -33,10 +38,7 @@ public class EMFStoreMetaModelElementContext extends AbstractECPMetaModelElement
 	 * @return the instance
 	 */
 	public static ECPMetaModelElementContext getInstance() {
-		if (instance == null) {
-			instance = new EMFStoreMetaModelElementContext();
-		}
-		return instance;
+		return SingletonHolder.INSTANCE;
 	}
 
 	/**

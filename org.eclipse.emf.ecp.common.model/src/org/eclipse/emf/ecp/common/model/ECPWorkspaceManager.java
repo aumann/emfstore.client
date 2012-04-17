@@ -28,8 +28,19 @@ import org.eclipse.emf.emfstore.common.observer.ObserverBus;
  */
 public final class ECPWorkspaceManager {
 
-	private static ECPWorkspaceManager instance;
 	private static ObserverBus observerBus;
+	
+	/**
+	 * Initializes the singleton instance statically.
+	 */
+	private static class SingletonHolder { 
+		public static final ECPWorkspaceManager INSTANCE = new ECPWorkspaceManager();
+		static {
+			INSTANCE.init();
+			INSTANCE.notifyECPPostWorkspaceInitiators();
+		}
+	}
+	
 	private ECPWorkspace currentWorkspace;
 
 	/**
@@ -38,12 +49,7 @@ public final class ECPWorkspaceManager {
 	 * @return the instance
 	 */
 	public static ECPWorkspaceManager getInstance() {
-		if (instance == null) {
-			instance = new ECPWorkspaceManager();
-			instance.init();
-			instance.notifyECPPostWorkspaceInitiators();
-		}
-		return instance;
+		return SingletonHolder.INSTANCE;
 	}
 
 	private void init() {

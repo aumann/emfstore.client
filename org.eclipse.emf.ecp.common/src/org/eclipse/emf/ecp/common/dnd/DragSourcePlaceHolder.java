@@ -14,20 +14,27 @@ import java.util.List;
 
 /**
  * This class is just a temporary location to hold dragSource in a DnD operation. Typically we should not have used such
- * a class to keep track of dragSource. Instead we should use a transfer class. But because of following I use it: 1.
- * Using a transfer is not guaranteed to work on all platforms and always. 2. On platforms other than windows dragSource
- * is not set until drop event fires, and we need dragSource during events like dragOver. 3. We are not planning to drop
- * something out of ECP environment, i.e. form ECP navigator on file system. This class is a singleton.
+ * a class to keep track of dragSource. Instead, one should use a transfer class. This is not the case because of the following:
+ * 
+ * <ol>
+ * 	<li>Using a transfer is not guaranteed to work on all platforms and always.</li>
+ *  <li>On platforms other than Windows, dragSource is not set until drop event fires and we need dragSource during events like dragOver</li>
+ *  <li>We are not planning to drop something out of ECP environment, i.e. form ECP navigator on file system.</li>
+ * </ol> 
+ *  
+ *  This class is intended to be used as a singleton.
  * 
  * @author Hodaie
  */
 public final class DragSourcePlaceHolder {
 
 	private static Object dragSource;
-	private static DragSourcePlaceHolder instance;
-
-	private DragSourcePlaceHolder() {
-
+	
+	/**
+	 * Initializes the singleton instance statically.
+	 */
+	private static class SingletonHolder { 
+		public static final DragSourcePlaceHolder INSTANCE = new DragSourcePlaceHolder();
 	}
 
 	/**
@@ -36,10 +43,14 @@ public final class DragSourcePlaceHolder {
 	 * @return The DragSourcePlaceHolder instance
 	 */
 	public static DragSourcePlaceHolder getInstance() {
-		if (instance == null) {
-			instance = new DragSourcePlaceHolder();
-		}
-		return instance;
+		return SingletonHolder.INSTANCE;
+	}
+
+	/**
+	 * Private constructor.
+	 */
+	private DragSourcePlaceHolder() {
+
 	}
 
 	/**
