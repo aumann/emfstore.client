@@ -30,12 +30,8 @@ public class MEIntControl extends MEPrimitiveAttributeControl<Integer> implement
 
 	@Override
 	protected boolean validateString(String s) {
-		try {
-			Integer.parseInt(s);
-			return true;
-		} catch (NumberFormatException e) {
-			return false;
-		}
+		// TODO: perform validation
+		return true;
 	}
 
 	@Override

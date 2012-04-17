@@ -160,9 +160,10 @@ public abstract class MEPrimitiveAttributeControl<T> extends AbstractMEControl {
 	 * 			the content of the SWT Text control
 	 */
 	protected void setUnvalidatedString(String string) {
+		boolean oldDoVerify = doVerify;
 		doVerify = false;
 		text.setText(string);
-		doVerify = true;
+		doVerify = oldDoVerify;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -174,7 +175,8 @@ public abstract class MEPrimitiveAttributeControl<T> extends AbstractMEControl {
 	
 	@Override
 	protected Control createControl(Composite parent, int style) {
-		doVerify = true;
+		// TODO: activate verification once again
+		doVerify = false;
 		Object feature = getItemPropertyDescriptor().getFeature(getModelElement());
 		this.attribute = (EAttribute) feature;
 		
@@ -209,7 +211,10 @@ public abstract class MEPrimitiveAttributeControl<T> extends AbstractMEControl {
 
 			public void verifyText(VerifyEvent e) {
 				if (doVerify) {
-					if (!validateString(text.getText() + e.text)) {
+					
+					final String oldText = text.getText();
+			        String newText = oldText.substring(0, e.start) + e.text + oldText.substring(e.end);	
+					if (!validateString(newText)) {
 						e.doit = false;
 						return;
 					}
