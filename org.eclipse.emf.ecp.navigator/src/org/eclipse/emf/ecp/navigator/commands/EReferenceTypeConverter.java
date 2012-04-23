@@ -2,9 +2,6 @@ package org.eclipse.emf.ecp.navigator.commands;
 
 import org.eclipse.core.commands.AbstractParameterValueConverter;
 import org.eclipse.core.commands.ParameterValueConversionException;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
 
 public class EReferenceTypeConverter extends AbstractParameterValueConverter {
 
