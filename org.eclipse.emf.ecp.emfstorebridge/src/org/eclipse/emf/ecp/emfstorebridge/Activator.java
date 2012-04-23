@@ -11,7 +11,6 @@
 package org.eclipse.emf.ecp.emfstorebridge;
 
 import org.eclipse.emf.ecp.common.util.AbstractECPPlugin;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
