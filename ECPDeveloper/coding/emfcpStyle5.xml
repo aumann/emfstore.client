@@ -221,7 +221,7 @@
     <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="High Complexity Code Warning Suppression"/>
   </module>
   <module name="RegexpHeader">
-    <property name="headerFile" value="C:\Users\max\git\ssh_emfcp.core\ECPDeveloper\coding\header.txt"/>
+    <property name="headerFile" value="${samedir}/header.txt"/>
     <property name="fileExtensions" value="java"/>
   </module>
 </module>
