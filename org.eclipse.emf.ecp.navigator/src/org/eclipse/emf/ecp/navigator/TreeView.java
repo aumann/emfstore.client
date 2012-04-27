@@ -39,7 +39,6 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.ui.IDecoratorManager;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IPartListener2;
@@ -122,7 +121,6 @@ public class TreeView extends ViewPart implements ISelectionListener { // implem
 
 		try {
 			ECPWorkspace workSpace = ECPWorkspaceManager.getInstance().getWorkSpace();
-			IDecoratorManager decoratorManager = PlatformUI.getWorkbench().getDecoratorManager();
 			labelProvider = new TreeLabelProvider();
 			viewer.setLabelProvider(labelProvider.getLabelProvider());
 			// viewer.setLabelProvider(new TreeLabelProvider());
