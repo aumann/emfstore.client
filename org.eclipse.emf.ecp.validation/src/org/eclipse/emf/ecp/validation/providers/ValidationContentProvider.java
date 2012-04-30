@@ -6,7 +6,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors:
+ * Contributors: Max Hohenegger (Bug 377894)
  ******************************************************************************/
 package org.eclipse.emf.ecp.validation.providers;
 
@@ -41,6 +41,11 @@ public class ValidationContentProvider extends AdapterFactoryContentProvider {
 	 */
 	@Override
 	public Object[] getElements(Object inputElement) {
+		// if a project is deleted while the ValidationView is open the inputElement is an empty List
+		if (!(inputElement instanceof BasicDiagnostic)) {
+			return new Object[0];
+		}
+
 		IStatus status = BasicDiagnostic.toIStatus((BasicDiagnostic) inputElement);
 
 		List<IStatus> constraints = new ArrayList<IStatus>();
