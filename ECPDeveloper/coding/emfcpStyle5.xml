@@ -5,7 +5,7 @@
     This configuration file was written by the eclipse-cs plugin configuration editor
 -->
 <!--
-    Checkstyle-Configuration: emfstoreStyle
+    Checkstyle-Configuration: emfcpStyle
     Description: none
 -->
 <module name="Checker">
@@ -170,7 +170,7 @@
     <module name="ExplicitInitialization"/>
     <module name="FallThrough"/>
     <module name="AnonInnerLength">
-      <property name="max" value="25"/>
+      <property name="max" value="30"/>
     </module>
     <module name="ThrowsCount">
       <property name="max" value="3"/>
@@ -187,12 +187,6 @@
   </module>
   <module name="FileLength">
     <property name="severity" value="info"/>
-  </module>
-  <module name="Header">
-    <property name="header" value="/*******************************************************************************\n * Copyright (c) 2011 EclipseSource Muenchen GmbH.\n * All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse\n * Public License v1.0 which accompanies this distribution, and is available at\n * http://www.eclipse.org/legal/epl-v10.html\n * Contributors:\n"/>
-    <property name="ignoreLines" value="2,7"/>
-    <property name="fileExtensions" value="java"/>
-    <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="EMFStore EPL Header"/>
   </module>
   <module name="FileTabCharacter">
     <property name="severity" value="ignore"/>
@@ -225,5 +219,9 @@
     <property name="offCommentFormat" value="// BEGIN COMPLEX CODE"/>
     <property name="onCommentFormat" value="// END COMPLEX CODE"/>
     <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="High Complexity Code Warning Suppression"/>
+  </module>
+  <module name="RegexpHeader">
+    <property name="headerFile" value="${samedir}/header.txt"/>
+    <property name="fileExtensions" value="java"/>
   </module>
 </module>

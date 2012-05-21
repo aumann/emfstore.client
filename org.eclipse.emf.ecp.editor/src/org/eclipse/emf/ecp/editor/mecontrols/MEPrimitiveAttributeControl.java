@@ -6,11 +6,12 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors:
+ * Contributors: Max Hohenegger (Bug 377561)
  ******************************************************************************/
 package org.eclipse.emf.ecp.editor.mecontrols;
 
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -168,9 +169,15 @@ public abstract class MEPrimitiveAttributeControl<T> extends AbstractMEControl {
 	
 	@SuppressWarnings("unchecked")
 	private Class<T> getClassType() {
-		return (Class<T>) ((ParameterizedType) getClass()
-				.getGenericSuperclass())
-				.getActualTypeArguments()[0];
+		Class<?> clazz = getClass();
+
+		while (!(clazz.getGenericSuperclass() instanceof ParameterizedType)) {
+			clazz = clazz.getSuperclass();
+		}
+		
+		Type[] actualTypeArguments = ((ParameterizedType) clazz.getGenericSuperclass())
+				.getActualTypeArguments();
+		return (Class<T>) actualTypeArguments[0];
 	}
 	
 	@Override

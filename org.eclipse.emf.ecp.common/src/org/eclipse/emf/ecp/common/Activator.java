@@ -10,9 +10,6 @@
  ******************************************************************************/
 package org.eclipse.emf.ecp.common;
 
-import org.eclipse.core.runtime.ILogListener;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecp.common.util.AbstractECPPlugin;
 import org.eclipse.jface.resource.ImageDescriptor;

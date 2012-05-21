@@ -57,7 +57,7 @@ public class CreateContainmentHandler extends AbstractHandler {
 				ref= getStructuralFeature(newMEInstance, selectedME);
 			}
 			final EReference eReference = ref;
-			if ((selectedME != null) && (!eReference.isContainer())) {
+			if (!eReference.isContainer()) {
 				new ECPCommand(selectedME) {
 					@SuppressWarnings("unchecked")
 					@Override
