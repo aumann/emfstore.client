@@ -74,6 +74,7 @@ public class DynamicContainmentCommands extends CompoundContributionItem {
 
 		AdapterFactoryItemDelegator delegator = new AdapterFactoryItemDelegator(adapterFactory);
 
+		@SuppressWarnings("unchecked")
 		List<CommandParameter> commandParameters = (List<CommandParameter>) delegator
 				.getNewChildDescriptors(selectedME, AdapterFactoryEditingDomain
 						.getEditingDomainFor(selectedME), null);
