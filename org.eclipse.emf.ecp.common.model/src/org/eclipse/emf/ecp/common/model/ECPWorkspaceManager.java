@@ -136,9 +136,12 @@ public final class ECPWorkspaceManager {
 		}
 	}
 
-	@SuppressWarnings("static-access")
+	/**
+	 * Get the observer bus.
+	 * @return the observer bus
+	 */
 	public static ObserverBus getObserverBus() {
-		return getInstance().observerBus;
+		return observerBus;
 	}
 
 	private void notifyECPPostWorkspaceInitiators() {

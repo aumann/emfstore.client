@@ -12,8 +12,17 @@ package org.eclipse.emf.ecp.common.model;
 
 import org.eclipse.emf.ecp.common.model.workSpaceModel.ECPWorkspace;
 
+/**
+ * Listener for ECP workspace init.
+ * @author Jonas Helming
+ *
+ */
 public interface PostECPWorkspaceInitiator {
 
+	/**
+	 * Called to notify about workspace init completion. 
+	 * @param currentWorkspace the current workspace
+	 */
 	void workspaceInitComplete(ECPWorkspace currentWorkspace);
 
 }

@@ -15,11 +15,22 @@ import java.util.List;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+/**
+ * Represents an association class.
+ * @author Maximilian Koegel
+ *
+ */
 public class ECPAssociationClassElement {
 	private EReference targetFeature;
 	private EReference sourceFeature;
 	private List<EStructuralFeature> associationFeatures;
 
+	/**
+	 * Constructor.
+	 * @param sourceFeature the feature pointing to the source element
+	 * @param targetFeature the feature pointing to the target element
+	 * @param associationFeatures the other features
+	 */
 	public ECPAssociationClassElement(EReference sourceFeature, EReference targetFeature,
 		List<EStructuralFeature> associationFeatures) {
 		this.sourceFeature = sourceFeature;
@@ -47,7 +58,7 @@ public class ECPAssociationClassElement {
 
 	/**
 	 * Return the features which constitute the features of this link that contain information about the link, other
-	 * than source and target. The list should be ordered by priority of the ferature, important features first.
+	 * than source and target. The list should be ordered by priority of the feature, important features first.
 	 * 
 	 * @return a list of features
 	 */
