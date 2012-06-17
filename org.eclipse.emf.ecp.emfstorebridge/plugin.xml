@@ -146,6 +146,44 @@
             </visibleWhen>
          </command>
          <command
+               commandId="org.eclipse.emf.emfstore.client.ui.createBranch"
+               disabledIcon="icons/advanced.gif"
+               icon="icons/arrow_right.png"
+               label="Create Branch"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <and>
+               <test
+                        args="org.eclipse.emf.emfstore.client.ui.createBranch"
+                        forcePluginActivation="true"
+                        property="org.eclipse.emf.ecp.common.menuContributionsEnablement"
+                        value="true">
+                  </test>
+                  <iterate
+                        ifEmpty="false"
+                        operator="and">
+                     <instanceof
+                           value="org.eclipse.emf.emfstore.client.model.ProjectSpace">
+                     </instanceof>
+                     <test
+                           forcePluginActivation="true"
+                           property="org.eclipse.emf.emfstore.client.ui.commands.projectIsShared"
+                           value="true">
+                     </test>
+                  </iterate>
+                  <count
+                        value="1">
+                  </count>
+               </and>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="org.eclipse.emf.emfstore.client.ui.mergeBranch"
+               label="Merge with Branch"
+               style="push">
+         </command>
+         <command
                commandId="org.eclipse.emf.emfstore.client.ui.updateProject"
                icon="icons/arrow_up.png"
                label="Update Project"
