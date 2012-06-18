@@ -14,8 +14,17 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecp.common.util.ModelElementOpener;
 import org.eclipse.emf.emfstore.client.model.ProjectSpace;
 
+/**
+ * Opener for Project Space.
+ * @author Maximilian Koegel
+ *
+ */
 public class ProjectSpaceOpener implements ModelElementOpener {
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.ecp.common.util.ModelElementOpener#canOpen(org.eclipse.emf.ecore.EObject)
+	 */
 	public int canOpen(EObject modelElement) {
 		if (modelElement instanceof ProjectSpace) {
 			return 1;
@@ -23,6 +32,10 @@ public class ProjectSpaceOpener implements ModelElementOpener {
 		return DONOTOPEN;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.ecp.common.util.ModelElementOpener#openModelElement(org.eclipse.emf.ecore.EObject)
+	 */
 	public void openModelElement(EObject modelElement) {
 		// do nothing
 	}

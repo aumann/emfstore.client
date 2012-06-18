@@ -21,6 +21,8 @@ public abstract class ModelElementContextListener {
 
 	/**
 	 * Called if a model element is deleted. Is only called for the root node if a tree of model elements is deleted.
+	 * 
+	 * @param deleted the deleted element
 	 */
 	public abstract void onModelElementDeleted(EObject deleted);
 

@@ -15,8 +15,12 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EcorePackage;
 
+/**
+ * Represents the met context of the EMF Client Platform describing involved EClasses and their properties.
+ * @author Jonas Helming
+ *
+ */
 public interface ECPMetaModelElementContext {
 
 	/**
@@ -28,7 +32,7 @@ public interface ECPMetaModelElementContext {
 	Set<EClass> getAllModelElementEClasses(boolean association);
 
 	/**
-	 * Retrieve all EClasses from the {@link EcorePackage} registry that are subclasses of the given {@link EClass}.
+	 * Retrieve all EClasses from the EcorePackage registry that are subclasses of the given {@link EClass}.
 	 * Does not include abstract classes or interfaces. Could exclude {@link AssociationClassElement}s.
 	 * 
 	 * @param eClass the superClass of the subClasses to retrieve
@@ -44,7 +48,7 @@ public interface ECPMetaModelElementContext {
 	 * they are deleted if the last link to them is deleted, and they are not shown in the new element wizard and
 	 * the METyselection dialog (Table View).
 	 * 
-	 * @param eObject the {@link EObject}
+	 * @param clazz the EClass
 	 * @return whether the given class is is a non domain element
 	 */
 	boolean isNonDomainElement(EClass clazz);
@@ -90,5 +94,5 @@ public interface ECPMetaModelElementContext {
 	 * 
 	 * @return if the context is guessed.
 	 */
-	public boolean isGuessed();
+	boolean isGuessed();
 }

@@ -159,6 +159,10 @@ public class EMFStoreECPProject extends ECPProjectImpl implements ECPProject, Id
 		projectSpace.getProject().getModelElements().add(eObject);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.emfstore.common.model.util.IdEObjectCollectionChangeObserver#collectionDeleted(org.eclipse.emf.emfstore.common.model.IdEObjectCollection)
+	 */
 	public void collectionDeleted(IdEObjectCollection project) {
 		super.projectDeleted();
 	}

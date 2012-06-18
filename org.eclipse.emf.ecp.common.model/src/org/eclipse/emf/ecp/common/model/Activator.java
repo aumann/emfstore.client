@@ -58,7 +58,7 @@ public class Activator extends AbstractECPPlugin {
 	// END SUPRESS CATCH EXCEPTION
 
 	/**
-	 * Returns the shared instance
+	 * Returns the shared instance.
 	 * 
 	 * @return the shared instance
 	 */
