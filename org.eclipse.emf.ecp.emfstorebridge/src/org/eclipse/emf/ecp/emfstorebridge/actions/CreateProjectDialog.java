@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.eclipse.emf.ecp.emfstorebridge.actions;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.ecp.common.util.DialogHandler;
 import org.eclipse.emf.emfstore.client.model.ProjectSpace;
 import org.eclipse.emf.emfstore.client.model.Usersession;
@@ -100,7 +101,8 @@ public class CreateProjectDialog extends TitleAreaDialog {
 				try {
 
 					if (session != null) {
-						WorkspaceManager.getInstance().getCurrentWorkspace().createRemoteProject(session, txtProjectName.getText(), txtProjectDesc.getText());
+						WorkspaceManager.getInstance().getCurrentWorkspace().createRemoteProject(session, txtProjectName.getText(), txtProjectDesc.getText(),
+							new NullProgressMonitor());
 					} else {
 						projectSpace = WorkspaceManager.getInstance().getCurrentWorkspace()
 							.createLocalProject(txtProjectName.getText(), txtProjectDesc.getText());
