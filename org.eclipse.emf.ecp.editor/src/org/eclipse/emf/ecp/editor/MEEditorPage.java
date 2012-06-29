@@ -19,6 +19,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -263,10 +265,9 @@ public class MEEditorPage extends FormPage {
 
 		Collection<IItemPropertyDescriptor> propertyDescriptors = adapterFactoryItemDelegator
 			.getPropertyDescriptors(modelElement);
-		
-		filterHiddenAttributes(propertyDescriptors);
-		
+			
 		if (propertyDescriptors != null) {
+			filterHiddenAttributes(propertyDescriptors);
 			AnnotationPositionDescriptor positionDescriptor = new AnnotationPositionDescriptor();
 			for (IItemPropertyDescriptor itemPropertyDescriptor : propertyDescriptors) {
 				String value = positionDescriptor.getValue(itemPropertyDescriptor, modelElement);
@@ -393,6 +394,9 @@ public class MEEditorPage extends FormPage {
 				if(eObject!=modelElement){
 					continue;
 				}
+			}
+			if(childDiagnostic.getData().size()<2){
+				continue;
 			}
 			AbstractMEControl meControl = this.meControls.get(childDiagnostic.getData().get(1));
 			affectedControls.add(meControl);

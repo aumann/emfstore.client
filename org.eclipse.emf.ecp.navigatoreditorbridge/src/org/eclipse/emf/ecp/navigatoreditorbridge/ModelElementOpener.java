@@ -50,12 +50,12 @@ public class ModelElementOpener implements org.eclipse.emf.ecp.common.util.Model
 	public void openModelElement(EObject modelElement) {
 		IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class);
 
-		IEvaluationContext context = handlerService.getCurrentState();
-		context.addVariable(ActionHelper.ME_TO_OPEN_EVALUATIONCONTEXT_VARIABLE, modelElement);
+//		IEvaluationContext context = handlerService.getCurrentState();
+//		context.addVariable(ActionHelper.ME_TO_OPEN_EVALUATIONCONTEXT_VARIABLE, modelElement);
 
 		try {
-			context.addVariable(ActionHelper.MECONTEXT_EVALUATIONCONTEXT_VARIABLE, ECPWorkspaceManager.getInstance()
-				.getWorkSpace().getProject(modelElement));
+//			context.addVariable(ActionHelper.MECONTEXT_EVALUATIONCONTEXT_VARIABLE, ECPWorkspaceManager.getInstance()
+//				.getWorkSpace().getProject(modelElement));
 			handlerService.executeCommand(ActionHelper.MEEDITOR_OPENMODELELEMENT_COMMAND_ID, null);
 
 		} catch (ExecutionException e) {
@@ -66,8 +66,8 @@ public class ModelElementOpener implements org.eclipse.emf.ecp.common.util.Model
 			DialogHandler.showExceptionDialog(e);
 		} catch (NotHandledException e) {
 			DialogHandler.showExceptionDialog(e);
-		} catch (NoWorkspaceException e) {
-			DialogHandler.showExceptionDialog(e);
+//		} catch (NoWorkspaceException e) {
+//			DialogHandler.showExceptionDialog(e);
 		}
 	}
 }

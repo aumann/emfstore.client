@@ -16,15 +16,19 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecp.common.model.ECPModelelementContext;
+import org.eclipse.emf.ecp.common.model.ECPWorkspaceManager;
+import org.eclipse.emf.ecp.common.model.NoWorkspaceException;
 import org.eclipse.emf.ecp.editor.Activator;
 import org.eclipse.emf.ecp.editor.MEEditorInput;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
- * @author Hodaie This handler handles openModelEelement command. This handler is to be executed indirectly using
- *         IHandlerService.executeCommand() method. The Command itself does not have any UI representation.
+ * @author Hodaie This handler handles openModelEelement command. This handler
+ *         is to be executed indirectly using IHandlerService.executeCommand()
+ *         method. The Command itself does not have any UI representation.
  */
 public class OpenModelElementHandler extends AbstractHandler {
 
@@ -33,8 +37,9 @@ public class OpenModelElementHandler extends AbstractHandler {
 	private static final String MECONTEXT_EVALUATIONCONTEXT_VARIABLE = "meContext";
 
 	/**
-	 * . ({@inheritDoc}) We added this package and command to meeditor plug-in, we needed to open a model element from
-	 * model.edit plug-in and to avoid circular references we had to execute this command indirectly using
+	 * . ({@inheritDoc}) We added this package and command to meeditor plug-in,
+	 * we needed to open a model element from model.edit plug-in and to avoid
+	 * circular references we had to execute this command indirectly using
 	 * IHandlerServise.excuteCommand
 	 */
 
@@ -44,18 +49,29 @@ public class OpenModelElementHandler extends AbstractHandler {
 		// variable.
 		// This variable is already set, in the method which calls to execute
 		// this command.
-		Object o = HandlerUtil.getVariableChecked(event, ME_TO_OPEN_EVALUATIONCONTEXT_VARIABLE);
+		// Object o = HandlerUtil.getVariableChecked(event,
+		// ME_TO_OPEN_EVALUATIONCONTEXT_VARIABLE);
+		Object o = ((IStructuredSelection) HandlerUtil
+				.getCurrentSelection(event)).getFirstElement();
 
 		EObject me = (EObject) o;
 
-		ECPModelelementContext context = (ECPModelelementContext) HandlerUtil.getVariableChecked(event,
-			MECONTEXT_EVALUATIONCONTEXT_VARIABLE);
+		// ECPModelelementContext context = (ECPModelelementContext)
+		// HandlerUtil.getVariableChecked(event,
+		// MECONTEXT_EVALUATIONCONTEXT_VARIABLE);
+		ECPModelelementContext context=null;
+		try {
+			context = ECPWorkspaceManager.getInstance()
+					.getWorkSpace().getProject(me);
+		} catch (NoWorkspaceException e1) {
+		}
 
 		EStructuralFeature problemFeature;
 
 		try {
-			problemFeature = (EStructuralFeature) HandlerUtil.getVariableChecked(event,
-				FEATURE_TO_MARK_EVALUATIONCONTEXT_VARIABLE);
+			problemFeature = (EStructuralFeature) HandlerUtil
+					.getVariableChecked(event,
+							FEATURE_TO_MARK_EVALUATIONCONTEXT_VARIABLE);
 		} catch (ExecutionException executionException) {
 			problemFeature = null;
 		}
@@ -68,8 +84,9 @@ public class OpenModelElementHandler extends AbstractHandler {
 				input = new MEEditorInput(me, context, problemFeature);
 			}
 			try {
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-					.openEditor(input, "org.eclipse.emf.ecp.editor", true);
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+						.getActivePage()
+						.openEditor(input, "org.eclipse.emf.ecp.editor", true);
 			} catch (PartInitException e) {
 				Activator.logException(e);
 			}

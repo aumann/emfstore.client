@@ -139,11 +139,11 @@ public class TreeView extends ViewPart implements ISelectionListener { // implem
 
 		menuMgr = new MenuManager();
 		menuMgr.add(new Separator("additions"));
-		getSite().registerContextMenu(menuMgr, viewer);
+		
 		Control control = viewer.getControl();
 		Menu menu = menuMgr.createContextMenu(control);
 		control.setMenu(menu);
-
+		getSite().registerContextMenu(menuMgr, viewer);
 		createActions();
 
 		new AltKeyDoubleClickAction(viewer, TreeView.class.getName());
