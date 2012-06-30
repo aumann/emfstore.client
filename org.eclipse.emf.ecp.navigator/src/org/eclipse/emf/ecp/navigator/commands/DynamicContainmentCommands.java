@@ -18,6 +18,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecp.common.commands.ECPMenuContributionsEnablementTester;
 import org.eclipse.emf.ecp.common.handler.CreateContainmentHandler;
 import org.eclipse.emf.ecp.common.model.ECPWorkspaceManager;
 import org.eclipse.emf.ecp.common.model.NoWorkspaceException;
@@ -105,6 +106,8 @@ public class DynamicContainmentCommands extends CompoundContributionItem {
 		commandParam.parameters = commandParams;
 		CommandContributionItem command = new CommandContributionItem(
 				commandParam);
+		boolean visible=new ECPMenuContributionsEnablementTester().test(null, null, new String[]{"org.eclipse.emf.ecp.navigator.newModelElementWizard"}, true);
+		command.setVisible(visible);
 		commands.add(command);
 
 		return commands.toArray(new IContributionItem[commands.size()]);

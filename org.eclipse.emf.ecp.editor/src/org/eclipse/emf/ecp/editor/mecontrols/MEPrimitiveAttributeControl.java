@@ -56,7 +56,7 @@ import org.eclipse.swt.widgets.Text;
  */
 public abstract class MEPrimitiveAttributeControl<T> extends AbstractMEControl {
 	
-	public final static Map<Class<?>, Class<?>> primitives = new HashMap<Class<?>, Class<?>>();
+	public static final Map<Class<?>, Class<?>> primitives = new HashMap<Class<?>, Class<?>>();
 	
 	static {
 	    primitives.put(Boolean.class, boolean.class);

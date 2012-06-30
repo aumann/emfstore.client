@@ -263,10 +263,9 @@ public class MEEditorPage extends FormPage {
 
 		Collection<IItemPropertyDescriptor> propertyDescriptors = adapterFactoryItemDelegator
 			.getPropertyDescriptors(modelElement);
-		
-		filterHiddenAttributes(propertyDescriptors);
-		
+			
 		if (propertyDescriptors != null) {
+			filterHiddenAttributes(propertyDescriptors);
 			AnnotationPositionDescriptor positionDescriptor = new AnnotationPositionDescriptor();
 			for (IItemPropertyDescriptor itemPropertyDescriptor : propertyDescriptors) {
 				String value = positionDescriptor.getValue(itemPropertyDescriptor, modelElement);
@@ -393,6 +392,9 @@ public class MEEditorPage extends FormPage {
 				if(eObject!=modelElement){
 					continue;
 				}
+			}
+			if(childDiagnostic.getData().size()<2){
+				continue;
 			}
 			AbstractMEControl meControl = this.meControls.get(childDiagnostic.getData().get(1));
 			affectedControls.add(meControl);
