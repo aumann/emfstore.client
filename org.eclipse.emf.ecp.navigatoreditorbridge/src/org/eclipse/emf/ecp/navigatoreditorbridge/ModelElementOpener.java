@@ -10,15 +10,13 @@
  ******************************************************************************/
 package org.eclipse.emf.ecp.navigatoreditorbridge;
 
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.NotEnabledException;
-import org.eclipse.core.commands.NotHandledException;
-import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecp.common.util.DialogHandler;
-import org.eclipse.emf.ecp.common.utilities.ActionHelper;
+import org.eclipse.emf.ecp.common.model.ECPModelelementContext;
+import org.eclipse.emf.ecp.common.model.ECPWorkspaceManager;
+import org.eclipse.emf.ecp.common.model.NoWorkspaceException;
+import org.eclipse.emf.ecp.editor.MEEditorInput;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.handlers.IHandlerService;
 
 /**
  * Opener for the meeditor.
@@ -45,26 +43,44 @@ public class ModelElementOpener implements org.eclipse.emf.ecp.common.util.Model
 	 * {@inheritDoc}
 	 */
 	public void openModelElement(EObject modelElement) {
-		IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench().getService(IHandlerService.class);
+		// IHandlerService handlerService = (IHandlerService)
+		// PlatformUI.getWorkbench().getService(IHandlerService.class);
 
-//		IEvaluationContext context = handlerService.getCurrentState();
-//		context.addVariable(ActionHelper.ME_TO_OPEN_EVALUATIONCONTEXT_VARIABLE, modelElement);
+		// IEvaluationContext context = handlerService.getCurrentState();
+		// context.addVariable(ActionHelper.ME_TO_OPEN_EVALUATIONCONTEXT_VARIABLE, modelElement);
 
-		try {
-//			context.addVariable(ActionHelper.MECONTEXT_EVALUATIONCONTEXT_VARIABLE, ECPWorkspaceManager.getInstance()
-//				.getWorkSpace().getProject(modelElement));
-			handlerService.executeCommand(ActionHelper.MEEDITOR_OPENMODELELEMENT_COMMAND_ID, null);
+		// try {
+		// context.addVariable(ActionHelper.MECONTEXT_EVALUATIONCONTEXT_VARIABLE, ECPWorkspaceManager.getInstance()
+		// .getWorkSpace().getProject(modelElement));
+		// handlerService.executeCommand(ActionHelper.MEEDITOR_OPENMODELELEMENT_COMMAND_ID, null);
 
-		} catch (ExecutionException e) {
-			DialogHandler.showExceptionDialog(e);
-		} catch (NotDefinedException e) {
-			DialogHandler.showExceptionDialog(e);
-		} catch (NotEnabledException e) {
-			DialogHandler.showExceptionDialog(e);
-		} catch (NotHandledException e) {
-			DialogHandler.showExceptionDialog(e);
-//		} catch (NoWorkspaceException e) {
-//			DialogHandler.showExceptionDialog(e);
+		// } catch (ExecutionException e) {
+		// DialogHandler.showExceptionDialog(e);
+		// } catch (NotDefinedException e) {
+		// DialogHandler.showExceptionDialog(e);
+		// } catch (NotEnabledException e) {
+		// DialogHandler.showExceptionDialog(e);
+		// } catch (NotHandledException e) {
+		// DialogHandler.showExceptionDialog(e);
+		// } catch (NoWorkspaceException e) {
+		// DialogHandler.showExceptionDialog(e);
+		// }
+
+		if (modelElement != null) {
+			ECPModelelementContext context = null;
+			try {
+				context = ECPWorkspaceManager.getInstance().getWorkSpace().getProject(modelElement);
+			} catch (NoWorkspaceException e1) {
+				Activator.getDefault().logException(e1.getMessage(),e1);
+			}
+			MEEditorInput input = new MEEditorInput(modelElement, context);
+
+			try {
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+					.openEditor(input, "org.eclipse.emf.ecp.editor", true);
+			} catch (PartInitException e) {
+				Activator.getDefault().logException(e.getMessage(),e);
+			}
 		}
 	}
 }
