@@ -32,6 +32,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
  */
 public class OpenModelElementHandler extends AbstractHandler {
 
+	@SuppressWarnings("unused")
 	private static final String ME_TO_OPEN_EVALUATIONCONTEXT_VARIABLE = "meToOpen";
 	private static final String FEATURE_TO_MARK_EVALUATIONCONTEXT_VARIABLE = "featureToMark";
 	private static final String MECONTEXT_EVALUATIONCONTEXT_VARIABLE = "meContext";
